@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Restaurant things",
+  "main": "backendServer.js",
+  "scripts": {
+    "test": "A"
+  },
+  "repository": {
+    "type": "git",
+    "url": "final-project-lkfau"
+  },
+  "keywords": [
+    "no"
+  ],
+  "author": "yomoma",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "mongodb": "^5.2.0",
+    "mongoose": "^7.0.4",
+    "path": "^0.12.7"
+  }
+}

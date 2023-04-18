@@ -21,6 +21,11 @@ app.use(cors());
 //   res.status(404).sendFile(path.join(__dirname, '//404.html//'));
 // });
 
+//Test
+app.get('/', (req, res) => {
+  res.send("Test");
+});
+
 //Functions
 
 //Server
