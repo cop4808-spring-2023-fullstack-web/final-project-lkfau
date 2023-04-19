@@ -1,0 +1,29 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Database and YELP API Endpoints",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/addFavorite": {
+      "post": {
+        "summary": "Adds a new favorite"
+      }
+    },
+    "/deleteFavorite": {
+      "delete": {
+        "summary": "Deletes a favorite"
+      }
+    },
+    "/viewFavorite": {
+      "get": {
+        "summary": "View a favorite"
+      }
+    },
+    "/listFavorites": {
+      "get": {
+        "summary": "Lists all favorites"
+      }
+    }
+  }
+}

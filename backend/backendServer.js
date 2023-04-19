@@ -6,13 +6,31 @@ const path = require('path');
 const http = require('http');
 const MongoClient = require('mongodb').MongoClient
 const mongoose = require('mongoose');
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerDocument = require('./swagger.json');
 const cors = require('cors');
 const config = require('./config.js');
+
+//Swagger configuration
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Database and YELP API endpoint',
+      version: '1.0.0',
+    },
+  },
+  apis: ['backendServer.js'], // Specify the file(s) that contain the API routes
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 //app.use
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../final-project-lkfau')));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(cors());
 
 //Catch for 404 error
