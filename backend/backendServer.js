@@ -20,30 +20,49 @@ app.use(cors());
 //   res.status(404).sendFile(path.join(__dirname, '//404.html//'));
 // });
 
-//MongoDB
-//Favorite schema
-const favoriteSchema = new mongoose.Schema ({
-  business_id : String,
+//FavoriteInfo schema------------------------------------>UPDATE SCHEMA; INCLUDE MORE RELEVANT INFO TO DISPLAY
+const favoriteInfoSchema = new mongoose.Schema ({
+  _id : String,
   business_name : String,
-});
+}, { versionKey: false });
 
 //Set favorite model
-const Favorite = mongoose.model('favorite', favoriteSchema);
-
-//Test
-app.get('/addFavorite', (req, res) => {
-  res.send("Add Favorites test");
-});
+const Favorite = mongoose.model('favorite', favoriteInfoSchema);
 
 //Functions
+//Add Favorite
 app.post('/addFavorite', function(req, res) {
   const favorite = new Favorite ({
-    business_id : req.body.business_id,
+    _id : req.body._id,
     business_name : req.body.business_name
   });
 
   favorite.save()
+  res.send(`Added ${favorite} to favorites`)
   console.log("Added Favorite");
+});
+
+//Delete Favorite
+app.delete('/deleteFavorite', async(req, res) => {
+  var business_id = req.body._id;
+  const favorite = await Favorite.findByIdAndDelete(business_id);
+  res.send(`Deleted ${favorite.business_name} from favorites`)
+  console.log("Deleted Favorite");
+});
+
+//View Favorite
+app.get('/viewFavorite', async(req, res) => {
+  var business_id = req.body._id;
+  const favorite = await Favorite.findById(business_id);
+  res.send(`Viewing ${favorite.business_name} from favorites`)
+  console.log("View Favorite");
+});
+
+//List all favorites
+app.get('/listFavorites', async(req, res) => {
+  const favorite = await Favorite.find();
+  res.send(`Listing ${favorite} from favorites`)
+  console.log("Listing Favorites");
 });
 
 //Server
