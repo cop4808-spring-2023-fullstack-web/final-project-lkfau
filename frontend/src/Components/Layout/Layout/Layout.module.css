@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 320px;
+  color: white;
+  background-color: #1c1c21;
+}
+
+.content {
+  flex-grow: 1;
+  align-items: center;
+  display: flex;
+}
