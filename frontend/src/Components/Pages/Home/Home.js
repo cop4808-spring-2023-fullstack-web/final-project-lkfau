@@ -1,5 +1,8 @@
+import { useUserAuth } from "../../Auth/Context/Context";
+
 const Home = () => {
-  return <h1>Home</h1>;
+  const {logOut} = useUserAuth()
+  return <button onClick={()=>{logOut()}}>Signout</button>;
 };
 
 export default Home;

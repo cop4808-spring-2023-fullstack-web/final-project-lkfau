@@ -1,5 +1,8 @@
+import { useUserAuth } from "../../Auth/Context/Context";
+
 const Landing = () => {
-  return <h1>Landing</h1>;
+  const {user} = useUserAuth()
+  return <button onClick={()=>{console.log(user)}}>User</button>;
 };
 
 export default Landing;
