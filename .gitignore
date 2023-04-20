@@ -1,3 +1,10 @@
-node_modules
-DB.env
-//.env file (API key)
+/frontend/build
+
+/frontend/node_modules
+/backend/node_modules
+
+/frontend/.env
+/backend/.env
+
+
+
