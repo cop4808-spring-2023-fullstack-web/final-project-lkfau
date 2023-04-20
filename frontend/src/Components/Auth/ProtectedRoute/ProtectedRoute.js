@@ -1,11 +1,13 @@
-import { Navigate, Outlet } from "react-router-dom"
+import React from "react";
+import { Navigate } from "react-router-dom";
 import { useUserAuth } from "../Context/Context";
-const ProtectedRoute = () => {
-    const {user} = useUserAuth()
-    if (!user) { return <Navigate to="/"></Navigate> } // You might as well use Navigate here
-  
-    return Outlet;
-  };
+const ProtectedRoute = ({ children }) => {
+  const { user } = useUserAuth();
 
-  export default ProtectedRoute
-  
+  if (!user) {
+    return <Navigate to="/" />;
+  }
+  return children;
+};
+
+export default ProtectedRoute;
