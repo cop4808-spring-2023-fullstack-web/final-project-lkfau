@@ -4,7 +4,7 @@ import { useUserAuth } from "../../Auth/Context/Context";
 import { useNavigate } from 'react-router-dom';
 
 const LoginSignup = () => {
-  const {user, logIn} = useUserAuth();
+  const {user, logIn, signUp} = useUserAuth();
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
@@ -28,12 +28,52 @@ const LoginSignup = () => {
     logIn(email,password)
   };
 
+  const handleSignUp = (event) => {
+    event.preventDefault();
+    console.log(user)
+    signUp(email,password)
+  };
+
   return (
     <Container>
       <Row>
         <Col>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
+              <h1>Login</h1>
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={handleEmailChange}
+              />
+              <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form onSubmit={handleSignUp}>
+            <Form.Group controlId="formBasicEmail">
+              <h1>Signup</h1>
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
