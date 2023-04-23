@@ -33,8 +33,6 @@ const LoginSignup = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     try {
-      
-   
       if (section === "login") {
         logIn(email, password);
       } else if (section === "signup") {

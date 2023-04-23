@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <Navbar className="bg-black mt-5" variant="dark">
       <Container>
-        <Navbar.Brand>Group 1</Navbar.Brand>
+        <Navbar.Brand>&copy; Group 1 LLC</Navbar.Brand>
       </Container>
     </Navbar>
   );

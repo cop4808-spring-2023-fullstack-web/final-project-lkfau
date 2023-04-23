@@ -1,8 +1,13 @@
-import useUserAuth from "../../Auth/Hooks/useUserAuth";
-
+import Searchbar from "../../UI/Searchbar";
+import Container from 'react-bootstrap/Container'
 const Home = () => {
-  const {logOut} = useUserAuth()
-  return <button onClick={()=>{logOut()}}>Signout</button>;
+
+  return (
+    <Container>
+      <Searchbar className="my-5" />
+    </Container>
+      
+  );
 };
 
 export default Home;

@@ -4,11 +4,10 @@
   min-height: 100vh;
   min-width: 320px;
   color: white;
-  background-color: #1c1c21;
+  background-color: var(--darkest);
 }
 
 .content {
   flex-grow: 1;
-  align-items: center;
   display: flex;
 }

@@ -1,0 +1,9 @@
+.searchbar {
+  display: flex;
+  justify-content: center;
+}
+
+.searchbar > * {
+  outline: none !important;
+  max-width: 50rem;
+}
