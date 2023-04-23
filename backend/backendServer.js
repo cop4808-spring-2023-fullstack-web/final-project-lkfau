@@ -11,6 +11,9 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerDocument = require('./swagger.json');
 const cors = require('cors');
 const config = require('./config.js');
+const axios = require('axios');
+const { YELP_API_KEY } = require('./.env');
+require('dotenv').config();
 
 //Swagger configuration
 const swaggerOptions = {
@@ -108,6 +111,34 @@ app.get('/listFavorites', async(req, res) => {
     res.status(500).send("Error viewing favorites");
   }
 });
+
+//Search businesses by location--------------------------------------> FIX search terms to include not just location
+app.get('/searchBusiness', async(req, res) => {
+  var location = req.body.location
+  try {
+    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response) {
+      res.send(response.data)
+    } else {
+      res.status(404).json({ message: "Error" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
+
+//Get info on business by business id
+
+//Get reviews for a business by business id
+
+//Autocomplete
+
 
 //Server
 app.listen(5678); //start the server
