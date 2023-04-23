@@ -1,4 +1,4 @@
-import { useUserAuth } from "../../Auth/Context/Context";
+import useUserAuth from "../../Auth/Hooks/useUserAuth";
 
 const Home = () => {
   const {logOut} = useUserAuth()

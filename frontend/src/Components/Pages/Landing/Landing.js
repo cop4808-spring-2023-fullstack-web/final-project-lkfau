@@ -1,8 +1,7 @@
-import { useUserAuth } from "../../Auth/Context/Context";
+import { Link } from 'react-router-dom'
 
 const Landing = () => {
-  const {user} = useUserAuth()
-  return <button onClick={()=>{console.log(user)}}>User</button>;
+  return <Link to="/login">Get started</Link>;
 };
 
 export default Landing;
