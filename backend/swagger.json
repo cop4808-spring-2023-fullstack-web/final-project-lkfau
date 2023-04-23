@@ -20,9 +20,24 @@
         "summary": "View a favorite"
       }
     },
-    "/listFavorites": {
+    "/businesses/search": {
       "get": {
-        "summary": "Lists all favorites"
+        "summary": "Search for businesses by location"
+      }
+    },
+    "/businesses/{business_id}": {
+      "get": {
+        "summary": "Access detailed business contents by business id"
+      }
+    },
+    "/businesses/{business_id}/reviews": {
+      "get": {
+        "summary": "Get reviews for a business by their business id"
+      }
+    },
+    "/autocomplete": {
+      "get": {
+        "summary": "Returns automcompleted suggestions based on input text"
       }
     }
   }
