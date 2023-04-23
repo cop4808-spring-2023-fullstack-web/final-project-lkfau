@@ -20,17 +20,17 @@
         "summary": "View a favorite"
       }
     },
-    "/businesses/search": {
+    "/business/search": {
       "get": {
         "summary": "Search for businesses by location"
       }
     },
-    "/businesses/{business_id}": {
+    "/business/{business_id}": {
       "get": {
         "summary": "Access detailed business contents by business id"
       }
     },
-    "/businesses/{business_id}/reviews": {
+    "/business/{business_id}/reviews": {
       "get": {
         "summary": "Get reviews for a business by their business id"
       }

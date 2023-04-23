@@ -113,7 +113,7 @@ app.get('/listFavorites', async(req, res) => {
 });
 
 //Search businesses by location--------------------------------------> FIX search terms to include not just location
-app.get('/searchBusiness', async(req, res) => {
+app.get('/business/search', async(req, res) => {
   var location = req.body.location
   try {
     const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}`, {
@@ -134,6 +134,25 @@ app.get('/searchBusiness', async(req, res) => {
 });
 
 //Get info on business by business id
+app.get('/business/:business_id', async(req, res) => {
+  var business_id = req.params.business_id
+  try {
+    const response = await axios.get(`https://api.yelp.com/v3/businesses/${business_id}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response) {
+      res.send(response.data)
+    } else {
+      res.status(404).json({ message: "Error" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
 
 //Get reviews for a business by business id
 
