@@ -114,9 +114,10 @@ app.get('/listFavorites', async(req, res) => {
 
 //Search businesses by location
 app.get('/business/search', async(req, res) => {
-  var text = req.body.text //Right now only works if you enter location. Not radius, lat/long, terms
+  var location = req.body.location;  //Add more params here later on to deal with filters being added
+  var term = req.body.term || '';
   try {
-    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${text}`, {
+    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}&term=${term}`, {
       headers: {
         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
         'Content-Type': 'application/json'
