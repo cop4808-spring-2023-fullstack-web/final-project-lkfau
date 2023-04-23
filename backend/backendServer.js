@@ -112,11 +112,11 @@ app.get('/listFavorites', async(req, res) => {
   }
 });
 
-//Search businesses by location--------------------------------------> FIX search terms to include not just location
+//Search businesses by location
 app.get('/business/search', async(req, res) => {
-  var location = req.body.location
+  var text = req.body.text //Right now only works if you enter location. Not radius, lat/long, terms
   try {
-    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${location}`, {
+    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?location=${text}`, {
       headers: {
         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
         'Content-Type': 'application/json'
@@ -155,9 +155,46 @@ app.get('/business/:business_id', async(req, res) => {
 });
 
 //Get reviews for a business by business id
+app.get('/business/:business_id/reviews', async(req, res) => {
+  var business_id = req.params.business_id
+  try {
+    const response = await axios.get(`https://api.yelp.com/v3/businesses/${business_id}/reviews`, {
+      headers: {
+        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response) {
+      res.send(response.data)
+    } else {
+      res.status(404).json({ message: "Error" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
 
 //Autocomplete
-
+app.get('/autocomplete', async(req, res) => {
+  var text = req.body.text
+  try {
+    const response = await axios.get(`https://api.yelp.com/v3/autocomplete?text=${text}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (response) {
+      res.send(response.data)
+    } else {
+      res.status(404).json({ message: "Error" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error");
+  }
+});
 
 //Server
 app.listen(5678); //start the server
