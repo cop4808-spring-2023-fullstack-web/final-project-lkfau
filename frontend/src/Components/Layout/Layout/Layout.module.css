@@ -4,7 +4,7 @@
   min-height: 100vh;
   min-width: 320px;
   color: white;
-  background-color: var(--darkest);
+  background-color: var(--bg);
 }
 
 .content {

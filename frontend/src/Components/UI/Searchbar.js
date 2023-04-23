@@ -5,17 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 const Searchbar = (props) => {
   return (
-    <div className={`${styles.searchbar} ${props.className}`}>
-      <InputGroup >
-        <InputGroup.Text className="bg-dark text-light">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </InputGroup.Text >
+    <div className={`${styles.container} ${props.className}`}>
+      <div className="w-100">
+       <h1 className="mb-4">Welcome back.</h1>
+       <InputGroup className={styles.searchbar}>
         <Form.Control
-          className="bg-dark text-light"
+          className="text-light"
           placeholder="Find a restaurant..."
           aria-label="Search"
         />
+         <InputGroup.Text className="text-light">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </InputGroup.Text >
       </InputGroup>
+      </div>
+     
     </div>
   )
 }

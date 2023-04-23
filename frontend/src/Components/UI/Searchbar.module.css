@@ -1,9 +1,32 @@
-.searchbar {
+.container {
+  font-size: 1.5em;
   display: flex;
   justify-content: center;
 }
 
-.searchbar > * {
-  outline: none !important;
+.container > * {
   max-width: 50rem;
+}
+
+.searchbar {
+  font-size: 1.5em;
+}
+
+.searchbar input::placeholder {
+  font-style: italic !important;
+}
+
+.searchbar > * {
+  font-size: calc(var(--bs-body-font-size) * 1.25);
+  background-color: var(--primary) !important;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--stroke) !important;
+}
+
+.searchbar > *:not(:first-child) {
+  border-left: none !important;
+}
+
+.searchbar > *:not(:last-child) {
+  border-right: none !important;
 }
