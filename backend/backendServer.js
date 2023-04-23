@@ -38,10 +38,10 @@ app.use(cors());
 //   res.status(404).sendFile(path.join(__dirname, '//404.html//'));
 // });
 
-//FavoriteInfo schema------------------------------------>UPDATE SCHEMA; INCLUDE MORE RELEVANT INFO TO DISPLAY
+//FavoriteInfo schema
 const favoriteInfoSchema = new mongoose.Schema ({
-  _id : String,
-  business_name : String,
+  user_id : String,
+  business_id : String
 }, { versionKey: false });
 
 //Set favorite model
@@ -51,36 +51,62 @@ const Favorite = mongoose.model('favorite', favoriteInfoSchema);
 //Add Favorite
 app.post('/addFavorite', function(req, res) {
   const favorite = new Favorite ({
-    _id : req.body._id,
-    business_name : req.body.business_name
+    user_id : req.body.user_id,
+    business_id : req.body.business_id,
   });
 
   favorite.save()
   res.send(`Added ${favorite} to favorites`)
-  console.log("Added Favorite");
 });
 
 //Delete Favorite
 app.delete('/deleteFavorite', async(req, res) => {
-  var business_id = req.body._id;
-  const favorite = await Favorite.findByIdAndDelete(business_id);
-  res.send(`Deleted ${favorite.business_name} from favorites`)
-  console.log("Deleted Favorite");
+  var user_id = req.body.user_id;
+  var business_id = req.body.business_id;
+  try {
+    const favorite = await Favorite.findOneAndDelete({ user_id: user_id, business_id: business_id });
+    if (favorite) {
+      res.send("Deleted Favorite");
+    } else {
+      res.status(404).json({ message: "Favorite not found" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error deleting favorite");
+  }
 });
 
 //View Favorite
 app.get('/viewFavorite', async(req, res) => {
-  var business_id = req.body._id;
-  const favorite = await Favorite.findById(business_id);
-  res.send(`Viewing ${favorite.business_name} from favorites`)
-  console.log("View Favorite");
+  var user_id = req.body.user_id;
+  var business_id = req.body.business_id;
+  try {
+    const favorite = await Favorite.findOne({ user_id: user_id, business_id: business_id });
+    if (favorite) {
+      res.send(`Viewing ${favorite} from favorites`)
+    } else {
+      res.status(404).json({ message: "Favorite not found" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error viewing favorite");
+  }
 });
 
 //List all favorites
 app.get('/listFavorites', async(req, res) => {
-  const favorite = await Favorite.find();
-  res.send(`Listing ${favorite} from favorites`)
-  console.log("Listing Favorites");
+  var user_id = req.body.user_id;
+  try {
+    const favorite = await Favorite.find({ user_id: user_id });
+    if (favorite) {
+      res.send(`Viewing ${favorite} from favorites`)
+    } else {
+      res.status(404).json({ message: "Favorites not found" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error viewing favorites");
+  }
 });
 
 //Server

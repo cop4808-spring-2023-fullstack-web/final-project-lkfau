@@ -10,6 +10,7 @@ import { UserAuthContextProvider } from "./Components/Auth/Context/Context";
 import useUserAuth from "./Components/Auth/Hooks/useUserAuth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginSignup from "./Components/Pages/LogInSignUp/LogInSignUp";
+import { Navigate } from "react-router-dom";
 const HomeController = () => {
   const { user } = useUserAuth();
 
@@ -29,6 +30,15 @@ const Loader = () => {
     return <Layout/>
 }
 
+const LoginController = () => {
+  const { user } = useUserAuth();
+
+  if (!user) {
+    return <LoginSignup />;
+  }
+  return <Navigate to="/" />;;
+};
+
 function App() {
   return (
     <UserAuthContextProvider>
@@ -36,16 +46,16 @@ function App() {
         <Routes>
           <Route path="/" element={<Loader/>}>
             <Route index element={<HomeController />} />
-            <Route path="/signup" element={<LoginSignup />} />
-            <Route path="/login" element={<LoginSignup />} />
+            <Route path="/signup" element={<LoginController />} />
+            <Route path="/login" element={<LoginController />} />
             <Route
               exact
               path="/search"
               element={
                 <ProtectedRoute>
-                  <Route path="/search">
+                  
                     <Search />
-                  </Route>
+              
                 </ProtectedRoute>
               }
             />
