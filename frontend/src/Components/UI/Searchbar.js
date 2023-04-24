@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 const Searchbar = (props) => {
+  
   return (
     <div className={`${styles.container} ${props.className}`}>
       <div className="w-100">
@@ -19,7 +20,6 @@ const Searchbar = (props) => {
         </InputGroup.Text >
       </InputGroup>
       </div>
-     
     </div>
   )
 }

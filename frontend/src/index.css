@@ -11,6 +11,7 @@ body {
   --dark: #121821;
   --bg: #0F1118;
   --stroke: #1A2E3D;
+  scrollbar-color: black black;
 }
 
 .form-control:focus {
@@ -20,4 +21,19 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.react-custom-scrollbars .thumb-vertical {
+  background-color: #555;
+  border-radius: 10px;
+}
+
+/* Customize the scrollbar track */
+.react-custom-scrollbars .track-vertical {
+  background-color: #f1f1f1;
+}
+
+/* Hide the scrollbar corner */
+.react-custom-scrollbars .corner {
+  background-color: #f1f1f1;
 }

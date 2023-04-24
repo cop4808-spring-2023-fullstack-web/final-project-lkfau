@@ -9,5 +9,5 @@
 
 .content {
   flex-grow: 1;
-  display: flex;
+  min-height: 100vh;
 }
