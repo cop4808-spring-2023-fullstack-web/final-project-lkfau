@@ -5,37 +5,42 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/addFavorite": {
+    "/api/favorite(add)": {
       "post": {
         "summary": "Adds a new favorite"
       }
     },
-    "/deleteFavorite": {
+    "/api/favorite(delete)": {
       "delete": {
         "summary": "Deletes a favorite"
       }
     },
-    "/viewFavorite": {
+    "/api/favorite(view)": {
       "get": {
         "summary": "View a favorite"
       }
     },
-    "/business/search": {
+    "/api/favorites(list all)": {
+      "get": {
+        "summary": "View all favorites"
+      }
+    },
+    "/api/search": {
       "get": {
         "summary": "Search for businesses by location"
       }
     },
-    "/business/{business_id}": {
+    "/api/view": {
       "get": {
         "summary": "Access detailed business contents by business id"
       }
     },
-    "/business/{business_id}/reviews": {
+    "/api/reviews": {
       "get": {
         "summary": "Get reviews for a business by their business id"
       }
     },
-    "/autocomplete": {
+    "/api/automcomplete": {
       "get": {
         "summary": "Returns automcompleted suggestions based on input text"
       }
