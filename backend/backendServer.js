@@ -113,8 +113,18 @@ app.get('/api/favorites', async(req, res) => {
 });
 
 //Search businesses by location
-app.get('/business/search', async(req, res) => {
-  var location = req.body.location;  //Add more params here later on to deal with filters being added
+app.get('/api/search', async(req, res) => {
+  if (req.body.latitude != null && req.body.longitude != null){
+    var latitude = req.body.latitude;
+    var longitude = req.body.longitude;
+    var location = req.body.location || '%27%27';  //For some reason yelp api call does not work if I just put empty string,
+  }else {                                          //but will send an empty string if I set location = to %27%27
+    var latitude = '';                             //which is the URL-encoded representation of two single quotes
+    var longitude = '';
+    var location = req.body.location;  
+  }
+
+  //Add more params here later on to deal with filters being added
   var term = req.body.term || '';
 
   try {
@@ -136,8 +146,8 @@ app.get('/business/search', async(req, res) => {
 });
 
 //Get info on business by business id
-app.get('/business/:business_id', async(req, res) => {
-  var business_id = req.params.business_id
+app.get('/api/view', async(req, res) => {
+  var business_id = req.body.business_id
   try {
     const response = await axios.get(`https://api.yelp.com/v3/businesses/${business_id}`, {
       headers: {
@@ -157,8 +167,8 @@ app.get('/business/:business_id', async(req, res) => {
 });
 
 //Get reviews for a business by business id
-app.get('/business/:business_id/reviews', async(req, res) => {
-  var business_id = req.params.business_id
+app.get('/api/review', async(req, res) => {
+  var business_id = req.body.business_id
   try {
     const response = await axios.get(`https://api.yelp.com/v3/businesses/${business_id}/reviews`, {
       headers: {
