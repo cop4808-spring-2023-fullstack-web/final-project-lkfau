@@ -6,8 +6,8 @@ import useUserAuth from "../../Auth/Hooks/useUserAuth";
 const NavBar = () => {
   const { user, logOut } = useUserAuth();
   return (
-    <Navbar className="bg-black mb-5" sticky="top" variant="dark" expand="md">
-      <Container>
+    <Navbar style={{backgroundColor: 'var(--bg)'}} sticky="top" variant="dark" expand="md">
+      <Container style={{paddingBottom: '0.5rem', borderBottom: '2px solid var(--accent)'}}>
         <Navbar.Brand as={Link} to="/">
           Tastee
         </Navbar.Brand>

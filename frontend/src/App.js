@@ -7,6 +7,7 @@ import NotFound from "./Components/Pages/NotFound/NotFound";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute/ProtectedRoute";
 import { UserAuthContextProvider } from "./Components/Auth/Context/Context";
+import { LocationContextProvider } from "./Components/Auth/Context/LocationContext";
 import useUserAuth from "./Components/Auth/Hooks/useUserAuth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginSignup from "./Components/Pages/LogInSignUp/LogInSignUp";
@@ -42,6 +43,7 @@ const LoginController = () => {
 function App() {
   return (
     <UserAuthContextProvider>
+      <LocationContextProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Loader/>}>
@@ -72,6 +74,8 @@ function App() {
           </Route>
         </Routes>
       </Router>
+             
+      </LocationContextProvider>
     </UserAuthContextProvider>
   );
 }
