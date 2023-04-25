@@ -3,11 +3,12 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink, Link } from "react-router-dom";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
+import styles from "./Navbar.module.css"
 const NavBar = () => {
   const { user, logOut } = useUserAuth();
   return (
-    <Navbar style={{backgroundColor: 'var(--bg)'}} sticky="top" variant="dark" expand="md">
-      <Container style={{paddingBottom: '0.5rem', borderBottom: '2px solid var(--accent)'}}>
+    <Navbar className={styles.tasteeNav} sticky="top" variant="dark" expand="md">
+      <Container className={styles.navContainer}>
         <Navbar.Brand as={Link} to="/">
           Tastee
         </Navbar.Brand>

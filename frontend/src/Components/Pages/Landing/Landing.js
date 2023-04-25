@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
+import Banner from '../../Banner/Banner';
 
 const Landing = () => {
-  return <Link to="/login">Get started</Link>;
+  return <>
+  <Banner/></>
 };
 
 export default Landing;

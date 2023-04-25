@@ -1,0 +1,38 @@
+.banner {
+  background-color: var(--bg);
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.header{
+    color: var(--accent);
+    font-size: 5em;
+}
+
+.accent{
+    color: var(--accent)
+}
+
+.subtext{
+    font-size: 3em;
+}
+
+.button{
+    font-size: 2em;
+    border-radius: 15px;
+    border-style: solid;
+    color: white;
+    background-color: var(--bg);
+}
+.button:hover{
+    color: var(--accent);
+    background-color: var(--bg);
+}
+.button:focus{
+    color: var(--accent);
+    background-color: var(--bg);
+    outline: none !important;
+    box-shadow: none;
+}
