@@ -1,45 +1,45 @@
 //Imports
-const express = require('express')
-require('dotenv').config();
-const app = express()
-const bodyParser = require('body-parser');
-const path = require('path');
-const http = require('http');
-const MongoClient = require('mongodb').MongoClient
-const mongoose = require('mongoose');
-const swaggerUI = require('swagger-ui-express');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerDocument = require('./swagger.json');
-const cors = require('cors');
-const config = require('./config.js');
-const axios = require('axios');
-const admin = require('firebase-admin');
+const express = require("express");
+require("dotenv").config();
+const app = express();
+const bodyParser = require("body-parser");
+const path = require("path");
+const http = require("http");
+const MongoClient = require("mongodb").MongoClient;
+const mongoose = require("mongoose");
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerDocument = require("./swagger.json");
+const cors = require("cors");
+const config = require("./config.js");
+const axios = require("axios");
+const admin = require("firebase-admin");
 const adminConfig = {
-    type: process.env.TYPE,
-    project_id: process.env.PROJECT_ID,
-    private_key_id: process.env.PRIVATE_KEY_ID,
-    private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), 
-    client_email: process.env.CLIENT_EMAIL,
-    client_id: process.env.CLIENT_ID,
-    auth_uri: process.env.AUTH_URI,
-    token_uri: process.env.TOKEN_URI,
-    auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
-    client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
+  type: process.env.TYPE,
+  project_id: process.env.PROJECT_ID,
+  private_key_id: process.env.PRIVATE_KEY_ID,
+  private_key: process.env.PRIVATE_KEY,
+  client_email: process.env.CLIENT_EMAIL,
+  client_id: process.env.CLIENT_ID,
+  auth_uri: process.env.AUTH_URI,
+  token_uri: process.env.TOKEN_URI,
+  auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
+  client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
 };
 admin.initializeApp({
-  credential: admin.credential.cert(adminConfig)
+  credential: admin.credential.cert(adminConfig),
 });
 
 //Swagger configuration
 const swaggerOptions = {
   swaggerDefinition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'Database and YELP API endpoint',
-      version: '1.0.0',
+      title: "Database and YELP API endpoint",
+      version: "1.0.0",
     },
   },
-  apis: ['backendServer.js'], // Specify the file(s) that contain the API routes
+  apis: ["backendServer.js"], // Specify the file(s) that contain the API routes
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -47,8 +47,8 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 //app.use
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../final-project-lkfau')));
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(express.static(path.join(__dirname, "../final-project-lkfau")));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(cors());
 
 //Catch for 404 error
@@ -57,50 +57,46 @@ app.use(cors());
 // });
 
 //FavoriteInfo schema
-const favoriteInfoSchema = new mongoose.Schema ({
-  user_id : String,
-  business_id : String
-}, { versionKey: false });
+const favoriteInfoSchema = new mongoose.Schema(
+  {
+    user_id: String,
+    business_id: String,
+  },
+  { versionKey: false }
+);
 
 //Set favorite model
-const Favorite = mongoose.model('favorite', favoriteInfoSchema);
-const verifyToken = async (token) => {
-  try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    return decodedToken
-  } catch (error) {
-    res.status(401).json({
-      error: 'Unauthorized'
-    });
-  }
-};
+const Favorite = mongoose.model("favorite", favoriteInfoSchema);
+
+const validateUser = (token) =>{
+  const user = admin.auth().verifyIdToken(token)
+  return user
+}
+
 //Functions
 //Add Favorite
-app.post('/api/favorite', function(req, res) {
-  const token = req.headers.authorization.split(' ')[1];
-  const uid = verifyToken(token);
+app.post("/api/favorite", async (req, res) => {
+  // idToken comes from the client app
+  user = await validateUser(req.headers.authorization)
+  const favorite = new Favorite ({
+    user_id : user.uid,
+    business_id : req.body.business_id,
+  });
 
-  admin.auth().getUser(uid)
-    .then((userRecord) => {
-      const favorite = new Favorite({
-        user_id: userRecord.uid,
-        business_id: req.body.business_id,
-      });
-      favorite.save();
-      res.send(`Added ${favorite} to favorites`);
-    })
-    .catch((error) => {
-      console.log('Error fetching user data:', error);
-      res.status(401).send('Unauthorized');
-    });
+  favorite.save()
+  res.send(`Added ${favorite} to favorites`)
 });
 
+
 //Delete Favorite
-app.delete('/api/favorite', async(req, res) => {
+app.delete("/api/favorite", async (req, res) => {
   var user_id = req.body.user_id;
   var business_id = req.body.business_id;
   try {
-    const favorite = await Favorite.findOneAndDelete({ user_id: user_id, business_id: business_id });
+    const favorite = await Favorite.findOneAndDelete({
+      user_id: user_id,
+      business_id: business_id,
+    });
     if (favorite) {
       res.send("Deleted Favorite");
     } else {
@@ -113,13 +109,16 @@ app.delete('/api/favorite', async(req, res) => {
 });
 
 //View Favorite
-app.get('/api/favorite', async(req, res) => {
+app.get("/api/favorite", async (req, res) => {
   var user_id = req.body.user_id;
   var business_id = req.body.business_id;
   try {
-    const favorite = await Favorite.findOne({ user_id: user_id, business_id: business_id });
+    const favorite = await Favorite.findOne({
+      user_id: user_id,
+      business_id: business_id,
+    });
     if (favorite) {
-      res.send(`Viewing ${favorite} from favorites`)
+      res.send(`Viewing ${favorite} from favorites`);
     } else {
       res.status(404).json({ message: "Favorite not found" });
     }
@@ -130,12 +129,12 @@ app.get('/api/favorite', async(req, res) => {
 });
 
 //List all favorites
-app.get('/api/favorites', async(req, res) => {
+app.get("/api/favorites", async (req, res) => {
   var user_id = req.body.user_id;
   try {
     const favorite = await Favorite.find({ user_id: user_id });
     if (favorite) {
-      res.send(`Viewing ${favorite} from favorites`)
+      res.send(`Viewing ${favorite} from favorites`);
     } else {
       res.status(404).json({ message: "Favorites not found" });
     }
@@ -146,51 +145,58 @@ app.get('/api/favorites', async(req, res) => {
 });
 
 //Search businesses by location
-app.get('/api/search', async(req, res) => {
+app.get("/api/search", async (req, res) => {
   let latitude, longitude, location, term, offset;
   try {
-    if (Object.hasOwn(req.query, 'lat') && Object.hasOwn(req.query, 'long')) {
+    if (Object.hasOwn(req.query, "lat") && Object.hasOwn(req.query, "long")) {
       latitude = Number(req.query.lat);
       longitude = Number(req.query.long);
-      location = req.query.loc || '%27%27';  //For some reason yelp api call does not work if I just put empty string,
-    } else {                                 //but will send an empty string if I set location = to %27%27
-      latitude = '';                         //which is the URL-encoded representation of two single quotes
-      longitude = '';
-      location = req.query.loc;  
+      location = req.query.loc || "%27%27"; //For some reason yelp api call does not work if I just put empty string,
+    } else {
+      //but will send an empty string if I set location = to %27%27
+      latitude = ""; //which is the URL-encoded representation of two single quotes
+      longitude = "";
+      location = req.query.loc;
     }
 
     //Add more params here later on to deal with filters being added
-    term = req.query.term || '';
-    offset = req.query.page*10 || 0;
-    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&location=${location}&term=${term}&limit=10&offset=${offset}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-        'Content-Type': 'application/json'
+    term = req.query.term || "";
+    offset = req.query.page * 10 || 0;
+    const response = await axios.get(
+      `https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&location=${location}&term=${term}&limit=10&offset=${offset}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
     if (response) {
-      res.send(response.data)
+      res.send(response.data);
     } else {
       res.status(404).json({ message: "Error" });
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ message: "Error" });
   }
 });
 
 //Get info on business by business id
-app.get('/api/view', async(req, res) => {
-  var business_id = req.body.business_id
+app.get("/api/view", async (req, res) => {
+  var business_id = req.body.business_id;
   try {
-    const response = await axios.get(`https://api.yelp.com/v3/businesses/${business_id}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-        'Content-Type': 'application/json'
+    const response = await axios.get(
+      `https://api.yelp.com/v3/businesses/${business_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
     if (response) {
-      res.send(response.data)
+      res.send(response.data);
     } else {
       res.status(404).json({ message: "Error" });
     }
@@ -201,17 +207,20 @@ app.get('/api/view', async(req, res) => {
 });
 
 //Get reviews for a business by business id
-app.get('/api/review', async(req, res) => {
-  var business_id = req.body.business_id
+app.get("/api/review", async (req, res) => {
+  var business_id = req.body.business_id;
   try {
-    const response = await axios.get(`https://api.yelp.com/v3/businesses/${business_id}/reviews`, {
-      headers: {
-        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-        'Content-Type': 'application/json'
+    const response = await axios.get(
+      `https://api.yelp.com/v3/businesses/${business_id}/reviews`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
     if (response) {
-      res.send(response.data)
+      res.send(response.data);
     } else {
       res.status(404).json({ message: "Error" });
     }
@@ -222,17 +231,20 @@ app.get('/api/review', async(req, res) => {
 });
 
 //Autocomplete
-app.get('/api/autocomplete', async(req, res) => {
-  var text = req.body.text
+app.get("/api/autocomplete", async (req, res) => {
+  var text = req.body.text;
   try {
-    const response = await axios.get(`https://api.yelp.com/v3/autocomplete?text=${text}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-        'Content-Type': 'application/json'
+    const response = await axios.get(
+      `https://api.yelp.com/v3/autocomplete?text=${text}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+          "Content-Type": "application/json",
+        },
       }
-    });
+    );
     if (response) {
-      res.send(response.data)
+      res.send(response.data);
     } else {
       res.status(404).json({ message: "Error" });
     }
@@ -244,4 +256,4 @@ app.get('/api/autocomplete', async(req, res) => {
 
 //Server
 app.listen(5678); //start the server
-console.log('Server is running...');
+console.log("Server is running...");
