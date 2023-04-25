@@ -6,7 +6,7 @@ import styles from "./Banner.module.css";
 const Banner = () => {
   const navigate = useNavigate();
   return (
-    <div className={styles.banner}>
+    <div className={`${styles.banner} mb-5`}>
       <Container>
         <Row className="gy-4">
           <Col className="text-center text-lg-start" xs={12} lg={6}>

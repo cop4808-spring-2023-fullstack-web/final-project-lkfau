@@ -6,34 +6,34 @@
   align-items: center;
 }
 
-.header{
-    color: var(--accent);
-    font-size: 4em;
+.header {
+  color: var(--accent);
+  font-size: 4em;
 }
 
-.accent{
-    color: var(--accent)
+.accent {
+  color: var(--accent);
 }
 
-.subtext{
-    font-size: 3em;
+.subtext {
+  font-size: 3em;
 }
 
-.start{
-    font-size: 2em;
-    border-radius: 15px;
-    border-style: solid;
-    color: white;
-    background-color: var(--bg);
-    border: 1px solid var(--accent);
+.start {
+  font-size: 2em;
+  border-radius: 15px;
+  border-style: solid;
+  color: white;
+  background-color: var(--bg);
+  border: 1px solid var(--accent);
 }
-.start:hover{
-    color: var(--accent);
-    background-color: var(--bg);
+.start:hover {
+  color: var(--accent);
+  background-color: var(--bg);
 }
-.start:focus{
-    color: var(--accent);
-    background-color: var(--bg);
-    outline: none !important;
-    box-shadow: none;
+.start:focus {
+  color: var(--accent);
+  background-color: var(--bg);
+  outline: none !important;
+  box-shadow: none;
 }

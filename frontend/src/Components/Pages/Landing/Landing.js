@@ -1,8 +1,11 @@
+import About from '../../About/About';
 import Banner from '../../Banner/Banner';
 
 const Landing = () => {
   return <>
-  <Banner/></>
+  <Banner/>
+  <About/>
+  </>
 };
 
 export default Landing;
