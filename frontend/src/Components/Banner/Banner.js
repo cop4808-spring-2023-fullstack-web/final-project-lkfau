@@ -8,12 +8,12 @@ const Banner = () => {
   return (
     <div className={styles.banner}>
       <Container>
-        <Row>
-          <Col>
+        <Row className="gy-4">
+          <Col className="text-center text-lg-start" xs={12} lg={6}>
             <h1 className={styles.header}>Food for you</h1>
-            <Button onClick={()=>{navigate("/login")}} className={[styles.button, "ps-5 pe-5 pt-3 pb-3 mt-3"]} variant="outline-success">Get Started</Button>
+            <button onClick={()=>{navigate("/login")}} className={`${styles.start} ps-5 pe-5 pt-3 pb-3 mt-3`}>Get Started</button>
           </Col>
-          <Col className="text-end subtext">
+          <Col className="text-center text-lg-end" xs={12} lg={6}>
             <h2>
               <span className={styles.accent}>Find</span> quality restaurants.
             </h2>

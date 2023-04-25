@@ -8,7 +8,7 @@
 
 .header{
     color: var(--accent);
-    font-size: 5em;
+    font-size: 4em;
 }
 
 .accent{
@@ -19,18 +19,19 @@
     font-size: 3em;
 }
 
-.button{
+.start{
     font-size: 2em;
     border-radius: 15px;
     border-style: solid;
     color: white;
     background-color: var(--bg);
+    border: 1px solid var(--accent);
 }
-.button:hover{
+.start:hover{
     color: var(--accent);
     background-color: var(--bg);
 }
-.button:focus{
+.start:focus{
     color: var(--accent);
     background-color: var(--bg);
     outline: none !important;
