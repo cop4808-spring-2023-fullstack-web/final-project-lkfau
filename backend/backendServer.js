@@ -1,5 +1,6 @@
 //Imports
 const express = require('express')
+require('dotenv').config();
 const app = express()
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -12,8 +13,22 @@ const swaggerDocument = require('./swagger.json');
 const cors = require('cors');
 const config = require('./config.js');
 const axios = require('axios');
-const { YELP_API_KEY } = require('./.env');
-require('dotenv').config();
+const admin = require('firebase-admin');
+const adminConfig = {
+    type: process.env.TYPE,
+    project_id: process.env.PROJECT_ID,
+    private_key_id: process.env.PRIVATE_KEY_ID,
+    private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), 
+    client_email: process.env.CLIENT_EMAIL,
+    client_id: process.env.CLIENT_ID,
+    auth_uri: process.env.AUTH_URI,
+    token_uri: process.env.TOKEN_URI,
+    auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
+    client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
+};
+admin.initializeApp({
+  credential: admin.credential.cert(adminConfig)
+});
 
 //Swagger configuration
 const swaggerOptions = {
@@ -49,17 +64,35 @@ const favoriteInfoSchema = new mongoose.Schema ({
 
 //Set favorite model
 const Favorite = mongoose.model('favorite', favoriteInfoSchema);
-
+const verifyToken = async (token) => {
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    return decodedToken
+  } catch (error) {
+    res.status(401).json({
+      error: 'Unauthorized'
+    });
+  }
+};
 //Functions
 //Add Favorite
 app.post('/api/favorite', function(req, res) {
-  const favorite = new Favorite ({
-    user_id : req.body.user_id,
-    business_id : req.body.business_id,
-  });
+  const token = req.headers.authorization.split(' ')[1];
+  const uid = verifyToken(token);
 
-  favorite.save()
-  res.send(`Added ${favorite} to favorites`)
+  admin.auth().getUser(uid)
+    .then((userRecord) => {
+      const favorite = new Favorite({
+        user_id: userRecord.uid,
+        business_id: req.body.business_id,
+      });
+      favorite.save();
+      res.send(`Added ${favorite} to favorites`);
+    })
+    .catch((error) => {
+      console.log('Error fetching user data:', error);
+      res.status(401).send('Unauthorized');
+    });
 });
 
 //Delete Favorite
