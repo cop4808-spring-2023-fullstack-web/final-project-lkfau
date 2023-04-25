@@ -114,21 +114,22 @@ app.get('/api/favorites', async(req, res) => {
 
 //Search businesses by location
 app.get('/api/search', async(req, res) => {
-  if (req.body.latitude != null && req.body.longitude != null){
-    var latitude = req.body.latitude;
-    var longitude = req.body.longitude;
-    var location = req.body.location || '%27%27';  //For some reason yelp api call does not work if I just put empty string,
-  }else {                                          //but will send an empty string if I set location = to %27%27
-    var latitude = '';                             //which is the URL-encoded representation of two single quotes
-    var longitude = '';
-    var location = req.body.location;  
-  }
-
-  //Add more params here later on to deal with filters being added
-  var term = req.body.term || '';
-
+  let latitude, longitude, location, term, offset;
   try {
-    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&location=${location}&term=${term}`, {
+    if (Object.hasOwn(req.query, 'lat') && Object.hasOwn(req.query, 'long')) {
+      latitude = Number(req.query.lat);
+      longitude = Number(req.query.long);
+      location = req.query.loc || '%27%27';  //For some reason yelp api call does not work if I just put empty string,
+    } else {                                 //but will send an empty string if I set location = to %27%27
+      latitude = '';                         //which is the URL-encoded representation of two single quotes
+      longitude = '';
+      location = req.query.loc;  
+    }
+
+    //Add more params here later on to deal with filters being added
+    term = req.query.term || '';
+    offset = req.query.page*10 || 0;
+    const response = await axios.get(`https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&location=${location}&term=${term}&limit=10&offset=${offset}`, {
       headers: {
         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
         'Content-Type': 'application/json'
@@ -140,8 +141,8 @@ app.get('/api/search', async(req, res) => {
       res.status(404).json({ message: "Error" });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error");
+    console.log(err)
+    res.status(500).json({ message: "Error" });
   }
 });
 

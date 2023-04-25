@@ -1,26 +1,36 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback} from "react";
 
 export const locationContext = createContext();
 
 export function LocationContextProvider({ children }) {
-  const [location, setLocation] = useState(null);
 
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) =>
-        setLocation({
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-        })
-      );
+  const getLocation = useCallback((callback) => {
+    try {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          callback(position.coords);
+          // setLocation({
+          //   latitude: pos.coords.latitude,
+          //   longitude: pos.coords.longitude,
+          // })
+        }, error => {
+          callback(null);
+        });
+      }
+      // if (!locationAdded) {
+      //   setLocation("blocked");
+      // }
+    } catch (err) {
+      console.log(err);
+      callback(null);
     }
-  };
+    
+  }, []);
 
   return (
     <locationContext.Provider
       value={{
-        location,
-        getLocation
+        getLocation,
       }}
     >
       {children}

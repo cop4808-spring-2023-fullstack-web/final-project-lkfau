@@ -4,6 +4,7 @@
   "description": "Restaurant things",
   "main": "backendServer.js",
   "scripts": {
+    "start": "node backendServer.js",
     "test": "A"
   },
   "repository": {
