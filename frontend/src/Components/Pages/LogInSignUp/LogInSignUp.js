@@ -93,30 +93,29 @@ const LoginSignup = () => {
                 >
                   {section === "login" ? "Login" : "Sign up"}
                 </button>
-                
               </div>
             </Form>
             <button
-                  variant="primary"
-                  onClick={() => {
-                    logInWithGoogle();
-                  }}
-                  className={`${styles.button} pt-2 pb-2 mt-4 d-flex justify-content-center align-items-center`}
-                >
-                  <FontAwesomeIcon icon={faGoogle} className="pe-1" />{" "}
-                  {section === "login" ? "Login" : "Sign up"}
-                </button>
-                {section === "login" && (
-                  <button
-                    variant="primary"
-                    onClick={() => {
-                      forgotPassword(email);
-                    }}
-                    className={`${styles.button} pt-2 pb-2 mt-4 d-flex justify-content-center`}
-                  >
-                    Reset Password
-                  </button>
-                )}
+              variant="primary"
+              onClick={() => {
+                logInWithGoogle();
+              }}
+              className={`${styles.button} pt-2 pb-2 mt-4 d-flex justify-content-center align-items-center`}
+            >
+              <FontAwesomeIcon icon={faGoogle} className="pe-1" />{" "}
+              {section === "login" ? "Login" : "Sign up"}
+            </button>
+            {section === "login" && (
+              <button
+                variant="primary"
+                onClick={() => {
+                  forgotPassword(email);
+                }}
+                className={`${styles.button} pt-2 pb-2 mt-4 d-flex justify-content-center`}
+              >
+                Reset Password
+              </button>
+            )}
           </Card>
         </Col>
       </Row>
