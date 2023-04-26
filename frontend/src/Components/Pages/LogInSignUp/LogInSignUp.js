@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Container, Row, Col } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
 import styles from "./LogInSignUp.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle, faFontAwesome } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle,  } from "@fortawesome/free-brands-svg-icons";
 const LoginSignup = () => {
   const [section, setSection] = useState("login");
   const { logIn, signUp, logInWithGoogle, forgotPassword } = useUserAuth();

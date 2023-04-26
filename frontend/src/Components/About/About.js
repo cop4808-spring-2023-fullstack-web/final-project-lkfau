@@ -1,12 +1,9 @@
 import React from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
-
-import { useNavigate } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 import styles from "./About.module.css";
 import restaurant from "../../Assets/About/restaurant.jpg";
 import favorite from "../../Assets/About/favorite.jpg";
 const About = () => {
-  const navigate = useNavigate();
   return (
     <Container className={`${styles.card} mb-5 p-5`}>
       <Row
@@ -24,7 +21,7 @@ const About = () => {
           </p>
         </Col>
         <Col xs={12} lg={6} className="d-flex justify-content-center">
-          <img src={restaurant} className="img-fluid" />
+          <img src={restaurant} alt="" className="img-fluid" />
         </Col>
       </Row>
       <Row className="align-items-center">
@@ -42,7 +39,7 @@ const About = () => {
           lg={6}
           className="d-flex justify-content-center order-2 order-lg-1"
         >
-          <img src={favorite} className="img-fluid" />
+          <img src={favorite} alt="" className="img-fluid" />
         </Col>
       </Row>
     </Container>

@@ -29,10 +29,8 @@ sendPasswordResetEmail(auth, email)
   .then(() => {
     alert(`A link to reset your password has been sent to ${email}`)
   })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    alert(errorMessage)
+  .catch(() => {
+    alert('Something as gone wrong')
   });
 
   }

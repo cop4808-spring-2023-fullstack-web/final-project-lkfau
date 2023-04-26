@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback} from "react";
+import { createContext, useCallback} from "react";
 
 export const locationContext = createContext();
 
