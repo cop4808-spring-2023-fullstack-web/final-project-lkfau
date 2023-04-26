@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
   signOut,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithPopup, sendPasswordResetEmail
 } from "firebase/auth";
 import { auth } from "../Firebase/Firebase";
 
@@ -21,6 +21,20 @@ export function UserAuthContextProvider({ children }) {
 
   function signUp(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
+  }
+
+  function forgotPassword(email){
+    
+sendPasswordResetEmail(auth, email)
+  .then(() => {
+    alert(`A link to reset your password has been sent to ${email}`)
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage)
+  });
+
   }
 
   function logInWithGoogle() {
@@ -53,7 +67,8 @@ export function UserAuthContextProvider({ children }) {
         logInWithGoogle,
         logOut,
         loading,
-        setLoading
+        setLoading,
+        forgotPassword
       }}
     >
       {children}

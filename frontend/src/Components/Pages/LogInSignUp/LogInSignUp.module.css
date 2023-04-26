@@ -1,7 +1,42 @@
 .login-card {
   max-width: 30rem;
-  height: 35rem;
+  min-height: 35rem;
   margin-left: auto;
   margin-right: auto;
   padding: 2rem 3rem;
+  border-radius: 20px;
+  background-color: #161E29;
+  border: 1px solid #1A2E3D;
+}
+
+.accent{
+  color: var(--accent);
+}
+
+:global(.nav-pills .nav-link.active) {
+  background-color: var(--accent); /* Set your desired background color */
+  color: black;
+}
+:global(.nav-pills .nav-link:not(.active)) {
+  color: var(--accent); /* Set your desired background color */
+}
+
+.button {
+  border-radius: 15px;
+  border-style: solid;
+  color: white;
+  background-color: var(--bg);
+  border: 1px solid var(--accent);
+
+}
+
+.button:hover {
+  color: var(--accent);
+  background-color: var(--bg);
+}
+.button:focus {
+  color: var(--accent);
+  background-color: var(--bg);
+  outline: none !important;
+  box-shadow: none;
 }
