@@ -11,9 +11,11 @@ const Tiles = (props) => {
   
   if (props.type === "restaurants") {
     if (props.data) {
+      const randomIndex = Math.floor(Math.random() * 5);
+      console.log(randomIndex)
       return (
         props.data.businesses
-        .filter((item, index) => index < 4)
+        .filter((item, index) => index >= randomIndex && index < randomIndex + 4)
         .map((restaurant, index) => (
           <Col
             key={index}
@@ -53,8 +55,8 @@ const Tiles = (props) => {
   }
   if (props.type === "categories") {
     const categories = [
-      {icon: faBowlRice, title: "American"},
-      {icon: faBurger, title: "Asian"},
+      {icon: faBurger, title: "American"},
+      {icon: faBowlRice, title: "Asian"},
       {icon: faPizzaSlice, title: "Italian"},
       {icon: faFish, title: "Seafood"}
     ]
