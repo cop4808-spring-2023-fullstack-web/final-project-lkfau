@@ -68,25 +68,24 @@ const favoriteInfoSchema = new mongoose.Schema(
 //Set favorite model
 const Favorite = mongoose.model("favorite", favoriteInfoSchema);
 
-const validateUser = (token) =>{
-  const user = admin.auth().verifyIdToken(token)
-  return user
-}
+const validateUser = (token) => {
+  const user = admin.auth().verifyIdToken(token);
+  return user;
+};
 
 //Functions
 //Add Favorite
 app.post("/api/favorite", async (req, res) => {
   // idToken comes from the client app
-  user = await validateUser(req.headers.authorization)
-  const favorite = new Favorite ({
-    user_id : user.uid,
-    business_id : req.body.business_id,
+  user = await validateUser(req.headers.authorization);
+  const favorite = new Favorite({
+    user_id: user.uid,
+    business_id: req.body.business_id,
   });
 
-  favorite.save()
-  res.send(`Added ${favorite} to favorites`)
+  favorite.save();
+  res.send(`Added ${favorite} to favorites`);
 });
-
 
 //Delete Favorite
 app.delete("/api/favorite", async (req, res) => {

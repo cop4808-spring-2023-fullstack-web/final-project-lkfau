@@ -12,6 +12,7 @@ import useUserAuth from "./Components/Auth/Hooks/useUserAuth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginSignup from "./Components/Pages/LogInSignUp/LogInSignUp";
 import { Navigate } from "react-router-dom";
+import Restaurant from "./Components/Pages/Restaurant/Restaurant";
 const HomeController = () => {
   const { user } = useUserAuth();
 
@@ -68,6 +69,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
+             <Route exact path="/restaurant/:business_id" element={
+                <ProtectedRoute>
+                 <Restaurant/>
+                </ProtectedRoute>
+              } />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
