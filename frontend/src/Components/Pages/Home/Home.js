@@ -1,9 +1,13 @@
-import Menu from '../../Menu/Menu';
+import Menu from "../../Menu/Menu";
+import Searchbar from "../../UI/Searchbar";
 
 const Home = () => {
-  return <>
- <Menu/>
-  </>
+  return (
+    <>
+      <Searchbar />
+      <Menu />
+    </>
+  );
 };
 
 export default Home;
