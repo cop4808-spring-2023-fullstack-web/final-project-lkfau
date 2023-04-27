@@ -13,7 +13,7 @@ const Home = () => {
           <Searchbar />
         </Col>
       </Row>
-      <Menu/>
+      <Menu />
     </Container>
   );
 };

@@ -8,35 +8,44 @@
   background-color: #161E29;
   border: 1px solid #1A2E3D;
 }
+.login-card h1, .forgot-password {
+  cursor: pointer;
+}
 
-.accent{
+.login-card input, .login-card input:focus {
+  background-color: var(--dark) !important;
+  border: none !important;
+}
+
+.login-card input:-webkit-autofill,
+.login-card input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+    color: white !important;
+}
+.login-card input[data-autocompleted] {
+    background-color: transparent !important;
+    color: white !important;
+}
+
+
+.forgot-password {
+  text-decoration: none !important;
+  transition: color 0.1s ease-in-out;
+}
+
+.forgot-password:hover {
+  color: var(--accent-highlight);
+  transition: color 0.1s ease-in-out;
+}
+
+.accent {
   color: var(--accent);
 }
 
 :global(.nav-pills .nav-link.active) {
   background-color: var(--accent); /* Set your desired background color */
-  color: black;
+  color: var(--bg);
 }
 :global(.nav-pills .nav-link:not(.active)) {
   color: var(--accent); /* Set your desired background color */
-}
-
-.button {
-  border-radius: 15px;
-  border-style: solid;
-  color: white;
-  background-color: var(--bg);
-  border: 1px solid var(--accent);
-
-}
-
-.button:hover {
-  color: var(--accent);
-  background-color: var(--bg);
-}
-.button:focus {
-  color: var(--accent);
-  background-color: var(--bg);
-  outline: none !important;
-  box-shadow: none;
 }

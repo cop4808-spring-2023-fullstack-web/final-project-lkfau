@@ -1,0 +1,78 @@
+.button {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #fff;
+  background-color: var(--dark);
+  border: 1px solid var(--accent);
+  border-radius: 0.8rem;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent);
+  transition: transform 0.5s;
+  z-index: -1;
+}
+
+.button:hover::before {
+  transform: translateX(100%);
+}
+
+.button:hover {
+  color: var(--bg);
+  transition: color 0.5s ease-out;
+}
+
+.button:active, .button:active::before {
+  background-color: var(--accent-highlight);
+  border: 1px solid var(--accent-highlight);
+}
+
+@media (prefers-reduced-motion) {
+  .button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: var(--accent);
+    transition: transform 0.5s;
+    z-index: -1;
+  }
+  
+  .button:hover::before {
+    transform: translateX(100%);
+  }
+  
+  .button:hover {
+    color: var(--bg);
+    transition: color 0.5s ease-out;
+  }
+  
+  .button:active, .button:active::before {
+    background-color: var(--accent-highlight);
+    border: 1px solid var(--accent-highlight);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button::before {
+    display: none;
+  }
+
+  .button:hover {
+    color: var(--accent);
+    transition: none;
+  }
+}

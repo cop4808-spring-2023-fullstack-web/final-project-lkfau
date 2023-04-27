@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Form, Container, Row, Col } from "react-bootstrap";
+import { Form, Container, Row, Col, Nav, Card, Button } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
-import Card from "react-bootstrap/Card";
 import styles from "./LogInSignUp.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import TasteeButton from "../../UI/TasteeButton/TasteeButton";
 const LoginSignup = () => {
   const [section, setSection] = useState("login");
   const { logIn, signUp, logInWithGoogle, forgotPassword } = useUserAuth();
@@ -45,7 +44,7 @@ const LoginSignup = () => {
       <Row>
         <Col>
           <Card className={styles["login-card"]}>
-            <h1 className={`mb-4 text-center ${styles.accent}`}>Tastee</h1>
+            <h1 onClick={() => navigate("/")} className={`mb-4 text-center ${styles.accent}`}>Tastee</h1>
             <Nav
               className={`${styles.nav} w-100 d-flex mb-3`}
               fill
@@ -70,6 +69,7 @@ const LoginSignup = () => {
                 <Form.Control
                   type="email"
                   placeholder="Email"
+                  style={{color: "white"}}
                   value={email}
                   onChange={handleEmailChange}
                 />
@@ -80,41 +80,31 @@ const LoginSignup = () => {
                 <Form.Control
                   type="password"
                   placeholder="Password"
+                  style={{color: "white"}}
                   value={password}
                   onChange={(e) => handlePasswordChange(e)}
                 />
               </Form.Group>
 
               <div className="d-flex justify-content-center flex-column">
-                <button
-                  variant="primary"
+                <TasteeButton
                   type="submit"
                   className={`${styles.button} pt-2 pb-2 mt-3 d-flex justify-content-center`}
                 >
                   {section === "login" ? "Login" : "Sign up"}
-                </button>
+                </TasteeButton>
               </div>
             </Form>
-            <button
-              variant="primary"
+            <TasteeButton
               onClick={() => {
                 logInWithGoogle();
               }}
               className={`${styles.button} pt-2 pb-2 mt-4 d-flex justify-content-center align-items-center`}
             >
-              <FontAwesomeIcon icon={faGoogle} className="pe-1" />{" "}
-              {section === "login" ? "Login" : "Sign up"}
-            </button>
+               {section === "login" ? "Log in with " : "Sign up with "} <FontAwesomeIcon icon={faGoogle} className="ps-2" />{" "}
+            </TasteeButton>
             {section === "login" && (
-              <button
-                variant="primary"
-                onClick={() => {
-                  forgotPassword(email);
-                }}
-                className={`${styles.button} pt-2 pb-2 mt-4 d-flex justify-content-center`}
-              >
-                Reset Password
-              </button>
+              <Button className={`${styles['forgot-password']} ${styles.accent} mt-4`} variant="link" onClick={() => {forgotPassword(email)}}>Forgot password?</Button>
             )}
           </Card>
         </Col>

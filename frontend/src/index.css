@@ -6,7 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --primary: #161E29;
-  --accent: #11C258;
+  --accent: #1bce62;
+  --accent-highlight: #3cdb7b;
   --placeholder: rgba(17,194,88, 0.4);
   --dark: #121821;
   --bg: #0F1118;
@@ -24,17 +25,10 @@ code {
 }
 
 
-.react-custom-scrollbars .thumb-vertical {
-  background-color: #555;
-  border-radius: 10px;
-}
 
-/* Customize the scrollbar track */
-.react-custom-scrollbars .track-vertical {
-  background-color: #f1f1f1;
-}
 
-/* Hide the scrollbar corner */
-.react-custom-scrollbars .corner {
-  background-color: #f1f1f1;
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: color 0.1s ease-in-out;
+  }
 }

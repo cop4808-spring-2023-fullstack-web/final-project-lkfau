@@ -1,3 +1,5 @@
+import { useLocation } from 'react-router-dom'
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -5,9 +7,11 @@ import { NavLink, Link } from "react-router-dom";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import styles from "./Navbar.module.css"
 const NavBar = () => {
+  const location = useLocation();
   const { user, logOut } = useUserAuth();
+  const show = location.pathname !== "/login" && location.pathname !== "/signup";
   return (
-    <Navbar className={styles.tasteeNav} sticky="top" variant="dark" expand="md">
+    <Navbar className={`${styles.tasteeNav} ${show ? "" : "d-none"}`} sticky="top" variant="dark" expand="md">
       <Container className={styles.navContainer}>
         <Navbar.Brand as={Link} to="/">
           Tastee
@@ -44,7 +48,7 @@ const NavBar = () => {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
                 <NavLink to="/login" className="nav-link">
-                  Login
+                  {window.location.pathname === '/signup'}
                 </NavLink>
               </Nav>
             </Navbar.Collapse>
