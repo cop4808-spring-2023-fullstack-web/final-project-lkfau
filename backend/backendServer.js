@@ -161,7 +161,7 @@ app.get("/api/search", async (req, res) => {
 
     //Add more params here later on to deal with filters being added
     term = req.query.term || "";
-    offset = req.query.page * 10 || 0;
+    offset = Math.floor(req.query.page * 10) || 0;
     const response = await axios.get(
       `https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&location=${location}&term=${term}&limit=10&offset=${offset}`,
       {

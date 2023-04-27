@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
 import styles from "./LogInSignUp.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle,  } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 const LoginSignup = () => {
   const [section, setSection] = useState("login");
   const { logIn, signUp, logInWithGoogle, forgotPassword } = useUserAuth();

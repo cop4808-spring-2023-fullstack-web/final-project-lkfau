@@ -1,11 +1,5 @@
-.container {
-  font-size: 1.5em;
-  display: flex;
-  justify-content: center;
-}
-
-.container > * {
-  max-width: 50rem;
+.conatiner {
+  
 }
 
 .searchbar {
@@ -25,8 +19,10 @@
 
 .searchbar > *:not(:first-child) {
   border-left: none !important;
+  border-radius: 0 0.75rem 0.75rem 0!important;
 }
 
 .searchbar > *:not(:last-child) {
   border-right: none !important;
+  border-radius: 0.75rem 0 0 0.75rem !important;
 }

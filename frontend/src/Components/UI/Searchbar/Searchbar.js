@@ -6,10 +6,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 const Searchbar = (props) => {
   
   return (
-    <div className={`${styles.container} ${props.className}`}>
-      <div className="w-100">
-       <h1 className="mb-4">Welcome back.</h1>
-       <InputGroup className={styles.searchbar}>
+      <div className="w-100 h-100">
+       <InputGroup className={`${styles.searchbar} h-100`}>
         <Form.Control
           className="text-light"
           placeholder="Find a restaurant..."
@@ -20,7 +18,6 @@ const Searchbar = (props) => {
         </InputGroup.Text >
       </InputGroup>
       </div>
-    </div>
   )
 }
 
