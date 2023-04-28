@@ -3,4 +3,8 @@
     border-radius: 20px;
     border: 1px solid #1A2E3D;
   }
+
+  .accent{
+    color: var(--accent)
+  }
   
