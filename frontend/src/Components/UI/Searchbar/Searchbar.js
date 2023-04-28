@@ -10,7 +10,7 @@ const Searchbar = (props) => {
        <InputGroup className={`${styles.searchbar} h-100`}>
         <Form.Control
           className="text-light"
-          placeholder="Find a restaurant..."
+          placeholder={props.placeholder}
           aria-label="Search"
         />
          <InputGroup.Text className="text-light">

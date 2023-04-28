@@ -10,7 +10,7 @@ const Home = () => {
           <h1 className="mb-0">Welcome back.</h1>
         </Col>
         <Col sm={12} md={6} lg={8}>
-          <Searchbar />
+          <Searchbar placeholder= "Find a restaurant..." />
         </Col>
       </Row>
       <Menu />
