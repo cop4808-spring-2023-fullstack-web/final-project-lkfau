@@ -57,6 +57,23 @@ export const addToFavorites = async(business_id, accessToken) => {
   }
 };
 
+export const listFavorites = async(user_id, business_id, accessToken) => {
+  try {
+    let response = await fetch(`${url}/api/favorites`, {
+      method: "GET",
+      body: {
+        user_id,
+        business_id
+      },
+      ...getConfig(accessToken)
+    });
+    return await responseHandler(response);
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error listing favorites');
+  }
+};
+
 export const viewBusiness = async (business_id) => {
   try {
     const response = await fetch(`${url}/api/view/${business_id}`);
@@ -78,3 +95,4 @@ export const viewBusiness = async (business_id) => {
     }
   }
 }
+
