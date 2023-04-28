@@ -206,8 +206,8 @@ app.get("/api/view/:business_id", async (req, res) => {
 });
 
 //Get reviews for a business by business id
-app.get("/api/review", async (req, res) => {
-  var business_id = req.body.business_id;
+app.get("/api/review/:business_id", async (req, res) => {
+  var business_id = req.params.business_id;
   try {
     const response = await axios.get(
       `https://api.yelp.com/v3/businesses/${business_id}/reviews`,
@@ -228,6 +228,7 @@ app.get("/api/review", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+
 
 //Autocomplete
 app.get("/api/autocomplete", async (req, res) => {
