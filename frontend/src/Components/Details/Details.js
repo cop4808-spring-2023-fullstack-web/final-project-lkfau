@@ -1,27 +1,21 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from "./Details.module.css";
-import restaurant from "../../Assets/About/restaurant.jpg";
 import favorite from "../../Assets/About/favorite.jpg";
-const Details = () => {
+const Details = ({restaurant}) => {
+  console.log(restaurant)
   return (
     <Container className={`${styles.card} mb-5 mt-5 p-5`}>
       <Row
         className="align-items-center gy-5 mb-5 pb-5"
         style={{ borderBottom: `1px solid var(--accent) ` }}
       >
-        <Col xs={12} lg={6}>
-          <h2>Millions of restaurants at your fingertips.</h2>
-          <p>
-            Find your favorite restaurants and discover new ones with our
-            easy-to-use search tools. Whether you're looking for a quick bite or
-            a fine dining experience, we've got you covered. Our app is powered
-            by Yelp's public API, so you can be sure you're getting the most
-            up-to-date information on restaurants in your area.
-          </p>
+        <Col className="d-flex flex-column" xs={12} lg={6}>
+          <h2>{restaurant.name}</h2>
+          <p>{restaurant.rating}</p>
         </Col>
         <Col xs={12} lg={6} className="d-flex justify-content-center">
-          <img src={restaurant} alt="" className="img-fluid" />
+          
         </Col>
       </Row>
       <Row className="align-items-center">

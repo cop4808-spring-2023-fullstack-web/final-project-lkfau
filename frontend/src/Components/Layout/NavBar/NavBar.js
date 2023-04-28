@@ -9,7 +9,7 @@ import styles from "./Navbar.module.css"
 const NavBar = () => {
   const location = useLocation();
   const { user, logOut } = useUserAuth();
-  const show = location.pathname !== "/login" && location.pathname !== "/signup";
+  const show = location.pathname !== "/access"
   return (
     <Navbar className={`${styles.tasteeNav} ${show ? "" : "d-none"}`} sticky="top" variant="dark" expand="md">
       <Container className={styles.navContainer}>
@@ -28,13 +28,13 @@ const NavBar = () => {
                   Favorites
                 </NavLink>
               </Nav>
-              <Nav className="ms-auto">
+              <Nav className="ms-auto text-white">
                 <span
                   onClick={() => {
                     logOut();
                   }}
                   role="button"
-                  className="nav-link"
+                  className="nav-link text-white"
                 >
                   Sign out
                 </span>
@@ -47,8 +47,8 @@ const NavBar = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
-                <NavLink to="/login" className="nav-link">
-                  {window.location.pathname === '/signup'}
+                <NavLink to="/access" className="nav-link">
+                 Log in
                 </NavLink>
               </Nav>
             </Navbar.Collapse>

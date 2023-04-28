@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, Container, Row, Col, Nav, Card, Button } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
@@ -34,10 +34,6 @@ const LoginSignup = () => {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    navigate(`/${section}`);
-  }, [section, navigate]);
 
   return (
     <Container className="mt-5 mb-5" style={{ width: "100%" }}>
@@ -91,7 +87,7 @@ const LoginSignup = () => {
                   type="submit"
                   className={`${styles.button} pt-2 pb-2 mt-3 d-flex justify-content-center`}
                 >
-                  {section === "login" ? "Login" : "Sign up"}
+                  {section === "login" ? "Log in" : "Sign up"}
                 </TasteeButton>
               </div>
             </Form>

@@ -49,8 +49,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Loader/>}>
             <Route index element={<HomeController />} />
-            <Route path="/signup" element={<LoginController />} />
-            <Route path="/login" element={<LoginController />} />
+            <Route path="/access" element={<LoginController />} />
             <Route
               exact
               path="/search"

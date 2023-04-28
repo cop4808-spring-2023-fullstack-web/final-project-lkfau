@@ -56,3 +56,25 @@ export const addToFavorites = async(business_id, accessToken) => {
     throw new Error('Error adding business to favorites');
   }
 };
+
+export const viewBusiness = async (business_id) => {
+  try {
+    const response = await fetch(`${url}/api/view/${business_id}`);
+    if (response.status >= 200 && response.status <= 299) {
+      return {
+        status: response.status,
+        data: await response.json()
+      }
+    } else {
+      return {
+        status: response.status,
+        error: response.statusText
+      }
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      error: err
+    }
+  }
+}

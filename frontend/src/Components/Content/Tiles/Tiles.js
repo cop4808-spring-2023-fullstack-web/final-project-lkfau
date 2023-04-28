@@ -6,9 +6,10 @@ import { faPizzaSlice } from "@fortawesome/free-solid-svg-icons";
 import { faBowlRice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from './Tiles.module.css'
+import { useNavigate } from 'react-router-dom';
 
 const Tiles = (props) => {
-  
+  const navigate = useNavigate()
   if (props.type === "restaurants") {
     if (props.data) {
       const randomIndex = Math.floor(Math.random() * 5);
@@ -18,6 +19,7 @@ const Tiles = (props) => {
         .filter((item, index) => index >= randomIndex && index < randomIndex + 4)
         .map((restaurant, index) => (
           <Col
+          onClick={()=>{navigate(`/restaurant/${restaurant.id}`)}}
             key={index}
             lg={3}
             sm={6}

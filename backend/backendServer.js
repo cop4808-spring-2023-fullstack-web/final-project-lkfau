@@ -181,9 +181,9 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
-//Get info on business by business id
-app.get("/api/view", async (req, res) => {
-  var business_id = req.body.business_id;
+// Get info on business by business id
+app.get("/api/view/:business_id", async (req, res) => {
+  var business_id = req.params.business_id;
   try {
     const response = await axios.get(
       `https://api.yelp.com/v3/businesses/${business_id}`,

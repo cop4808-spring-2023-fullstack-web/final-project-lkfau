@@ -11,7 +11,7 @@ const Banner = () => {
         <Row className="gy-4">
           <Col className="text-center text-lg-start" xs={12} lg={6}>
             <h1 className={styles.header}>Food for you</h1>
-            <button onClick={()=>{navigate("/login")}} className={`${styles.start} ps-5 pe-5 pt-3 pb-3 mt-3`}>Get Started</button>
+            <button onClick={()=>{navigate("/access")}} className={`${styles.start} ps-5 pe-5 pt-3 pb-3 mt-3`}>Get Started</button>
           </Col>
           <Col className="text-center text-lg-end" xs={12} lg={6}>
             <h2>
