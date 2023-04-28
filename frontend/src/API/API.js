@@ -57,12 +57,11 @@ export const addToFavorites = async(business_id, accessToken) => {
   }
 };
 
-export const listFavorites = async(user_id, business_id, accessToken) => {
+export const listFavorites = async(business_id, accessToken) => {
   try {
     let response = await fetch(`${url}/api/favorites`, {
       method: "GET",
       body: {
-        user_id,
         business_id
       },
       ...getConfig(accessToken)

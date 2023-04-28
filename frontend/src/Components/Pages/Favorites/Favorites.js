@@ -12,9 +12,9 @@ const Favorites = () => {
   
 
   useEffect(() => {
-    const getData = async(user_id, business_id, accessToken) => {
-      getFavorites(async(user_id, business_id, accessToken) => {
-        const res = await listFavorites(user_id, business_id, accessToken);
+    const getData = async(business_id, accessToken) => {
+      getFavorites(async(business_id, accessToken) => {
+        const res = await listFavorites(business_id, accessToken);
         if (res.error) {
           console.log(res.error);
         } else {
