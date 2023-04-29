@@ -3,11 +3,12 @@ import { Form, Container, Row, Col, Nav, Card, Button } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
 import styles from "./LogInSignUp.module.css";
+import { NavLink, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+
 import TasteeButton from "../../UI/TasteeButton/TasteeButton";
-const LoginSignup = () => {
-  const [section, setSection] = useState("login");
+const LoginSignup = ({section}) => {
   const { logIn, signUp, logInWithGoogle, forgotPassword } = useUserAuth();
   const navigate = useNavigate();
 
@@ -45,14 +46,13 @@ const LoginSignup = () => {
               className={`${styles.nav} w-100 d-flex mb-3`}
               fill
               variant="pills"
-              defaultActiveKey="login"
-              onSelect={(e) => setSection(e)}
+
             >
               <Nav.Item>
-                <Nav.Link eventKey="login">Log in</Nav.Link>
+                <NavLink className="nav-link" to="/login">Log in</NavLink>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="signup">Sign up</Nav.Link>
+                <NavLink className="nav-link" to="/signup">Sign up</NavLink>
               </Nav.Item>
             </Nav>
 

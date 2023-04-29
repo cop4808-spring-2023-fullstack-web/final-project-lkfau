@@ -32,16 +32,17 @@ const Loader = () => {
     return <Layout/>
 }
 
-const LoginController = () => {
+const LoginController = ({section}) => {
   const { user } = useUserAuth();
-
+  console.log(section)
   if (!user) {
-    return <LoginSignup />;
+    return <LoginSignup section={section} />;
   }
   return <Navigate to="/" />;;
 };
 
 function App() {
+  
   return (
     <UserAuthContextProvider>
       <LocationContextProvider>
@@ -49,7 +50,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Loader/>}>
             <Route index element={<HomeController />} />
-            <Route path="/access" element={<LoginController />} />
+            <Route path="/login" element={<LoginController section={"login"} />} />
+            <Route path="/signup" element={<LoginController section={"signup"} />} />
             <Route
               exact
               path="/search"

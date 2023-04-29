@@ -3,7 +3,8 @@ import { Col, Container, Row } from "react-bootstrap";
 import styles from "./Details.module.css";
 import Rating from "./Rating/Rating";
 import ImageCarousel from "./ImageCarousel/ImagesCarousel";
-const Details = ({ restaurant }) => {
+import Reviews from "./Reviews/Reviews";
+const Details = ({ restaurant, reviews }) => {
   console.log(restaurant);
   return (
     <Container className={`${styles.card} mb-5 mt-5 p-5`}>
@@ -24,6 +25,9 @@ const Details = ({ restaurant }) => {
         <Col>
         <h2>Reviews - {restaurant.review_count}</h2>
         </Col>
+        {reviews &&
+        <Reviews reviews={reviews.reviews}></Reviews>
+}
       </Row>
     </Container>
   );

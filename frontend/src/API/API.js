@@ -95,3 +95,26 @@ export const viewBusiness = async (business_id) => {
   }
 }
 
+export const viewReview = async (business_id) => {
+  try {
+    const response = await fetch(`${url}/api/review/${business_id}`);
+    if (response.status >= 200 && response.status <= 299) {
+      return {
+        status: response.status,
+        data: await response.json()
+      }
+    } else {
+      return {
+        status: response.status,
+        error: response.statusText
+      }
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      error: err
+    }
+  }
+}
+
+
