@@ -75,29 +75,31 @@ const validateUser = (token) => {
 
 //Functions
 //Add Favorite
-app.post("/api/favorite", async (req, res) => {
+app.post("/api/favorite/:business_id", async (req, res) => {
   // idToken comes from the client app
+  var business_id = req.params.business_id;
   user = await validateUser(req.headers.authorization);
   const favorite = new Favorite({
     user_id: user.uid,
-    business_id: req.body.business_id,
+    business_id: business_id
   });
 
   favorite.save();
-  res.send(`Added ${favorite} to favorites`);
+  res.send({ message: `Added ${favorite} to favorites` });
 });
 
 //Delete Favorite
-app.delete("/api/favorite", async (req, res) => {
-  var user_id = req.body.user_id;
-  var business_id = req.body.business_id;
+app.delete("/api/favorite/:business_id", async (req, res) => {
+  user = await validateUser(req.headers.authorization);
+  var business_id = req.params.business_id;
+  console.log(business_id)
   try {
     const favorite = await Favorite.findOneAndDelete({
-      user_id: user_id,
+      user_id: user.uid,
       business_id: business_id,
     });
     if (favorite) {
-      res.send("Deleted Favorite");
+      res.send({ message: `Deleted ${favorite} from favorites` });
     } else {
       res.status(404).json({ message: "Favorite not found" });
     }
@@ -108,16 +110,16 @@ app.delete("/api/favorite", async (req, res) => {
 });
 
 //View Favorite
-app.get("/api/favorite", async (req, res) => {
-  var user_id = req.body.user_id;
-  var business_id = req.body.business_id;
+app.get("/api/favorite/:business_id", async (req, res) => {
+  user = await validateUser(req.headers.authorization);
+  var business_id = req.params.business_id;
   try {
     const favorite = await Favorite.findOne({
-      user_id: user_id,
+      user_id: user.uid,
       business_id: business_id,
     });
     if (favorite) {
-      res.send(`Viewing ${favorite} from favorites`);
+      res.send({ message: `Viewing ${favorite} from favorites` });
     } else {
       res.status(404).json({ message: "Favorite not found" });
     }

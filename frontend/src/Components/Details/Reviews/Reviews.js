@@ -7,9 +7,9 @@ const Reviews = ({ reviews }) => {
     <>
     {reviews.map((review, index) => (
       <div key={index}>
-        <h1>
+        <h3>
         {review.user.name}
-        </h1>
+        </h3>
         <Rating rating={review.rating}/>
         <p>{review.text}</p>
         </div>

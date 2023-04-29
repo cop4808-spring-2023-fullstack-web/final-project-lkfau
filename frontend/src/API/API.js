@@ -43,11 +43,34 @@ export const searchRestaurants = async(searchTerm, locationData = 'Boca Raton', 
 
 export const addToFavorites = async(business_id, accessToken) => {
   try {
-    let response = await fetch(`${url}/api/favorite`, {
+    let response = await fetch(`${url}/api/favorite/${business_id}`, {
       method: "POST",
-      body: {
-        business_id
-      },
+      ...getConfig(accessToken)
+    });
+    return await responseHandler(response);
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error adding business to favorites');
+  }
+};
+
+export const removeFromFavorites = async(business_id, accessToken) => {
+  try {
+    let response = await fetch(`${url}/api/favorite/${business_id}`, {
+      method: "DELETE",
+      ...getConfig(accessToken)
+    });
+    return await responseHandler(response);
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error removing business from favorites');
+  }
+};
+
+export const checkFavorite = async(business_id, accessToken) => {
+  try {
+    let response = await fetch(`${url}/api/favorite/${business_id}`, {
+      method: "GET",
       ...getConfig(accessToken)
     });
     return await responseHandler(response);
