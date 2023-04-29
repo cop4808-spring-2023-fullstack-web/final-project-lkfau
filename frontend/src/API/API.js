@@ -1,95 +1,114 @@
-const url = process.env.NODE_ENV === 'production' ? 'https://lkhw10.herokuapp.com' : `http://localhost:5678`
+const url =
+  process.env.NODE_ENV === "production"
+    ? "https://lkhw10.herokuapp.com"
+    : `http://localhost:5678`;
 
-const getConfig = auth => {
+const getConfig = (auth) => {
   return {
     headers: {
       Authorization: auth,
-      "Content-Type": "application/json"  
-    }
-  }
-}
+      "Content-Type": "application/json",
+    },
+  };
+};
 
-const responseHandler = async(response) => {
+const responseHandler = async (response) => {
   if (response.status >= 200 && response.status <= 299) {
     return {
       status: response.status,
-      data: await response.json()
-    }
+      data: await response.json(),
+    };
   } else {
     return {
       status: response.status,
-      error: response.statusText
-    }
+      error: response.statusText,
+    };
   }
-}
+};
 
-export const searchRestaurants = async(searchTerm, locationData = 'Boca Raton', page = 0) => {
-  locationData = locationData ? locationData : 'Boca Raton';
+export const searchRestaurants = async (
+  searchTerm,
+  locationData = "Boca Raton",
+  page = 0
+) => {
+  locationData = locationData ? locationData : "Boca Raton";
   try {
     let response;
-    if (typeof locationData == 'object') {
-      response = await fetch(`${url}/api/search?term=${searchTerm}&lat=${locationData.latitude}&long=${locationData.longitude}&page=${page}`);
+    if (typeof locationData == "object") {
+      response = await fetch(
+        `${url}/api/search?term=${searchTerm}&lat=${locationData.latitude}&long=${locationData.longitude}&page=${page}`
+      );
     } else {
-      response = await fetch(`${url}/api/search?term=${searchTerm}&loc=${locationData}`);
+      response = await fetch(
+        `${url}/api/search?term=${searchTerm}&loc=${locationData}`
+      );
     }
     return await responseHandler(response);
   } catch (err) {
     return {
       status: 500,
-      error: err
-    }
+      error: err,
+    };
   }
-}
+};
 
-export const addToFavorites = async(business_id, accessToken) => {
+export const addToFavorites = async (
+  business_id,
+  restaurant_name,
+  accessToken
+) => {
   try {
-    let response = await fetch(`${url}/api/favorite/${business_id}`, {
+    let response = await fetch(`${url}/api/favorite`, {
       method: "POST",
-      ...getConfig(accessToken)
+      ...getConfig(accessToken),
+      body: JSON.stringify({ business_id, restaurant_name }),
     });
     return await responseHandler(response);
   } catch (error) {
     console.error(error);
-    throw new Error('Error adding business to favorites');
+    throw new Error("Error adding business to favorites");
   }
 };
 
-export const removeFromFavorites = async(business_id, accessToken) => {
+export const removeFromFavorites = async (business_id, accessToken) => {
   try {
     let response = await fetch(`${url}/api/favorite/${business_id}`, {
       method: "DELETE",
-      ...getConfig(accessToken)
+      ...getConfig(accessToken),
     });
     return await responseHandler(response);
   } catch (error) {
     console.error(error);
-    throw new Error('Error removing business from favorites');
+    throw new Error("Error removing business from favorites");
   }
 };
 
-export const checkFavorite = async(business_id, accessToken) => {
+export const checkFavorite = async (business_id, accessToken) => {
   try {
     let response = await fetch(`${url}/api/favorite/${business_id}`, {
       method: "GET",
-      ...getConfig(accessToken)
+      ...getConfig(accessToken),
     });
     return await responseHandler(response);
   } catch (error) {
     console.error(error);
-    throw new Error('Error adding business to favorites');
+    throw new Error("Error adding business to favorites");
   }
 };
 
-export const listFavorites = async(accessToken) => {
+export const listFavorites = async (accessToken, restaurant_name = "") => {
   try {
-    let response = await fetch(`${url}/api/favorites`, {
-      method: "GET",
-      ...getConfig(accessToken)
-    });
+    let response = await fetch(
+      `${url}/api/favorites?restaurant_name=${restaurant_name}`,
+      {
+        method: "GET",
+        ...getConfig(accessToken),
+      }
+    );
     return await responseHandler(response);
   } catch (error) {
     console.error(error);
-    throw new Error('Error listing favorites');
+    throw new Error("Error listing favorites");
   }
 };
 
@@ -99,21 +118,21 @@ export const viewBusiness = async (business_id) => {
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,
-        data: await response.json()
-      }
+        data: await response.json(),
+      };
     } else {
       return {
         status: response.status,
-        error: response.statusText
-      }
+        error: response.statusText,
+      };
     }
   } catch (err) {
     return {
       status: 500,
-      error: err
-    }
+      error: err,
+    };
   }
-}
+};
 
 export const viewReview = async (business_id) => {
   try {
@@ -121,20 +140,18 @@ export const viewReview = async (business_id) => {
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,
-        data: await response.json()
-      }
+        data: await response.json(),
+      };
     } else {
       return {
         status: response.status,
-        error: response.statusText
-      }
+        error: response.statusText,
+      };
     }
   } catch (err) {
     return {
       status: 500,
-      error: err
-    }
+      error: err,
+    };
   }
-}
-
-
+};

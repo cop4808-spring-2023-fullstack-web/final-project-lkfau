@@ -61,6 +61,7 @@ const favoriteInfoSchema = new mongoose.Schema(
   {
     user_id: String,
     business_id: String,
+    restaurant_name: String,
   },
   { versionKey: false }
 );
@@ -75,13 +76,16 @@ const validateUser = (token) => {
 
 //Functions
 //Add Favorite
-app.post("/api/favorite/:business_id", async (req, res) => {
+app.post("/api/favorite", async (req, res) => {
   // idToken comes from the client app
-  var business_id = req.params.business_id;
+  console.log(req.headers.authorization);
   user = await validateUser(req.headers.authorization);
+  const { business_id, restaurant_name } = req.body;
+  console.log(restaurant_name);
   const favorite = new Favorite({
     user_id: user.uid,
-    business_id: business_id
+    business_id: business_id,
+    restaurant_name: restaurant_name,
   });
 
   favorite.save();
@@ -92,7 +96,7 @@ app.post("/api/favorite/:business_id", async (req, res) => {
 app.delete("/api/favorite/:business_id", async (req, res) => {
   user = await validateUser(req.headers.authorization);
   var business_id = req.params.business_id;
-  console.log(business_id)
+  console.log(business_id);
   try {
     const favorite = await Favorite.findOneAndDelete({
       user_id: user.uid,
@@ -129,12 +133,40 @@ app.get("/api/favorite/:business_id", async (req, res) => {
   }
 });
 
-//List all favorites
 app.get("/api/favorites", async (req, res) => {
-  user = await validateUser(req.headers.authorization);
+  const user = await validateUser(req.headers.authorization);
+  const queryRestaurantName = req.query.restaurant_name;
+  const filter = {};
+  filter.user_id = user.uid
+  if (queryRestaurantName) {
+    filter.restaurant_name = {
+      $regex: `^${queryRestaurantName}`,
+      $options: "i",
+    };
+  }
   try {
-    const favorite = await Favorite.find({ user_id: user.uid });
-    res.send(favorite)
+    const favorites = await Favorite.find(filter);
+    const businessIds = favorites.map((favorite) => favorite.business_id);
+    const businesses = await Promise.all(
+      businessIds.map(async (business_id) => {
+        try {
+          const response = await axios.get(
+            `https://api.yelp.com/v3/businesses/${business_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          return response.data;
+        } catch (err) {
+          console.log(err);
+          return null;
+        }
+      })
+    );
+    res.send(businesses.filter((business) => business !== null));
   } catch (err) {
     console.log(err);
     res.status(500).send("Error viewing favorites");
@@ -226,7 +258,6 @@ app.get("/api/review/:business_id", async (req, res) => {
     res.status(500).send("Error");
   }
 });
-
 
 //Autocomplete
 app.get("/api/autocomplete", async (req, res) => {

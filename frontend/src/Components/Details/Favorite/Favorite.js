@@ -1,7 +1,7 @@
 import { addToFavorites, removeFromFavorites, checkFavorite } from '../../../API/API'
 import { useState, useEffect } from 'react';
 import useUserAuth from '../../Auth/Hooks/useUserAuth';
-const Favorite= ({business_id}) => {
+const Favorite= ({business_id, restaurant_name}) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const {user} = useUserAuth()
   useEffect(() => {
@@ -28,7 +28,9 @@ const Favorite= ({business_id}) => {
       }
     } else {
       try {
-        await addToFavorites(business_id, user.accessToken);
+        console.log(user.accessToken)
+        console.log(restaurant_name)
+        await addToFavorites(business_id, restaurant_name, user.accessToken);
         setIsFavorite(true);
       } catch (error) {
         console.error(error);
