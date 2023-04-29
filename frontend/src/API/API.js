@@ -80,13 +80,10 @@ export const checkFavorite = async(business_id, accessToken) => {
   }
 };
 
-export const listFavorites = async(business_id, accessToken) => {
+export const listFavorites = async(accessToken) => {
   try {
     let response = await fetch(`${url}/api/favorites`, {
       method: "GET",
-      body: {
-        business_id
-      },
       ...getConfig(accessToken)
     });
     return await responseHandler(response);

@@ -131,14 +131,10 @@ app.get("/api/favorite/:business_id", async (req, res) => {
 
 //List all favorites
 app.get("/api/favorites", async (req, res) => {
-  var user_id = req.body.user_id;
+  user = await validateUser(req.headers.authorization);
   try {
-    const favorite = await Favorite.find({ user_id: user_id });
-    if (favorite) {
-      res.send(`Viewing ${favorite} from favorites`);
-    } else {
-      res.status(404).json({ message: "Favorites not found" });
-    }
+    const favorite = await Favorite.find({ user_id: user.uid });
+    res.send(favorite)
   } catch (err) {
     console.log(err);
     res.status(500).send("Error viewing favorites");

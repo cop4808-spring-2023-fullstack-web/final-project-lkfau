@@ -3,49 +3,46 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import styles from './Favorites.module.css'
 import Card from 'react-bootstrap/Card'
-import { listFavorites } from '../../../API/API';
+import { listFavorites, viewBusiness } from '../../../API/API';
+import useUserAuth from '../../Auth/Hooks/useUserAuth';
 
 const Favorites = () => {
-  const [data, setData] = useState();
-
-  const {getFavorites} = listFavorites();
+  const {user} = useUserAuth()
+  const [favorites, setFavorites] = useState([])
   
-
   useEffect(() => {
-    const getData = async(business_id, accessToken) => {
-      getFavorites(async(business_id, accessToken) => {
-        const res = await listFavorites(business_id, accessToken);
-        if (res.error) {
-          console.log(res.error);
-        } else {
-          console.log(res.data);
-          setData(res.data);
-        }
-      });
+    async function fetchData() {
+      try {
+        const response = await listFavorites(user.accessToken);
+        const favoritesData = response.data;
+        const promises = favoritesData.map(async (favorite) => {
+          const businessData = await viewBusiness(favorite.business_id);
+          return businessData.data;
+        });
+        const results = await Promise.all(promises);
+        setFavorites(results);
+      } catch (error) {
+        console.log(`Error fetching favorites: ${error}`);
+      }
     }
-    getData('');
-  }, [getFavorites])
+    fetchData();
+  }, []);
+
 
   return (
-    <Container className="pt-5">
-      <Row className="gy-3">
-        <Col sm={12} md={6} lg={4}>
-          <h1 className="mb-0">Favorites.</h1>
-        </Col>
-        <Col sm={12} md={6} lg={8}>
-          <Searchbar placeholder="Search Favorites..." />
-        </Col>
+    <Container>
+      <Row>
+        <Searchbar></Searchbar>
+        {favorites.map((favorite) => (
+          <Col key={favorite.business_Id}>
+            <Card>
+              <Card.Body className='text-black'>
+                <Card.Title>{favorite.name}</Card.Title>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
-
-      {data ? (
-        data.businesses.map((restaurant, index) => (
-        <div key={index} className="m-5 p=5">
-          <Card className={styles.restaurant}>
-            <h3>{restaurant.name}</h3>
-          </Card>
-        </div>
-        ))
-      ) : <p>No data found.</p>}
     </Container>
   );
 };

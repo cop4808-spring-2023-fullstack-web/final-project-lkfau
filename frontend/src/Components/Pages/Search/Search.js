@@ -4,9 +4,10 @@ import { searchRestaurants } from '../../../API/API';
 import useLocationInfo from '../../Auth/Hooks/useLocationInfo';
 import Card from 'react-bootstrap/Card'
 import styles from './Search.module.css'
+import { useNavigate } from 'react-router-dom';
 const Search = () => {
   const [data, setData] = useState();
-
+  const navigate = useNavigate()
   const {getLocation} = useLocationInfo();
   
 
@@ -30,7 +31,7 @@ const Search = () => {
       {data ? (
         data.businesses.map((restaurant, index) => (
         <div key={index} className="m-5 p=5">
-          <Card className={styles.restaurant}>
+          <Card onClick={()=>navigate(`/restaurant/${restaurant.id}`)} className={styles.restaurant}>
             <h3>{restaurant.name}</h3>
           </Card>
         </div>
