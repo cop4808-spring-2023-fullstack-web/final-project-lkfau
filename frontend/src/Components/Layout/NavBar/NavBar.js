@@ -9,7 +9,7 @@ import styles from "./Navbar.module.css"
 const NavBar = () => {
   const location = useLocation();
   const { user, logOut } = useUserAuth();
-  const show = location.pathname !== "/login"
+  const show = !["/login", "/signup"].includes(location.pathname);
   return (
     <Navbar className={`${styles.tasteeNav} ${show ? "" : "d-none"}`} sticky="top" variant="dark" expand="md">
       <Container className={styles.navContainer}>

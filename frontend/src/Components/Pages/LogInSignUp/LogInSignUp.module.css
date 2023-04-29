@@ -42,13 +42,10 @@
   color: var(--accent);
 }
 
-/* Set the color of non-active links */
-.nav-pills .nav-link:not(.active) {
-  color: var(--accent);
-}
-
-/* Set the background color of active links */
-.nav-pills .nav-link.active {
-  background-color: var(--accent);
+:global(.nav-pills .nav-link.active) {
+  background-color: var(--accent); /* Set your desired background color */
   color: var(--bg);
+}
+:global(.nav-pills .nav-link:not(.active)) {
+  color: var(--accent); /* Set your desired background color */
 }
