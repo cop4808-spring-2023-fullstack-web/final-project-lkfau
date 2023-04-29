@@ -1,7 +1,6 @@
 import Searchbar from '../../UI/Searchbar/Searchbar'
 import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import styles from './Favorites.module.css'
 import Card from 'react-bootstrap/Card'
 import { listFavorites, viewBusiness } from '../../../API/API';
 import useUserAuth from '../../Auth/Hooks/useUserAuth';
@@ -15,18 +14,22 @@ const Favorites = () => {
       try {
         const response = await listFavorites(user.accessToken);
         const favoritesData = response.data;
-        const promises = favoritesData.map(async (favorite) => {
+        const results = [];
+  
+        for (let i = 0; i < favoritesData.length; i++) {
+          const favorite = favoritesData[i];
           const businessData = await viewBusiness(favorite.business_id);
-          return businessData.data;
-        });
-        const results = await Promise.all(promises);
-        setFavorites(results);
+          results.push(businessData.data);
+          setFavorites(prevFavorites => [...prevFavorites, businessData.data]);
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
       } catch (error) {
         console.log(`Error fetching favorites: ${error}`);
       }
     }
+  
     fetchData();
-  }, []);
+  }, [user.accessToken]);
 
 
   return (
