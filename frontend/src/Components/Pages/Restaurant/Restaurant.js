@@ -3,14 +3,16 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { viewBusiness } from "../../../API/API";
 import { viewReview } from "../../../API/API";
+import useUserAuth from "../../Auth/Hooks/useUserAuth";
+
 const Restaurant = () => {
   const [business, setBusiness] = useState(null);
   const [reviews, setReviews] = useState(null)
   const { business_id } = useParams();
-
+  const { user } = useUserAuth();
   useEffect(() => {
     async function fetchData() {
-      const response = await viewBusiness(business_id);
+      const response = await viewBusiness(user.accessToken, business_id);
       if (response.status === 200) {
         setBusiness(response.data);
       } else {
@@ -28,7 +30,7 @@ const Restaurant = () => {
 
     fetchData();
     fetchReview();
-  }, [business_id]);
+  }, [business_id, user.accessToken]);
 
   if (!business) {
     return <div>Loading...</div>;

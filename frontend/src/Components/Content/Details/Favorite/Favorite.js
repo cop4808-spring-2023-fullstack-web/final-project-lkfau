@@ -8,7 +8,7 @@ const Favorite= ({business_id, restaurant_name}) => {
     const checkIsFavorited = async () => {
         console.log("effect")
         try {
-          const response = await checkFavorite(business_id, user.accessToken);
+          const response = await checkFavorite(user.accessToken, business_id);
           setIsFavorite(response.status === 200);
         } catch (error) {
           console.error(error);
@@ -21,7 +21,7 @@ const Favorite= ({business_id, restaurant_name}) => {
   const handleFavoriteClick = async () => {
     if (isFavorite) {
       try {
-        await removeFromFavorites(business_id, user.accessToken);
+        await removeFromFavorites(user.accessToken, business_id);
         setIsFavorite(false);
       } catch (error) {
         console.error(error);
@@ -30,7 +30,7 @@ const Favorite= ({business_id, restaurant_name}) => {
       try {
         console.log(user.accessToken)
         console.log(restaurant_name)
-        await addToFavorites(business_id, restaurant_name, user.accessToken);
+        await addToFavorites(user.accessToken, business_id, restaurant_name);
         setIsFavorite(true);
       } catch (error) {
         console.error(error);

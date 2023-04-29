@@ -27,7 +27,8 @@ const responseHandler = async (response) => {
 };
 
 export const searchRestaurants = async (
-  searchTerm = '',
+  accessToken,
+  searchTerm = "",
   locationData = "Boca Raton",
   page = 0
 ) => {
@@ -36,11 +37,13 @@ export const searchRestaurants = async (
     let response;
     if (typeof locationData == "object") {
       response = await fetch(
-        `${url}/api/search?term=${searchTerm}&lat=${locationData.latitude}&long=${locationData.longitude}&page=${page}`
+        `${url}/api/search?term=${searchTerm}&lat=${locationData.latitude}&long=${locationData.longitude}&page=${page}`,
+        getConfig(accessToken)
       );
     } else {
       response = await fetch(
-        `${url}/api/search?term=${searchTerm}&loc=${locationData}`
+        `${url}/api/search?term=${searchTerm}&loc=${locationData}`,
+        getConfig(accessToken)
       );
     }
     return await responseHandler(response);
@@ -53,9 +56,9 @@ export const searchRestaurants = async (
 };
 
 export const addToFavorites = async (
+  accessToken,
   business_id,
-  restaurant_name,
-  accessToken
+  restaurant_name
 ) => {
   try {
     let response = await fetch(`${url}/api/favorite`, {
@@ -83,12 +86,13 @@ export const removeFromFavorites = async (business_id, accessToken) => {
   }
 };
 
-export const checkFavorite = async (business_id, accessToken) => {
+export const checkFavorite = async (accessToken, business_id) => {
   try {
-    let response = await fetch(`${url}/api/favorite/${business_id}`, {
-      method: "GET",
-      ...getConfig(accessToken),
-    });
+    let response = await fetch(
+      `${url}/api/favorite/${business_id}`,
+
+      getConfig(accessToken)
+    );
     return await responseHandler(response);
   } catch (error) {
     console.error(error);
@@ -100,10 +104,7 @@ export const listFavorites = async (accessToken, restaurant_name = "") => {
   try {
     let response = await fetch(
       `${url}/api/favorites?restaurant_name=${restaurant_name}`,
-      {
-        method: "GET",
-        ...getConfig(accessToken),
-      }
+      getConfig(accessToken)
     );
     return await responseHandler(response);
   } catch (error) {
@@ -112,9 +113,9 @@ export const listFavorites = async (accessToken, restaurant_name = "") => {
   }
 };
 
-export const viewBusiness = async (business_id) => {
+export const viewBusiness = async (accessToken, business_id) => {
   try {
-    const response = await fetch(`${url}/api/view/${business_id}`);
+    const response = await fetch(`${url}/api/view/${business_id}`, getConfig(accessToken));
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,
@@ -134,9 +135,9 @@ export const viewBusiness = async (business_id) => {
   }
 };
 
-export const viewReview = async (business_id) => {
+export const viewReview = async (accessToken, business_id) => {
   try {
-    const response = await fetch(`${url}/api/review/${business_id}`);
+    const response = await fetch(`${url}/api/review/${business_id}`, getConfig(accessToken));
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,

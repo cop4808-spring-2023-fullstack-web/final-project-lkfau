@@ -51,11 +51,6 @@ app.use(express.static(path.join(__dirname, "../final-project-lkfau")));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(cors());
 
-//Catch for 404 error
-// app.use((req, res, next) => {
-//   res.status(404).sendFile(path.join(__dirname, '//404.html//'));
-// });
-
 //FavoriteInfo schema
 const favoriteInfoSchema = new mongoose.Schema(
   {
@@ -69,33 +64,31 @@ const favoriteInfoSchema = new mongoose.Schema(
 //Set favorite model
 const Favorite = mongoose.model("favorite", favoriteInfoSchema);
 
-const validateUser = (token) => {
-  // console.log('Token:', token);
-  const user = admin.auth().verifyIdToken(token);
-  return user;
+const validateUser = async (req) => {
+  // Get the authorization header from the request
+  const token = req.headers.authorization;
+  // Check if the authorization header is present
+  if (!token) {
+    return false;
+  }
+   
+  // Validate the user using the token
+  try {
+    return await admin.auth().verifyIdToken(token);
+  } catch (err) {
+    return false;
+  }
 };
 
 //Functions
 //Add Favorite
 app.post("/api/favorite", async (req, res) => {
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
 
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
-
+    const user = await validateUser(req)
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -112,7 +105,7 @@ app.post("/api/favorite", async (req, res) => {
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -120,23 +113,11 @@ app.post("/api/favorite", async (req, res) => {
 app.delete("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
-
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
+    const user = validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -154,12 +135,12 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error deleting favorite");
+      res.status(500).send({ message: "Error deleting favorite"});
     }
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -167,23 +148,11 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
 app.get("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
-
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
+    const user = validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -205,29 +174,17 @@ app.get("/api/favorite/:business_id", async (req, res) => {
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
 app.get("/api/favorites", async (req, res) => {
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
-
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
+    const user = validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -270,30 +227,17 @@ app.get("/api/favorites", async (req, res) => {
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
 //Search businesses by location
 app.get("/api/search", async (req, res) => {
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
-
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
-
+    const user = await validateUser(req)
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -311,7 +255,6 @@ app.get("/api/search", async (req, res) => {
       // Add filters here
 
       url += `limit=10&offset=${Math.floor(req.query.page * 10)}`
-      console.log(url);
       const response = await axios.get(url,{
           headers: {
             Authorization: `Bearer ${process.env.YELP_API_KEY}`,
@@ -331,30 +274,18 @@ app.get("/api/search", async (req, res) => {
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
 // Get info on business by business id
 app.get("/api/view/:business_id", async (req, res) => {
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
-
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
+    const user = await validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -381,30 +312,18 @@ app.get("/api/view/:business_id", async (req, res) => {
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
 //Get reviews for a business by business id
 app.get("/api/review/:business_id", async (req, res) => {
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
-
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
+    const user = await validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -431,30 +350,18 @@ app.get("/api/review/:business_id", async (req, res) => {
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
 //Autocomplete
 app.get("/api/autocomplete", async (req, res) => {
   try {
-    // Get the authorization header from the request
-    const authHeader = req.headers.authorization;
-    
-    // Check if the authorization header is present
-    if (!authHeader) {
-      return res.status(401).send({ error: "Authorization header missing" });
-    }
-
-    // Extract the token from the authorization header
-    const token = authHeader.split(" ")[1];
-
-    // Validate the user using the token
-    const user = await validateUser(token);
+    const user = await validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
-      return res.status(401).send({ error: "Invalid token" });
+      return res.status(401).send({ message: "Invalid token" });
     }
 
     // If user validation succeeds, proceed with the request
@@ -481,7 +388,7 @@ app.get("/api/autocomplete", async (req, res) => {
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
     console.error(err);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 

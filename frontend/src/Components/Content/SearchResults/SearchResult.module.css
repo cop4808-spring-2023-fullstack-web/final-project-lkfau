@@ -1,0 +1,16 @@
+.container {
+  padding: 1rem;
+  background-color: var(--dark);
+  border-radius: 20px;
+}
+
+.container + .container {
+  margin-top: 1rem;
+}
+
+.image {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}

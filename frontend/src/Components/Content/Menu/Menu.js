@@ -5,6 +5,7 @@ import useLocationInfo from "../../Auth/Hooks/useLocationInfo";
 import Tiles from "../Tiles/Tiles";
 import { useEffect, useState } from "react";
 import { searchRestaurants } from "../../../API/API";
+import useUserAuth from "../../Auth/Hooks/useUserAuth";
 
 
 
@@ -13,11 +14,12 @@ const Menu = () => {
   const [data, setData] = useState();
 
   const { getLocation } = useLocationInfo();
+  const { user } = useUserAuth();
 
   useEffect(() => {
     const getData = async (searchTerm) => {
       getLocation(async (location) => {
-        const res = await searchRestaurants(searchTerm, location);
+        const res = await searchRestaurants(user.accessToken, searchTerm, location);
         if (res.error) {
           console.log(res.error);
         } else {
@@ -27,7 +29,7 @@ const Menu = () => {
       });
     };
     getData();
-  }, [getLocation]);
+  }, [getLocation, user.accessToken]);
   return (
     <Container className={`${styles.card} my-5 px-5 py-5`}>
       <h2 className="text-start">Restaurants near you</h2>
