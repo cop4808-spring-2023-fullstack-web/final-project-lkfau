@@ -5,9 +5,13 @@ import Rating from "./Rating/Rating";
 import ImageCarousel from "./ImageCarousel/ImagesCarousel";
 import Reviews from "./Reviews/Reviews";
 import Favorite from "./FavoriteCheckbox/FavoriteCheckbox";
+import Card from "../../UI/Card/Card";
 const Details = ({ restaurant, reviews }) => {
   return (
-    <Container className={`${styles.card} mb-5 mt-5 p-5`}>
+    
+    <Card className="p-5">
+      <Container>
+      
       <Row>
         <Col className="d-flex flex-column" xs={12} lg={6}>
           <h1 className={`${styles.accent}`}>{restaurant.name}</h1>
@@ -30,7 +34,10 @@ const Details = ({ restaurant, reviews }) => {
         <Reviews reviews={reviews.reviews}></Reviews>
 }
       </Row>
-    </Container>
+      </Container>
+    </Card>
+  
+  
   );
 };
 

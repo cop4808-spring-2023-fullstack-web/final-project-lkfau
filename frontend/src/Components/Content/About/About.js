@@ -3,9 +3,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import styles from "./About.module.css";
 import restaurant from "../../../Assets/About/restaurant.jpg";
 import favorite from "../../../Assets/About/favorite.jpg";
+import Card from "../../UI/Card/Card";
 const About = () => {
   return (
-    <Container className={`${styles.card} mb-5 p-5`}>
+ 
+    <Card className="mb-5 p-5">
+      <Container>
+       
       <Row
         className="align-items-center gy-5 mb-5 pb-5"
         style={{ borderBottom: `1px solid var(--accent) ` }}
@@ -42,7 +46,8 @@ const About = () => {
           <img src={favorite} alt="" className="img-fluid" />
         </Col>
       </Row>
-    </Container>
+      </Container>
+  </Card>
   );
 };
 
