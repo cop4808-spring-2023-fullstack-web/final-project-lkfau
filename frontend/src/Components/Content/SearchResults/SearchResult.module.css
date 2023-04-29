@@ -1,16 +1,17 @@
-.container {
-  padding: 1rem;
-  background-color: var(--dark);
-  border-radius: 20px;
-}
-
 .container + .container {
-  margin-top: 1rem;
+  border-top: 2px solid var(--stroke);
 }
 
 .image {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 9 / 3;
   width: 100%;
   object-fit: cover;
   border-radius: 12px;
+  cursor: pointer;
+}
+
+@media (min-width: 992px) {
+  .image {
+    aspect-ratio: 4 / 3
+  }
 }

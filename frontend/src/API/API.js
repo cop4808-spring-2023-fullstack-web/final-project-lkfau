@@ -73,7 +73,7 @@ export const addToFavorites = async (
   }
 };
 
-export const removeFromFavorites = async (business_id, accessToken) => {
+export const removeFromFavorites = async (accessToken, business_id) => {
   try {
     let response = await fetch(`${url}/api/favorite/${business_id}`, {
       method: "DELETE",

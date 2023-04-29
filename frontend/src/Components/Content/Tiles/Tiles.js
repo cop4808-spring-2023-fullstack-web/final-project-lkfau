@@ -1,4 +1,4 @@
-import { BeatLoader } from 'react-spinners'
+import { BarLoader } from 'react-spinners'
 import { Col } from 'react-bootstrap';
 import { faBurger } from "@fortawesome/free-solid-svg-icons";
 import { faFish } from "@fortawesome/free-solid-svg-icons";
@@ -48,7 +48,7 @@ const Tiles = (props) => {
           key={i}
           className={`${styles.border} p-5 d-flex justify-content-center align-items-center text-center text-white`}
         >
-          <BeatLoader color="white" />
+          <BarLoader color="white" />
         </Col>
         )
       }

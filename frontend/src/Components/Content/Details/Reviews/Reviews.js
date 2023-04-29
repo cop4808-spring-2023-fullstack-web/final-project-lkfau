@@ -1,16 +1,18 @@
 import React from 'react';
-import Rating from '../Rating/Rating';
+import Rating from '../../../UI/Rating/Rating';
 
 const Reviews = ({ reviews }) => {
-  console.log(reviews)
   return (
     <>
     {reviews.map((review, index) => (
       <div key={index}>
-        <h3>
+ 
+        <p className="lead" style={{marginBottom: 0}}>
         {review.user.name}
-        </h3>
+        </p>
         <Rating rating={review.rating}/>
+
+        
         <p>{review.text}</p>
         </div>
       ))}

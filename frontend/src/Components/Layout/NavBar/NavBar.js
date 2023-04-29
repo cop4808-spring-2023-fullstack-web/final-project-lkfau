@@ -16,18 +16,22 @@ const NavBar = () => {
 
   useEffect(() => {
     const scrollHandler = () => {
-      if (window.scrollY > 500 && banner === true) {
-        setBanner(false);
-      }
-      if (landingPage && (window.scrollY <= 500 && banner === false)) {
+      if (banner) {
+        if (!landingPage) {
+          setBanner(false);
+        } else if (window.scrollY > 500) {
+          setBanner(false);
+        }
+      } else if (landingPage && (window.scrollY <= 500 && banner === false)) {
         setBanner(true);
       }
     };
+    scrollHandler();
     window.addEventListener('scroll', scrollHandler);
     return () => {
       window.removeEventListener('scroll', scrollHandler);
     }
-  }, [banner, landingPage])
+  }, [banner, landingPage, location])
 
   return (
     <Navbar className={`${banner ? styles.bannerNav : styles.normalNav} ${show ? "" : "d-none"}`} sticky="top" variant="dark" expand="md">

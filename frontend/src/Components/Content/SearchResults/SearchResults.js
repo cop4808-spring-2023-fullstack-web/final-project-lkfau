@@ -5,7 +5,7 @@ import styles from './SearchResult.module.css'
 const SearchResults = (props) => {
   return (
   
-    <Card className="p-5">
+    <Card className="p-3">
       {props.data.map(restaurant => <SearchResult key={restaurant.id} data={restaurant} />)}    
     </Card>)
 

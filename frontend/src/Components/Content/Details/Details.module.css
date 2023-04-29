@@ -2,7 +2,11 @@
     background-color: var(--primary);
     border-radius: 20px;
     border: 1px solid #1A2E3D;
-  }
+}
+
+.card .row + .row {
+  border-top: 2px solid var(--stroke);
+}
 
   .accent{
     color: var(--accent)
