@@ -4,7 +4,7 @@ import styles from "./Details.module.css";
 import Rating from "./Rating/Rating";
 import ImageCarousel from "./ImageCarousel/ImagesCarousel";
 import Reviews from "./Reviews/Reviews";
-import Favorite from "./Favorite/Favorite";
+import Favorite from "./FavoriteCheckbox/FavoriteCheckbox";
 const Details = ({ restaurant, reviews }) => {
   return (
     <Container className={`${styles.card} mb-5 mt-5 p-5`}>

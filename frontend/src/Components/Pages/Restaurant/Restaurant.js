@@ -20,7 +20,7 @@ const Restaurant = () => {
       }
     }
     async function fetchReview() {
-      const response = await viewReview(business_id);
+      const response = await viewReview(user.accessToken, business_id);
       if (response.status === 200) {
         setReviews(response.data);
       } else {

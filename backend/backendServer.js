@@ -113,7 +113,7 @@ app.post("/api/favorite", async (req, res) => {
 app.delete("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
   try {
-    const user = validateUser(req)
+    const user = await validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
@@ -148,7 +148,7 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
 app.get("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
   try {
-    const user = validateUser(req)
+    const user = await validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {
@@ -180,7 +180,7 @@ app.get("/api/favorite/:business_id", async (req, res) => {
 
 app.get("/api/favorites", async (req, res) => {
   try {
-    const user = validateUser(req)
+    const user = await validateUser(req)
 
     // If user validation fails, send a 401 Unauthorized response
     if (!user) {

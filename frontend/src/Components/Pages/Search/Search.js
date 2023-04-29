@@ -6,17 +6,19 @@ import { searchRestaurants } from "../../../API/API";
 import useLocationInfo from "../../Auth/Hooks/useLocationInfo";
 import SearchResults from "../../Content/SearchResults/SearchResults";
 import Searchbar from "../../UI/Searchbar/Searchbar";
+import useUserAuth from "../../Auth/Hooks/useUserAuth";
 
 const Search = () => {
   const [data, setData] = useState();
   const location = useLocation();
   const term = new URLSearchParams(location.search).get("term");
   const { getLocation } = useLocationInfo();
-
+  const { user } = useUserAuth();
   useEffect(() => {
     const getData = async (searchTerm) => {
       getLocation(async (location) => {
         const res = await searchRestaurants(
+          user.accessToken,
           searchTerm ? searchTerm : "",
           location
         );
