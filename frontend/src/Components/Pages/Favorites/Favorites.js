@@ -21,7 +21,7 @@ const Favorites = () => {
           const businessData = await viewBusiness(favorite.business_id);
           results.push(businessData.data);
           setFavorites(prevFavorites => [...prevFavorites, businessData.data]);
-          await new Promise(resolve => setTimeout(resolve, 500));
+          await new Promise(resolve => setTimeout(resolve, 100));
         }
       } catch (error) {
         console.log(`Error fetching favorites: ${error}`);
