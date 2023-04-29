@@ -1,6 +1,6 @@
-import { addToFavorites, removeFromFavorites, checkFavorite } from '../../../API/API'
+import { addToFavorites, removeFromFavorites, checkFavorite } from '../../../../API/API'
 import { useState, useEffect } from 'react';
-import useUserAuth from '../../Auth/Hooks/useUserAuth';
+import useUserAuth from '../../../Auth/Hooks/useUserAuth';
 const Favorite= ({business_id, restaurant_name}) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const {user} = useUserAuth()

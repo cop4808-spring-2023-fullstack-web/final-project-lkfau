@@ -1,43 +1,34 @@
-import Container from 'react-bootstrap/Container'
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import Container from 'react-bootstrap/Container'
 import { searchRestaurants } from '../../../API/API';
 import useLocationInfo from '../../Auth/Hooks/useLocationInfo';
-import Card from 'react-bootstrap/Card'
-import styles from './Search.module.css'
-import { useNavigate } from 'react-router-dom';
+import SearchResults from '../../Content/SearchResults/SearchResults';
+
 const Search = () => {
   const [data, setData] = useState();
-  const navigate = useNavigate()
+  const location = useLocation();
+  const term = new URLSearchParams(location.search).get('term');
   const {getLocation} = useLocationInfo();
-  
 
   useEffect(() => {
     const getData = async(searchTerm) => {
       getLocation(async(location) => {
-        const res = await searchRestaurants(searchTerm, location);
+        const res = await searchRestaurants(searchTerm ? searchTerm : '', location);
         if (res.error) {
           console.log(res.error);
         } else {
-          console.log(res.data);
+          console.log(res.data)
           setData(res.data);
         }
       });
     }
-    getData('japanese');
-  }, [getLocation])
+    getData(term);
+  }, [getLocation, term])
   return (
-    <Container>
-      <h1>Search</h1>
-      {data ? (
-        data.businesses.map((restaurant, index) => (
-        <div key={index} className="m-5 p=5">
-          <Card onClick={()=>navigate(`/restaurant/${restaurant.id}`)} className={styles.restaurant}>
-            <h3>{restaurant.name}</h3>
-          </Card>
-        </div>
-        ))
-      ) : <p>No data found.</p>}
-
+    <Container className="px-0">
+      {data ? <SearchResults term={term} data={data.businesses} /> : <p>No data found.</p>}
     </Container>
   );
 };

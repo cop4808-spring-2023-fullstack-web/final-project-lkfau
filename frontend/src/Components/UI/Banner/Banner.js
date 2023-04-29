@@ -3,15 +3,16 @@ import { Col, Container, Row } from "react-bootstrap";
 
 import { useNavigate } from "react-router-dom";
 import styles from "./Banner.module.css";
+import TasteeButton from '../TasteeButton/TasteeButton';
 const Banner = () => {
   const navigate = useNavigate();
   return (
     <div className={`${styles.banner} mb-5`}>
       <Container>
-        <Row className="gy-4">
+        <Row className="gy-5">
           <Col className="text-center text-lg-start" xs={12} lg={6}>
             <h1 className={styles.header}>Food for you</h1>
-            <button onClick={()=>{navigate("/login")}} className={`${styles.start} ps-5 pe-5 pt-3 pb-3 mt-3`}>Get Started</button>
+            <TasteeButton onClick={()=>{navigate("/login")}} className={`${styles.start} px-4 mt-2`}>Get Started</TasteeButton>
           </Col>
           <Col className="text-center text-lg-end" xs={12} lg={6}>
             <h2>

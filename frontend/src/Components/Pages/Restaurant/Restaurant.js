@@ -1,4 +1,4 @@
-import Details from "../../Details/Details";
+import Details from "../../Content/Details/Details";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { viewBusiness } from "../../../API/API";

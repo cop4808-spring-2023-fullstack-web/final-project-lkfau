@@ -13,7 +13,6 @@ const Tiles = (props) => {
   if (props.type === "restaurants") {
     if (props.data) {
       const randomIndex = Math.floor(Math.random() * 5);
-      console.log(randomIndex)
       return (
         props.data.businesses
         .filter((item, index) => index >= randomIndex && index < randomIndex + 4)
@@ -46,6 +45,7 @@ const Tiles = (props) => {
           style={{
             aspectRatio: 4 / 3,
           }}
+          key={i}
           className={`${styles.border} p-5 d-flex justify-content-center align-items-center text-center text-white`}
         >
           <BeatLoader color="white" />
@@ -69,6 +69,7 @@ const Tiles = (props) => {
           lg={3}
           sm={6}
           xs={12}
+          key={category.title}
           style={{
             aspectRatio: 4 / 3,
           }}

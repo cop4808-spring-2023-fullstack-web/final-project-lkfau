@@ -10,6 +10,7 @@
   cursor: pointer;
   overflow: hidden;
   z-index: 1;
+  transition: color 0.5s ease-out, background-color 0.5s ease-in-out;
 }
 
 .button::before {
@@ -30,7 +31,8 @@
 
 .button:hover {
   color: var(--bg);
-  transition: color 0.5s ease-out;
+  background-color: var(--primary);
+  transition: color 0.5s ease-out, background-color 0.5s ease-in-out;
 }
 
 .button:active, .button:active::before {
@@ -66,7 +68,7 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: reduce) {
   .button::before {
     display: none;
   }

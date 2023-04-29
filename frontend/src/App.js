@@ -23,29 +23,29 @@ const HomeController = () => {
   return <Home />;
 };
 
-const Loader = () => {
-    const {loading} = useUserAuth()
-    if(loading)
-    {
-        return <>Loading...</>
-    }
-    return <Layout/>
-}
-
 const LoginController = ({section}) => {
   const { user } = useUserAuth();
-  console.log(section)
   if (!user) {
     return <LoginSignup section={section} />;
   }
   return <Navigate to="/" />;;
 };
 
+const Loader = () => {
+  const {loading} = useUserAuth()
+  if(loading)
+  {
+      return <>Loading...</>
+  }
+  return <Layout/>
+}
+
 function App() {
   
   return (
     <UserAuthContextProvider>
       <LocationContextProvider>
+        
       <Router>
         <Routes>
           <Route path="/" element={<Loader/>}>

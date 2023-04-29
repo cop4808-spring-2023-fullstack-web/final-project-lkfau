@@ -1,4 +1,4 @@
-import About from '../../About/About';
+import About from '../../Content/About/About';
 import Banner from '../../UI/Banner/Banner';
 
 const Landing = () => {

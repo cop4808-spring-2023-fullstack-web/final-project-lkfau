@@ -12,8 +12,9 @@ const Searchbar = (props) => {
           className="text-light"
           placeholder={props.placeholder}
           aria-label="Search"
+          onKeyDown={props.onKeyDown}
         />
-         <InputGroup.Text className="text-light">
+        <InputGroup.Text className="text-light">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </InputGroup.Text >
       </InputGroup>

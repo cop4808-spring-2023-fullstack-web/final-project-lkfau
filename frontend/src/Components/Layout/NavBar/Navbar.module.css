@@ -1,7 +1,14 @@
-.tasteeNav{
-    background-color: var(--primary);
+.bannerNav {
+  background-color: var(--dark);
+  transition: background-color 0.2s ease-out;
 }
-.navContainer{
+
+.normalNav {
+    background-color: var(--bg);
+    transition: background-color 0.2s ease-out;
+}
+
+.navContainer {
     padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--accent);
 }

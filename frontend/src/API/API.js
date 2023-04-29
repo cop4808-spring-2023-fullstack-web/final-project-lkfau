@@ -27,7 +27,7 @@ const responseHandler = async (response) => {
 };
 
 export const searchRestaurants = async (
-  searchTerm,
+  searchTerm = '',
   locationData = "Boca Raton",
   page = 0
 ) => {

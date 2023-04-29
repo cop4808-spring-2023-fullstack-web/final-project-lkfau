@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 
 import Container from "react-bootstrap/Container";
@@ -9,9 +10,27 @@ import styles from "./Navbar.module.css"
 const NavBar = () => {
   const location = useLocation();
   const { user, logOut } = useUserAuth();
+  const landingPage = location.pathname === "/" && !user;
   const show = !["/login", "/signup"].includes(location.pathname);
+  const [banner, setBanner] = useState(landingPage);
+
+  useEffect(() => {
+    const scrollHandler = () => {
+      if (window.scrollY > 500 && banner === true) {
+        setBanner(false);
+      }
+      if (landingPage && (window.scrollY <= 500 && banner === false)) {
+        setBanner(true);
+      }
+    };
+    window.addEventListener('scroll', scrollHandler);
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+    }
+  }, [banner, landingPage])
+
   return (
-    <Navbar className={`${styles.tasteeNav} ${show ? "" : "d-none"}`} sticky="top" variant="dark" expand="md">
+    <Navbar className={`${banner ? styles.bannerNav : styles.normalNav} ${show ? "" : "d-none"}`} sticky="top" variant="dark" expand="md">
       <Container className={styles.navContainer}>
         <Navbar.Brand as={Link} to="/">
           Tastee
