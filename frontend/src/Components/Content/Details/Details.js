@@ -8,10 +8,12 @@ import Favorite from "./FavoriteCheckbox/FavoriteCheckbox";
 import Card from "../../UI/Card/Card";
 const Details = ({ restaurant, reviews }) => {
   return (
-    <Container>
-      <Card className="py-3 px-4">
-      <Row className="pb-3">
-        <Col className="d-flex flex-column " xs={12} lg={6}>
+    
+    <Card className="p-5">
+      <Container>
+      
+      <Row>
+        <Col className="d-flex flex-column" xs={12} lg={6}>
           <h1 className="display-2">{restaurant.name}</h1>
           <Rating rating={restaurant.rating} />
           <Favorite restaurant_name={restaurant.name} business_id={restaurant.id}/>
@@ -32,8 +34,10 @@ const Details = ({ restaurant, reviews }) => {
         <Reviews reviews={reviews.reviews}></Reviews>
 }
       </Row>
-      </Card>
-    </Container>
+      </Container>
+    </Card>
+  
+  
   );
 };
 
