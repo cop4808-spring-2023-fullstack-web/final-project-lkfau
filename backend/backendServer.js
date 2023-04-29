@@ -94,6 +94,13 @@ app.post("/api/favorite", async (req, res) => {
     // If user validation succeeds, proceed with the request
     const { business_id, restaurant_name } = req.body;
 
+    // Check if the combination of user ID and business ID already exists in favorites collection
+    const existingFavorite = await Favorite.findOne({ user_id: user.uid, business_id: business_id });
+
+    if (existingFavorite) {
+      return res.status(409).send({ message: "Already in your favorites" });
+    }
+
     const favorite = new Favorite({
       user_id: user.uid,
       business_id: business_id,
