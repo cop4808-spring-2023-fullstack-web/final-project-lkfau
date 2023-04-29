@@ -7,7 +7,6 @@ import { viewReview } from "../../../API/API";
 import { PropagateLoader } from "react-spinners";
 import { Container, Fade, Alert } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
-import { Container } from "react-bootstrap";
 const Restaurant = () => {
   const [status, setStatus] = useState("loading");
   const [data, setData] = useState(null);
