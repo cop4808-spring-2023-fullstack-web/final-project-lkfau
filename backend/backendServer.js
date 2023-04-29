@@ -70,6 +70,7 @@ const favoriteInfoSchema = new mongoose.Schema(
 const Favorite = mongoose.model("favorite", favoriteInfoSchema);
 
 const validateUser = (token) => {
+  // console.log('Token:', token);
   const user = admin.auth().verifyIdToken(token);
   return user;
 };
@@ -77,206 +78,410 @@ const validateUser = (token) => {
 //Functions
 //Add Favorite
 app.post("/api/favorite", async (req, res) => {
-  // idToken comes from the client app
-  console.log(req.headers.authorization);
-  user = await validateUser(req.headers.authorization);
-  const { business_id, restaurant_name } = req.body;
-  console.log(restaurant_name);
-  const favorite = new Favorite({
-    user_id: user.uid,
-    business_id: business_id,
-    restaurant_name: restaurant_name,
-  });
+  try {
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
+    }
 
-  favorite.save();
-  res.send({ message: `Added ${favorite} to favorites` });
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
+
+    // Validate the user using the token
+    const user = await validateUser(token);
+
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    const { business_id, restaurant_name } = req.body;
+
+    const favorite = new Favorite({
+      user_id: user.uid,
+      business_id: business_id,
+      restaurant_name: restaurant_name,
+    });
+
+    favorite.save();
+    res.send({ message: `Added ${favorite} to favorites` });
+  } catch (err) {
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
 });
 
 //Delete Favorite
 app.delete("/api/favorite/:business_id", async (req, res) => {
-  user = await validateUser(req.headers.authorization);
-  var business_id = req.params.business_id;
-  console.log(business_id);
+  // user = await validateUser(req.headers.authorization);
   try {
-    const favorite = await Favorite.findOneAndDelete({
-      user_id: user.uid,
-      business_id: business_id,
-    });
-    if (favorite) {
-      res.send({ message: `Deleted ${favorite} from favorites` });
-    } else {
-      res.status(404).json({ message: "Favorite not found" });
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
+    }
+
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
+
+    // Validate the user using the token
+    const user = await validateUser(token);
+
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    var business_id = req.params.business_id;
+    console.log(business_id);
+    try {
+      const favorite = await Favorite.findOneAndDelete({
+        user_id: user.uid,
+        business_id: business_id,
+      });
+      if (favorite) {
+        res.send({ message: `Deleted ${favorite} from favorites` });
+      } else {
+        res.status(404).json({ message: "Favorite not found" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error deleting favorite");
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error deleting favorite");
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
 //View Favorite
 app.get("/api/favorite/:business_id", async (req, res) => {
-  user = await validateUser(req.headers.authorization);
-  var business_id = req.params.business_id;
+  // user = await validateUser(req.headers.authorization);
   try {
-    const favorite = await Favorite.findOne({
-      user_id: user.uid,
-      business_id: business_id,
-    });
-    if (favorite) {
-      res.send({ message: `Viewing ${favorite} from favorites` });
-    } else {
-      res.status(404).json({ message: "Favorite not found" });
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
+    }
+
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
+
+    // Validate the user using the token
+    const user = await validateUser(token);
+
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    var business_id = req.params.business_id;
+    try {
+      const favorite = await Favorite.findOne({
+        user_id: user.uid,
+        business_id: business_id,
+      });
+      if (favorite) {
+        res.send({ message: `Viewing ${favorite} from favorites` });
+      } else {
+        res.status(404).json({ message: "Favorite not found" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error viewing favorite");
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error viewing favorite");
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
 app.get("/api/favorites", async (req, res) => {
-  const user = await validateUser(req.headers.authorization);
-  const queryRestaurantName = req.query.restaurant_name;
-  const filter = {};
-  filter.user_id = user.uid
-  if (queryRestaurantName) {
-    filter.restaurant_name = {
-      $regex: `^${queryRestaurantName}`,
-      $options: "i",
-    };
-  }
   try {
-    const favorites = await Favorite.find(filter);
-    const businessIds = favorites.map((favorite) => favorite.business_id);
-    const businesses = await Promise.all(
-      businessIds.map(async (business_id) => {
-        try {
-          const response = await axios.get(
-            `https://api.yelp.com/v3/businesses/${business_id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          return response.data;
-        } catch (err) {
-          console.log(err);
-          return null;
-        }
-      })
-    );
-    res.send(businesses.filter((business) => business !== null));
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
+    }
+
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
+
+    // Validate the user using the token
+    const user = await validateUser(token);
+
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    const queryRestaurantName = req.query.restaurant_name;
+    const filter = {};
+    filter.user_id = user.uid
+    if (queryRestaurantName) {
+      filter.restaurant_name = {
+        $regex: `^${queryRestaurantName}`,
+        $options: "i",
+      };
+    }
+    try {
+      const favorites = await Favorite.find(filter);
+      const businessIds = favorites.map((favorite) => favorite.business_id);
+      const businesses = await Promise.all(
+        businessIds.map(async (business_id) => {
+          try {
+            const response = await axios.get(
+              `https://api.yelp.com/v3/businesses/${business_id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            return response.data;
+          } catch (err) {
+            console.log(err);
+            return null;
+          }
+        })
+      );
+      res.send(businesses.filter((business) => business !== null));
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error viewing favorites");
+    }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error viewing favorites");
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
 //Search businesses by location
 app.get("/api/search", async (req, res) => {
-  let url = 'https://api.yelp.com/v3/businesses/search?';
- 
   try {
-    if (Object.hasOwn(req.query, "lat") && Object.hasOwn(req.query, "long")) {
-      url += `latitude=${req.query.lat}&longitude=${req.query.long}&location=%27%27&`//For some reason yelp api call does not work if I just put empty string,
-    } else {                                                                         //but will send an empty string if I set location = to %27%27
-      url += `location=${req.query.location}&`;                                      //which is the URL-encoded representation of two single quotes
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
     }
 
-    url += req.query.term.length ? `term=${req.query.term}&` : "term=restaurant&"
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
 
-    // Add filters here
+    // Validate the user using the token
+    const user = await validateUser(token);
 
-    url += `limit=10&offset=${Math.floor(req.query.page * 10)}`
-    console.log(url);
-    const response = await axios.get(url,{
-        headers: {
-          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-          "Content-Type": "application/json",
-        },
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    let url = 'https://api.yelp.com/v3/businesses/search?';
+  
+    try {
+      if (Object.hasOwn(req.query, "lat") && Object.hasOwn(req.query, "long")) {
+        url += `latitude=${req.query.lat}&longitude=${req.query.long}&location=%27%27&`//For some reason yelp api call does not work if I just put empty string,
+      } else {                                                                         //but will send an empty string if I set location = to %27%27
+        url += `location=${req.query.location}&`;                                      //which is the URL-encoded representation of two single quotes
       }
-    );
-    if (response) {
-      res.send(response.data);
-    } else {
-      res.status(404).json({ message: "Error" });
+
+      url += req.query.term.length ? `term=${req.query.term}&` : "term=restaurant&"
+
+      // Add filters here
+
+      url += `limit=10&offset=${Math.floor(req.query.page * 10)}`
+      console.log(url);
+      const response = await axios.get(url,{
+          headers: {
+            Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response) {
+        res.send(response.data);
+      } else {
+        res.status(404).json({ message: "Error" });
+      }
+    } catch (err) {
+      //console.log(err);
+      res.status(500).json({ message: "Error" });
     }
   } catch (err) {
-    //console.log(err);
-    res.status(500).json({ message: "Error" });
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
 // Get info on business by business id
 app.get("/api/view/:business_id", async (req, res) => {
-  var business_id = req.params.business_id;
   try {
-    const response = await axios.get(
-      `https://api.yelp.com/v3/businesses/${business_id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-          "Content-Type": "application/json",
-        },
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
+    }
+
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
+
+    // Validate the user using the token
+    const user = await validateUser(token);
+
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    var business_id = req.params.business_id;
+    try {
+      const response = await axios.get(
+        `https://api.yelp.com/v3/businesses/${business_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response) {
+        res.send(response.data);
+      } else {
+        res.status(404).json({ message: "Error" });
       }
-    );
-    if (response) {
-      res.send(response.data);
-    } else {
-      res.status(404).json({ message: "Error" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error");
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error");
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
 //Get reviews for a business by business id
 app.get("/api/review/:business_id", async (req, res) => {
-  var business_id = req.params.business_id;
   try {
-    const response = await axios.get(
-      `https://api.yelp.com/v3/businesses/${business_id}/reviews`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-          "Content-Type": "application/json",
-        },
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
+    }
+
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
+
+    // Validate the user using the token
+    const user = await validateUser(token);
+
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    var business_id = req.params.business_id;
+    try {
+      const response = await axios.get(
+        `https://api.yelp.com/v3/businesses/${business_id}/reviews`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response) {
+        res.send(response.data);
+      } else {
+        res.status(404).json({ message: "Error" });
       }
-    );
-    if (response) {
-      res.send(response.data);
-    } else {
-      res.status(404).json({ message: "Error" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error");
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error");
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
 //Autocomplete
 app.get("/api/autocomplete", async (req, res) => {
-  var text = req.body.text;
   try {
-    const response = await axios.get(
-      `https://api.yelp.com/v3/autocomplete?text=${text}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-          "Content-Type": "application/json",
-        },
+    // Get the authorization header from the request
+    const authHeader = req.headers.authorization;
+    
+    // Check if the authorization header is present
+    if (!authHeader) {
+      return res.status(401).send({ error: "Authorization header missing" });
+    }
+
+    // Extract the token from the authorization header
+    const token = authHeader.split(" ")[1];
+
+    // Validate the user using the token
+    const user = await validateUser(token);
+
+    // If user validation fails, send a 401 Unauthorized response
+    if (!user) {
+      return res.status(401).send({ error: "Invalid token" });
+    }
+
+    // If user validation succeeds, proceed with the request
+    var text = req.body.text;
+    try {
+      const response = await axios.get(
+        `https://api.yelp.com/v3/autocomplete?text=${text}`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.YELP_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response) {
+        res.send(response.data);
+      } else {
+        res.status(404).json({ message: "Error" });
       }
-    );
-    if (response) {
-      res.send(response.data);
-    } else {
-      res.status(404).json({ message: "Error" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error");
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error");
+    // If an error occurs, send a 500 Internal Server Error response
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 
