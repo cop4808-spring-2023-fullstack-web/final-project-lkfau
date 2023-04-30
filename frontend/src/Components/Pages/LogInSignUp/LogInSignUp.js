@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Container, Row, Col, Nav, Card, Button } from "react-bootstrap";
+import { Form, Container, Row, Col, Nav, Card, Button, Alert } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
 import styles from "./LogInSignUp.module.css";
@@ -8,12 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import TasteeButton from "../../UI/TasteeButton/TasteeButton";
+
 const LoginSignup = ({section}) => {
   const { logIn, signUp, logInWithGoogle, forgotPassword } = useUserAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -23,18 +25,36 @@ const LoginSignup = ({section}) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       if (section === "login") {
-        logIn(email, password);
-      } else if (section === "signup") {
-        signUp(email, password);
+        await logIn(email, password);
+        navigate("/");
       }
     } catch (err) {
-      console.log(err);
+      setErrorMessage("Login error: If you have previously signed in with google, please do so.");
+    }
+    try {
+      if (section === "signup") {
+        await signUp(email, password);
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err)
+      setErrorMessage("Sign up error: Please make sure your password is atleast 6 characters. If you previously signed in with google, please do so.");
     }
   };
+
+  const handleForgotPassword = async (email) => {
+    try {
+      await forgotPassword(email);
+      setErrorMessage("Password reset email has been sent if the account exists."); // clear any previous error messages
+    } catch (err) {
+      setErrorMessage("Password reset email has been sent if the account exists."); // set error message
+    }
+  };
+  
 
   return (
     <Container className="mt-5 mb-5" style={{ width: "100%" }}>
@@ -100,9 +120,10 @@ const LoginSignup = ({section}) => {
                {section === "login" ? "Log in with " : "Sign up with "} <FontAwesomeIcon icon={faGoogle} className="ps-2" />{" "}
             </TasteeButton>
             {section === "login" && (
-              <Button className={`${styles['forgot-password']} ${styles.accent} mt-4`} variant="link" onClick={() => {forgotPassword(email)}}>Forgot password?</Button>
+              <Button className={`${styles['forgot-password']} ${styles.accent} mt-4`} variant="link" onClick={() => {handleForgotPassword(email)}}>Forgot password?</Button>
             )}
           </Card>
+          {errorMessage && <Alert className="mt-5" variant="danger">{errorMessage}</Alert>}
         </Col>
       </Row>
     </Container>

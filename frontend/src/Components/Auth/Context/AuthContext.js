@@ -24,15 +24,7 @@ export function UserAuthContextProvider({ children }) {
   }
 
   function forgotPassword(email){
-    
-sendPasswordResetEmail(auth, email)
-  .then(() => {
-    alert(`A link to reset your password has been sent to ${email}`)
-  })
-  .catch(() => {
-    alert('Something as gone wrong')
-  });
-
+    return sendPasswordResetEmail(auth, email)
   }
 
   function logInWithGoogle() {
