@@ -323,7 +323,7 @@ app.get("/api/view/:business_id", async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error");
+      res.status(500).json({ message: "Error" });
     }
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
@@ -361,7 +361,7 @@ app.get("/api/review/:business_id", async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error");
+      res.status(500).json({ message: "Error" });
     }
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
@@ -399,7 +399,7 @@ app.get("/api/autocomplete", async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error");
+      res.status(500).json({ message: "Error" });
     }
   } catch (err) {
     // If an error occurs, send a 500 Internal Server Error response
