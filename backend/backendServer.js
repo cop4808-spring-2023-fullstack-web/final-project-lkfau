@@ -196,6 +196,9 @@ app.get("/api/favorites", async (req, res) => {
 
     // If user validation succeeds, proceed with the request
     const queryRestaurantName = req.query.restaurant_name;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
     const filter = {};
     filter.user_id = user.uid
     if (queryRestaurantName) {
@@ -205,7 +208,10 @@ app.get("/api/favorites", async (req, res) => {
       };
     }
     try {
-      const favorites = await Favorite.find(filter);
+      const count = await Favorite.countDocuments(filter);
+      const favorites = await Favorite.find(filter)
+        .skip(skip)
+        .limit(limit);
       const businessIds = favorites.map((favorite) => favorite.business_id);
       const businesses = await Promise.all(
         businessIds.map(async (business_id) => {
@@ -226,7 +232,8 @@ app.get("/api/favorites", async (req, res) => {
           }
         })
       );
-      res.send(businesses.filter((business) => business !== null));
+      const totalPages = Math.ceil(count / limit);
+      res.send({ businesses: businesses.filter((business) => business !== null), totalPages });
     } catch (err) {
       console.log(err);
       res.status(500).send("Error viewing favorites");
@@ -237,6 +244,7 @@ app.get("/api/favorites", async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
+
 
 //Search businesses by location
 app.get("/api/search", async (req, res) => {
