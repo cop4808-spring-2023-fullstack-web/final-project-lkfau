@@ -46,6 +46,16 @@ const LoginSignup = ({section}) => {
     }
   };
 
+  const handleForgotPassword = async (email) => {
+    try {
+      await forgotPassword(email);
+      setErrorMessage("Password reset email has been sent if the account exists."); // clear any previous error messages
+    } catch (err) {
+      setErrorMessage("Password reset email has been sent if the account exists."); // set error message
+    }
+  };
+  
+
   return (
     <Container className="mt-5 mb-5" style={{ width: "100%" }}>
       <Row>
@@ -110,10 +120,10 @@ const LoginSignup = ({section}) => {
                {section === "login" ? "Log in with " : "Sign up with "} <FontAwesomeIcon icon={faGoogle} className="ps-2" />{" "}
             </TasteeButton>
             {section === "login" && (
-              <Button className={`${styles['forgot-password']} ${styles.accent} mt-4`} variant="link" onClick={() => {forgotPassword(email)}}>Forgot password?</Button>
+              <Button className={`${styles['forgot-password']} ${styles.accent} mt-4`} variant="link" onClick={() => {handleForgotPassword(email)}}>Forgot password?</Button>
             )}
           </Card>
-          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+          {errorMessage && <Alert className="mt-5" variant="danger">{errorMessage}</Alert>}
         </Col>
       </Row>
     </Container>
