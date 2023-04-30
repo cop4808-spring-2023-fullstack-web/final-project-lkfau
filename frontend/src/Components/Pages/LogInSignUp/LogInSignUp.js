@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Container, Row, Col, Nav, Card, Button } from "react-bootstrap";
+import { Form, Container, Row, Col, Nav, Card, Button, Alert } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
 import styles from "./LogInSignUp.module.css";
@@ -8,12 +8,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import TasteeButton from "../../UI/TasteeButton/TasteeButton";
+
 const LoginSignup = ({section}) => {
   const { logIn, signUp, logInWithGoogle, forgotPassword } = useUserAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -23,16 +25,24 @@ const LoginSignup = ({section}) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       if (section === "login") {
-        logIn(email, password);
-      } else if (section === "signup") {
-        signUp(email, password);
+        await logIn(email, password);
+        navigate("/");
       }
     } catch (err) {
-      console.log(err);
+      setErrorMessage("Login error: If you have previously signed in with google, please do so.");
+    }
+    try {
+      if (section === "signup") {
+        await signUp(email, password);
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err)
+      setErrorMessage("Sign up error: Please make sure your password is atleast 6 characters. If you previously signed in with google, please do so.");
     }
   };
 
@@ -103,6 +113,7 @@ const LoginSignup = ({section}) => {
               <Button className={`${styles['forgot-password']} ${styles.accent} mt-4`} variant="link" onClick={() => {forgotPassword(email)}}>Forgot password?</Button>
             )}
           </Card>
+          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         </Col>
       </Row>
     </Container>
