@@ -11,7 +11,6 @@ const Favorites = () => {
   const { user } = useUserAuth();
   const [favorites, setFavorites] = useState([]);
   const [status, setStatus] = useState("loading");
-  const [error, setError] = useState()
   const location = useLocation();
   const term = new URLSearchParams(location.search).get("term");
   useEffect(() => {
@@ -20,10 +19,9 @@ const Favorites = () => {
         const response = await listFavorites(user.accessToken);
         setFavorites(response.data)
         setStatus("success");
-      } catch (error) {
-        console.log(`Error fetching favorites: ${error}`);
+      } catch (err) {
+        console.log(err);
         setStatus("error")
-        setError(error)
       }
     }
 
@@ -33,13 +31,13 @@ const Favorites = () => {
   return (
     <Container className="px-0">
     <h1 onClick={()=>console.log(favorites)} className={"pt-5 pb-2"}>
-      {term ? `Search results for ${term}` : "Restaurants near me"}
+      My favorites
     </h1>
     <Searchbar
       className="pb-5"
       
       style={{ maxWidth: "40rem" }}
-      placeholder="Find a restaurant..."
+      placeholder="Find a favorite..."
     />
     {status === "success" &&
       (favorites.length ? (
@@ -56,7 +54,7 @@ const Favorites = () => {
         <PropagateLoader color="var(--accent)" />
       </div>
     )}
-    {status === "error" && <Alert variant="danger">{error.message}</Alert>}
+    {status === "error" && <Alert variant="danger">An error has occurred gathering favorites.</Alert>}
   </Container>
   );
 };

@@ -27,7 +27,9 @@ const Search = () => {
         );
         if (res.error) {
           console.log(res.error);
+          setStatus('error');
         } else {
+          console.log(res.data);
           setStatus("success");
           setData(res.data);
         }
@@ -61,7 +63,7 @@ const Search = () => {
           <PropagateLoader color="var(--accent)" />
         </div>
       )}
-      {status === "error" && <Alert variant="danger">{data.error}</Alert>}
+      {status === "error" && <Alert variant="danger">An error has occurred. Try again.</Alert>}
     </Container>
   );
 };

@@ -1,8 +1,13 @@
-.border {
+.tile {
   border: 1px solid var(--accent);
   box-shadow: 0 0 0 1px var(--accent);
   aspect-ratio: 4 / 3;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
 }
 
 .icon {

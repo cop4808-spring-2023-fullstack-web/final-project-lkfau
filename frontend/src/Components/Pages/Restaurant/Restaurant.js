@@ -19,7 +19,8 @@ const Restaurant = () => {
         setData((data) => ({ ...data, business: response.data }));
         setStatus("success");
       } else {
-        console.log(`Error fetching business: ${response.error}`);
+        setStatus('error');
+        console.log(response.error);
       }
     };
     const getReviews = async () => {
@@ -27,7 +28,8 @@ const Restaurant = () => {
       if (response.status === 200) {
         setData((data) => ({ ...data, reviews: response.data }));
       } else {
-        console.log(`Error fetching business: ${response.error}`);
+        setStatus('error');
+        console.log(response.error);
       }
     };
 
@@ -48,9 +50,8 @@ const Restaurant = () => {
     }
     
   }, [data])
-  console.log(status);
   return (
-    <Container className="px-0">
+    <Container className="px-0 mt-5">
       {status === "success" &&
           <Fade in={true} appear={true}>
             <div>
@@ -62,7 +63,7 @@ const Restaurant = () => {
           <PropagateLoader color="var(--accent)" />
         </div>}
       {status === "error" && (
-        <Alert variant="error">{data.business.error}</Alert>
+        <Alert className="mt-5" variant="danger">An error has occurred loading the restaurant.</Alert>
       )}
     </Container>
   );

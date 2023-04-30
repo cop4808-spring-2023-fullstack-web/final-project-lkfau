@@ -1,14 +1,9 @@
-.card {
-    background-color: var(--primary);
-    border-radius: 20px;
-    border: 1px solid #1A2E3D;
+.badge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.card .row + .row {
-  border-top: 2px solid var(--stroke);
+.badge > *{
+  height: fit-content;
 }
-
-.accent{
-  color: var(--accent)
-}
-  

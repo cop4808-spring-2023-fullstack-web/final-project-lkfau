@@ -1,39 +1,64 @@
-import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-/*import styles from "./Details.module.css";*/
+import { useEffect, useState } from "react";
+import { Col, Row, Badge } from "react-bootstrap";
 import Rating from "../../UI/Rating/Rating";
-import ImageCarousel from "./ImageCarousel/ImagesCarousel";
+import ImageCarousel from "./ImageCarousel/ImageCarousel";
 import Reviews from "./Reviews/Reviews";
-import Favorite from "./FavoriteCheckbox/FavoriteCheckbox";
+import FavoriteCheckbox from "./FavoriteCheckbox/FavoriteCheckbox";
 import Card from "../../UI/Card/Card";
+import Categories from "../SearchResults/Categories";
+import Transactions from "../SearchResults/Transactions";
 const Details = ({ restaurant, reviews }) => {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  }, []);
+  const wideEnough = width > 992 && (restaurant.photos && restaurant.photos.length);
+  const restaurantInfo = (
+    <>
+      <h1 className="display-6">{restaurant.name}</h1>
+      <div className="d-flex">
+        <Rating size="24px" rating={restaurant.rating} contain={wideEnough} />
+        <div className="d-flex flex-column justify-content-center ps-3">
+          <Badge bg={restaurant.is_closed ? "danger" : "success"}>
+            {restaurant.hours.open.is_open_now ? "Closed" : "Open"}
+          </Badge>
+        </div>
+      </div>
+      <Categories data={restaurant.categories} />
+      <Transactions data={restaurant.transactions} />
+      <FavoriteCheckbox restaurant={restaurant} />
+    </>
+  );
+
   return (
     <Card className="p-5">
-      <Container>
-        <Row>
-          <Col className="d-flex flex-column" xs={12} lg={6}>
-            <h1 className="display-2">{restaurant.name}</h1>
-            <Rating rating={restaurant.rating} />
-            <Favorite
-              restaurant_name={restaurant.name}
-              business_id={restaurant.id}
-            />
-          </Col>
-          <Col xs={12} lg={6} className="d-flex justify-content-center"></Col>
-        </Row>
-        <Row className="pb-4">
-          <Col>
-            <h3>Pictures</h3>
-            <ImageCarousel photos={restaurant.photos} />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <h3>Reviews ({restaurant.review_count})</h3>
-          </Col>
-          {reviews && <Reviews reviews={reviews.reviews}></Reviews>}
-        </Row>
-      </Container>
+      <Row className="pb-4">
+        <Col>
+          {!wideEnough && <>
+            
+            {restaurantInfo}
+            <h3 className="pt-4 pb-1">Gallery</h3>
+          </>}
+          <ImageCarousel photos={restaurant.photos}>
+            {wideEnough && restaurantInfo}
+          </ImageCarousel>
+        </Col>
+      </Row>
+      <Row>
+        <Col xl={6}>
+          <h3>Information</h3>
+        </Col>
+        <Col xl={6}>
+          <h3>Hours</h3>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h3>Reviews ({restaurant.review_count})</h3>
+        </Col>
+        {reviews && <Reviews reviews={reviews.reviews}></Reviews>}
+      </Row>
     </Card>
   );
 };

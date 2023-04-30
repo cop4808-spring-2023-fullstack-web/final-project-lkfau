@@ -12,6 +12,16 @@ const getConfig = (auth) => {
   };
 };
 
+const timeoutFetch = async(url, config) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+  try {
+    let response = await fetch(url, {...config, signal: controller.signal})
+    clearTimeout(timeout);
+    return response;
+  } catch (err) { throw err; }
+}
+
 const responseHandler = async (response) => {
   if (response.status >= 200 && response.status <= 299) {
     return {
@@ -36,12 +46,12 @@ export const searchRestaurants = async (
   try {
     let response;
     if (typeof locationData == "object") {
-      response = await fetch(
+      response = await timeoutFetch(
         `${url}/api/search?term=${searchTerm}&lat=${locationData.latitude}&long=${locationData.longitude}&page=${page}`,
         getConfig(accessToken)
       );
     } else {
-      response = await fetch(
+      response = await timeoutFetch(
         `${url}/api/search?term=${searchTerm}&loc=${locationData}`,
         getConfig(accessToken)
       );
@@ -61,7 +71,7 @@ export const addToFavorites = async (
   restaurant_name
 ) => {
   try {
-    let response = await fetch(`${url}/api/favorite`, {
+    let response = await timeoutFetch(`${url}/api/favorite`, {
       method: "POST",
       ...getConfig(accessToken),
       body: JSON.stringify({ business_id, restaurant_name }),
@@ -75,7 +85,7 @@ export const addToFavorites = async (
 
 export const removeFromFavorites = async (accessToken, business_id) => {
   try {
-    let response = await fetch(`${url}/api/favorite/${business_id}`, {
+    let response = await timeoutFetch(`${url}/api/favorite/${business_id}`, {
       method: "DELETE",
       ...getConfig(accessToken),
     });
@@ -88,7 +98,7 @@ export const removeFromFavorites = async (accessToken, business_id) => {
 
 export const checkFavorite = async (accessToken, business_id) => {
   try {
-    let response = await fetch(
+    let response = await timeoutFetch(
       `${url}/api/favorite/${business_id}`,
 
       getConfig(accessToken)
@@ -102,7 +112,7 @@ export const checkFavorite = async (accessToken, business_id) => {
 
 export const listFavorites = async (accessToken, restaurant_name = "") => {
   try {
-    let response = await fetch(
+    let response = await timeoutFetch(
       `${url}/api/favorites?restaurant_name=${restaurant_name}`,
       getConfig(accessToken)
     );
@@ -115,7 +125,7 @@ export const listFavorites = async (accessToken, restaurant_name = "") => {
 
 export const viewBusiness = async (accessToken, business_id) => {
   try {
-    const response = await fetch(`${url}/api/view/${business_id}`, getConfig(accessToken));
+    const response = await timeoutFetch(`${url}/api/view/${business_id}`, getConfig(accessToken));
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,
@@ -137,7 +147,7 @@ export const viewBusiness = async (accessToken, business_id) => {
 
 export const viewReview = async (accessToken, business_id) => {
   try {
-    const response = await fetch(`${url}/api/review/${business_id}`, getConfig(accessToken));
+    const response = await timeoutFetch(`${url}/api/review/${business_id}`, getConfig(accessToken));
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,
