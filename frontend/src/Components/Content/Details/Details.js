@@ -21,7 +21,7 @@ const Details = ({ restaurant, reviews }) => {
         <Rating size="24px" rating={restaurant.rating} contain={wideEnough} />
         <div className="d-flex flex-column justify-content-center ps-3">
           <Badge bg={restaurant.is_closed ? "danger" : "success"}>
-            {restaurant.hours.open.is_open_now ? "Closed" : "Open"}
+            {restaurant.hours[0].open.is_open_now ? "Closed" : "Open"}
           </Badge>
         </div>
       </div>
