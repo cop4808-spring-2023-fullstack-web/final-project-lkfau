@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PropagateLoader } from "react-spinners";
 import Container from "react-bootstrap/Container";
-import { listFavorites } from "../../../API/API";
+import { listFavorites } from "../../../Helpers/API";
 import { Alert, Fade } from "react-bootstrap";
 import SearchResults from "../../Content/SearchResults/SearchResults";
 import Searchbar from "../../UI/Searchbar/Searchbar";
@@ -10,13 +10,13 @@ import { useLocation } from "react-router-dom";
 const Favorites = () => {
   const { user } = useUserAuth();
   const [favorites, setFavorites] = useState([]);
+  const [term, setTerm] = useState("");
   const [status, setStatus] = useState("loading");
-  const location = useLocation();
-  const term = new URLSearchParams(location.search).get("term");
   useEffect(() => {
+    setStatus('loading');
     async function fetchData() {
       try {
-        const response = await listFavorites(user.accessToken);
+        const response = await listFavorites(user.accessToken, term);
         setFavorites(response.data)
         setStatus("success");
       } catch (err) {
@@ -26,7 +26,9 @@ const Favorites = () => {
     }
 
     fetchData();
-  }, [user.accessToken]);
+  }, [term, user.accessToken]);
+
+
 
   return (
     <Container className="px-0">
@@ -35,9 +37,9 @@ const Favorites = () => {
     </h1>
     <Searchbar
       className="pb-5"
-      
       style={{ maxWidth: "40rem" }}
       placeholder="Find a favorite..."
+      onSearch={(term) => setTerm(term)}
     />
     {status === "success" &&
       (favorites.length ? (

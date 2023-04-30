@@ -257,11 +257,12 @@ app.get("/api/search", async (req, res) => {
         url += `location=${req.query.location}&`;                                      //which is the URL-encoded representation of two single quotes
       }
 
-      url += req.query.term.length ? `term=${req.query.term}&` : "term=restaurant&"
+      url += req.query.term.length ? `term=restaurant%20${req.query.term}&` : "term=restaurant&"
 
       // Add filters here
 
       url += `limit=10&offset=${Math.floor(req.query.page * 10)}`
+      console.log(url);
       const response = await axios.get(url,{
           headers: {
             Authorization: `Bearer ${process.env.YELP_API_KEY}`,

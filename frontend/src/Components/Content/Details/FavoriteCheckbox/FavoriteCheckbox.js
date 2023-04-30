@@ -2,7 +2,7 @@ import {
   addToFavorites,
   removeFromFavorites,
   checkFavorite,
-} from "../../../../API/API";
+} from "../../../../Helpers/API";
 import { useState, useEffect } from "react";
 import useUserAuth from "../../../Auth/Hooks/useUserAuth";
 import { Form } from 'react-bootstrap'

@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Categories from "./Categories";
 import Transactions from "./Transactions";
 import { useLocation } from "react-router-dom";
-import { Container, Row, Col, Badge } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import styles from "./SearchResult.module.css";
 import Rating from "../../UI/Rating/Rating";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import TasteeButton from "../../UI/TasteeButton/TasteeButton";
 import ResultInfo from "./ResultInfo";
-import { removeFromFavorites } from "../../../API/API";
+import { removeFromFavorites } from "../../../Helpers/API";
 
 const SearchResult = (props) => {
   const { user } = useUserAuth();
@@ -31,7 +31,7 @@ const SearchResult = (props) => {
   };
   return (
     <Container className={`${styles.container} p-3`}>
-      <Row className="gy-3 d-flex align-items-center">
+      <Row className="d-flex align-items-center gy-3">
         <Col xxl={3} lg={4} md={12}>
           <img
             onClick={redirectHandler}
@@ -43,14 +43,10 @@ const SearchResult = (props) => {
         <Col className="ps-4">
           <h2 onClick={redirectHandler}>
             {restaurant.name}{" "}
-            <Badge bg={restaurant.is_closed ? "danger" : "success"}>
-              {restaurant.is_closed ? "Closed" : "Open"}
-            </Badge>
           </h2>
           <Rating rating={restaurant.rating} />
           <ResultInfo>
             <Categories data={restaurant.categories} />
-            {"\n"}
             <Transactions data={restaurant.transactions} />
             {user && restaurant.distance && (
               convertDistance(restaurant.distance) + " miles"
@@ -58,7 +54,7 @@ const SearchResult = (props) => {
           </ResultInfo>
           <div className={styles['button-container']}>
 
-          </div>
+          
           <TasteeButton className={styles.button} onClick={redirectHandler}>
             View restaurant
           </TasteeButton>
@@ -67,6 +63,7 @@ const SearchResult = (props) => {
               Remove Favorite
             </TasteeButton>
           )}
+          </div>
         </Col>
       </Row>
     </Container>

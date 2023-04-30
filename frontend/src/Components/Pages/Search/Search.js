@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { PropagateLoader } from "react-spinners";
 import Container from "react-bootstrap/Container";
-import { searchRestaurants } from "../../../API/API";
+import { searchRestaurants } from "../../../Helpers/API";
 import { Alert, Fade } from "react-bootstrap";
 import useLocationInfo from "../../Auth/Hooks/useLocationInfo";
 import SearchResults from "../../Content/SearchResults/SearchResults";
@@ -14,10 +14,13 @@ const Search = () => {
   const [status, setStatus] = useState("loading");
   const [data, setData] = useState();
   const location = useLocation();
-  const term = new URLSearchParams(location.search).get("term");
+  const [term, setTerm] = useState(new URLSearchParams(location.search).get("term"));
   const { getLocation } = useLocationInfo();
   const { user } = useUserAuth();
+
+
   useEffect(() => {
+    setStatus('loading');
     const getData = async (searchTerm) => {
       getLocation(async (location) => {
         const res = await searchRestaurants(
@@ -47,6 +50,7 @@ const Search = () => {
         className="pb-5"
         style={{ maxWidth: "40rem" }}
         placeholder="Find a restaurant..."
+        onSearch={(term) => setTerm(term)}
       />
       {status === "success" &&
         (data.businesses.length ? (

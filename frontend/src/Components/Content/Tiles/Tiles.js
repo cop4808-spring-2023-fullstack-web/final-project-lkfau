@@ -73,7 +73,8 @@ const Tiles = (props) => {
         style={{
           aspectRatio: 4 / 3,
         }}
-        className={`${styles.border} p-5 d-flex flex-column justify-content-center align-items-center text-center text-white`}
+        className={`${styles.tile} p-5 flex-column`}
+        onClick={() => navigate(`/search?term=${category.title}`)}
       >
         <FontAwesomeIcon
           className={`${styles.icon} pb-2`}

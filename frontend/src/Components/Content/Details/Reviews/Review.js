@@ -9,16 +9,17 @@ const Review = ({ review }) => {
   const showLinkHandler = () => {
     setShow((show) => !show);
   };
+  
   return (
     <Container className={"pt-4"}>
       <Row>
-        <Col xl={3} md={6} className="d-flex justify-content-between">
+        <Col xl={3} lg={4} className="d-flex justify-content-between">
           <p className="lead" style={{ marginBottom: "0.25rem" }}>
             {review.user.name}
           </p>
           <Rating size="20px" rating={review.rating} />
         </Col>
-        <Col xl={9} md={6}>
+        <Col xl={9} lg={8}>
           <div>
             <a
               style={{cursor: 'pointer', textDecoration: 'none', color: 'white'}}
@@ -32,7 +33,7 @@ const Review = ({ review }) => {
               {review.text}
             </a>
             <Overlay show={show} target={linkRef.current} placement={'top-start'}>
-              <Tooltip >Click for full review</Tooltip>
+              <Tooltip>Click for full review</Tooltip>
             </Overlay>
           </div>
         </Col>

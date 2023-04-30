@@ -10,6 +10,7 @@
 }
 
 .overlay {
+  border: 2px solid var(--accent);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

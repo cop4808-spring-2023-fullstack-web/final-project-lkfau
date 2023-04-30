@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Details from "../../Content/Details/Details";
-import { viewBusiness } from "../../../API/API";
-import { viewReview } from "../../../API/API";
+import { viewBusiness } from "../../../Helpers/API";
+import { viewReview } from "../../../Helpers/API";
 import { PropagateLoader } from "react-spinners";
 import { Container, Fade, Alert } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";

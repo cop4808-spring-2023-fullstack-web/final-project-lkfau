@@ -1,16 +1,11 @@
-import { useNavigate } from 'react-router-dom';
-import Menu from '../../Content/Menu/Menu';
-import Searchbar from '../../UI/Searchbar/Searchbar'
-import { Container, Row, Col } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
+import Menu from "../../Content/Menu/Menu";
+import Searchbar from "../../UI/Searchbar/Searchbar";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Home = () => {
   const navigate = useNavigate();
- 
-  const searchHandler = (e) => {
-    if (e.keyCode === 13) {
-      navigate(`/search?term=${e.target.value}`)
-    } 
-  }
+
   return (
     <Container className="pt-5">
       <Row className="gy-3">
@@ -18,7 +13,10 @@ const Home = () => {
           <h1 className="mb-0">Welcome back.</h1>
         </Col>
         <Col sm={12} md={6} lg={8}>
-          <Searchbar placeholder= "Find a restaurant..." onKeyDown={searchHandler} />
+          <Searchbar
+            placeholder="Find a restaurant..."
+            onSearch={(term) => navigate(`/search?term=${term}`)}
+          />
         </Col>
       </Row>
       <Menu />

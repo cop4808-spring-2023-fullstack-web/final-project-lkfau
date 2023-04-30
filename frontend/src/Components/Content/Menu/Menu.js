@@ -4,7 +4,7 @@ import styles from "./Menu.module.css";
 import useLocationInfo from "../../Auth/Hooks/useLocationInfo";
 import Tiles from "../Tiles/Tiles";
 import { useEffect, useState } from "react";
-import { searchRestaurants } from "../../../API/API";
+import { searchRestaurants } from "../../../Helpers/API";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 
 
