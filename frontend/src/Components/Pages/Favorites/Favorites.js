@@ -12,12 +12,15 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [term, setTerm] = useState("");
   const [status, setStatus] = useState("loading");
+  const [page, setPage] = useState(1)
+  const [numPages, setNumPages] = useState(1)
   useEffect(() => {
     setStatus('loading');
     async function fetchData() {
       try {
         const response = await listFavorites(user.accessToken, term);
-        setFavorites(response.data)
+        setFavorites(response.data.businesses)
+        setNumPages(response.data)
         setStatus("success");
       } catch (err) {
         console.log(err);
