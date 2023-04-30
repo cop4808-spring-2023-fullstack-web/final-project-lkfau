@@ -37,7 +37,7 @@ const Details = ({ restaurant, reviews }) => {
           {!wideEnough && (
             <>
               {restaurantInfo}
-              <h3 className="pt-4 pb-1">Gallery</h3>
+              <h3 className="pt-3 pb-1">Gallery</h3>
             </>
           )}
           <ImageCarousel photos={restaurant.photos}>
@@ -46,7 +46,7 @@ const Details = ({ restaurant, reviews }) => {
         </Col>
       </Row>
       <Row className="mb-5">
-        <Col className="mb-5" md={6}>
+        <Col className="mb-sm-5 mb-md-0" md={6}>
           <h3>Information</h3>
           <p className="mb-1">Phone: {restaurant.display_phone}</p>
           {restaurant.location.display_address.map((line, index) => (

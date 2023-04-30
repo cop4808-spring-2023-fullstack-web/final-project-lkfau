@@ -256,7 +256,7 @@ app.get("/api/search", async (req, res) => {
     }
 
     // If user validation succeeds, proceed with the request
-    let url = 'https://api.yelp.com/v3/businesses/search?';
+    let url = 'https://api.yelp.com/v3/businesses/search?categories=restaurants&';
   
     try {
       if (Object.hasOwn(req.query, "lat") && Object.hasOwn(req.query, "long")) {
@@ -265,12 +265,11 @@ app.get("/api/search", async (req, res) => {
         url += `location=${req.query.location}&`;                                      //which is the URL-encoded representation of two single quotes
       }
 
-      url += req.query.term.length ? `term=restaurant%20${req.query.term}&` : "term=restaurant&"
+      url += req.query.term.length ? `term=${req.query.term}&` : ""
 
       // Add filters here
 
       url += `limit=10&offset=${Math.floor(req.query.page * 10)}`
-      console.log(url);
       const response = await axios.get(url,{
           headers: {
             Authorization: `Bearer ${process.env.YELP_API_KEY}`,

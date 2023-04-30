@@ -11,7 +11,7 @@ const Review = ({ review }) => {
   };
   
   return (
-    <Container className={"pt-4"}>
+    <Container className={"pt-3"}>
       <Row>
         <Col xl={3} lg={4} className="d-flex justify-content-between">
           <p className="lead" style={{ marginBottom: "0.25rem" }}>
@@ -22,6 +22,7 @@ const Review = ({ review }) => {
         <Col xl={9} lg={8}>
           <div>
             <a
+              className="mt-1"
               style={{cursor: 'pointer', textDecoration: 'none', color: 'white'}}
               href={review.url}
               target="_blank"

@@ -16,7 +16,7 @@ const LoginSignup = ({section}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-
+  const [alertMessage, setAlertMessage] = useState(null);
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -42,16 +42,18 @@ const LoginSignup = ({section}) => {
       }
     } catch (err) {
       console.log(err)
-      setErrorMessage("Sign up error: Please make sure your password is atleast 6 characters. If you previously signed in with google, please do so.");
+      setErrorMessage("Sign up error: Please make sure your password is at least 6 characters. If you previously signed in with google, please do so.");
     }
   };
 
   const handleForgotPassword = async (email) => {
     try {
       await forgotPassword(email);
-      setErrorMessage("Password reset email has been sent if the account exists."); // clear any previous error messages
+      setAlertMessage("Password reset email has been sent if the account exists."); // clear any previous error messages
+      setErrorMessage("");
     } catch (err) {
-      setErrorMessage("Password reset email has been sent if the account exists."); // set error message
+      setAlertMessage("Password reset email has been sent if the account exists."); // set error message
+      setErrorMessage("");
     }
   };
   
@@ -66,7 +68,6 @@ const LoginSignup = ({section}) => {
               className={`${styles.nav} w-100 d-flex mb-3`}
               fill
               variant="pills"
-
             >
               <Nav.Item>
                 <NavLink className="nav-link" to="/login">Log in</NavLink>
@@ -124,6 +125,7 @@ const LoginSignup = ({section}) => {
             )}
           </Card>
           {errorMessage && <Alert className="mt-5" variant="danger">{errorMessage}</Alert>}
+          {alertMessage && <Alert className="mt-5" variant="success">{alertMessage}</Alert>}
         </Col>
       </Row>
     </Container>

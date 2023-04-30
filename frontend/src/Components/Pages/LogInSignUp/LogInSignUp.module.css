@@ -35,7 +35,10 @@
 
 .forgot-password:hover {
   color: var(--accent-highlight);
-  transition: color 0.1s ease-in-out;
+}
+
+.forgot-password:active {
+  color: white !important;
 }
 
 .accent {
