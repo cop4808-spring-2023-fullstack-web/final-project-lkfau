@@ -6,7 +6,7 @@ const SearchResults = (props) => {
   return (
   
     <Card className="p-3">
-      {props.data.map(restaurant => <SearchResult key={restaurant.id} data={restaurant} />)}    
+      {props.data.map(restaurant => <SearchResult key={restaurant.id} data={restaurant} setFavorites={props.setFavorites} />)}    
     </Card>)
 
 }
