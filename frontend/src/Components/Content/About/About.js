@@ -1,6 +1,5 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import styles from "./About.module.css";
 import restaurant from "../../../Assets/About/restaurant.jpg";
 import favorite from "../../../Assets/About/favorite.jpg";
 import Card from "../../UI/Card/Card";
