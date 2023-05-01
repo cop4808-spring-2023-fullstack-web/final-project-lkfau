@@ -36,7 +36,7 @@ const Favorites = () => {
 
   return (
     <Container className="px-0">
-      <h1 onClick={() => console.log(favorites)} className={"pt-5 pb-2"}>
+      <h1 className={"pt-5 pb-2"}>
         My favorites
       </h1>
       <Searchbar

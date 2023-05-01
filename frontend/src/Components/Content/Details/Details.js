@@ -15,7 +15,6 @@ const Details = ({ restaurant, reviews }) => {
   }, []);
   const wideEnough =
     width > 992 && restaurant.photos && restaurant.photos.length;
-  console.log(restaurant);
   const restaurantInfo = (
     <>
       <h1 className="display-6 mb-0">{restaurant.name}</h1>
@@ -57,7 +56,14 @@ const Details = ({ restaurant, reviews }) => {
               {index === 0 ? "Address:" : ""} {line}
             </p>
           ))}
-          <a className="text-decoration-none" href={restaurant.url}>Visit restaurant page</a>
+          <a
+            className="text-decoration-none"
+            href={restaurant.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Visit restaurant page
+          </a>
         </Col>
         {restaurant.hours && (
           <Col md={6}>

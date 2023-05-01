@@ -161,7 +161,6 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
 
     // If user validation succeeds, proceed with the request
     var business_id = req.params.business_id;
-    console.log(business_id);
     try {
       const favorite = await Favorite.findOneAndDelete({
         user_id: user.uid,
@@ -316,7 +315,6 @@ app.get("/api/search", async (req, res) => {
         res.status(404).json({ message: "Error" });
       }
     } catch (err) {
-      //console.log(err);
       res.status(500).json({ message: "Error" });
     }
   } catch (err) {
