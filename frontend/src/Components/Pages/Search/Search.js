@@ -50,10 +50,11 @@ const Search = () => {
         {term ? `Search results for ${term}` : "Restaurants near me"}
       </h1>
       <Searchbar
-        className="pb-5"
+        
         placeholder="Find a restaurant..."
         onSearch={(term) => setTerm(term)}
       />
+      <div className="mb-5"></div>
       {numPages !== null && (
         <Pagination page={page} numPages={numPages} setPage={setPage} />
       )}

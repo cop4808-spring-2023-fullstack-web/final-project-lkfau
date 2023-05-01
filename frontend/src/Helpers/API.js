@@ -176,3 +176,18 @@ export const viewReview = async (accessToken, business_id) => {
     };
   }
 };
+
+export const getAutoComplete = async (accessToken, text) => {
+  try {
+    const response = await timeoutFetch(
+      `${url}/api/autocomplete/${text}`,
+      getConfig(accessToken)
+    );
+    return await responseHandler(response);
+  } catch (err) {
+    return {
+      status: 500,
+      error: err,
+    };
+  }
+};
