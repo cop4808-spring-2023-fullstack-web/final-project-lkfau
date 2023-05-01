@@ -34,7 +34,6 @@ const Favorite = (props) => {
       }
     } else {
       try {
-        console.log(restaurant)
         await addToFavorites(user.accessToken, restaurant.id, restaurant.name);
         setIsFavorite(true);
       } catch (error) {

@@ -23,7 +23,6 @@ const Menu = () => {
           console.log(res.error);
           setData('error');
         } else {
-          console.log(res.data);
           setData(res.data);
         }
       });
