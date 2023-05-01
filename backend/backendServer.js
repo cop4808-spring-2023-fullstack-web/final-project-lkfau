@@ -1,6 +1,5 @@
 //Imports
 const express = require("express");
-require("dotenv").config();
 const app = express();
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -43,8 +42,8 @@ const swaggerOptions = {
 };
 
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({path: path.join(__dirname, './.env')}); // local env
   app.use(express.static(path.join(__dirname, '../frontend/public'))); // local runtime environment
+  require("dotenv").config();
 } else {
   app.use(express.static(path.join(__dirname, '../frontend/build'))); // production build environment
   app.get("*", function (req, res, next) {
