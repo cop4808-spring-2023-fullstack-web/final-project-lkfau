@@ -33,7 +33,7 @@ const Review = ({ review }) => {
             >
               {review.text}
             </a>
-            <Overlay show={show} target={linkRef.current} placement={'top-start'}>
+            <Overlay show={show} target={linkRef.current} placement={'top'}>
               <Tooltip>Click for full review</Tooltip>
             </Overlay>
           </div>
