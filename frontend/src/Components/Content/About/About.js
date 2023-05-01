@@ -10,7 +10,7 @@ const About = () => {
   // Returns JSX elements
   return (
  
-    <Card style={{transform: 'translateY(-7em)'}}className="mb-5 p-5">
+    <Card className="mb-5 p-5">
       <Container>
        
       <Row
