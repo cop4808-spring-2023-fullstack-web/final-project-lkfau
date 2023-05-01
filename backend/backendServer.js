@@ -26,7 +26,6 @@ const swaggerOptions = {
 };
 
 if (process.env.NODE_ENV !== "production") {
-  console.log("rttjrjtjrtjrt");
   app.use(express.static(path.join(__dirname, "../frontend/public"))); // local runtime environment
   require("dotenv").config();
 } else {
@@ -44,7 +43,7 @@ const adminConfig = {
   type: process.env.TYPE,
   project_id: process.env.PROJECT_ID,
   private_key_id: process.env.PRIVATE_KEY_ID,
-  private_key: process.env.PRIVATE_KEY,
+  private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
   client_email: process.env.CLIENT_EMAIL,
   client_id: process.env.CLIENT_ID,
   auth_uri: process.env.AUTH_URI,
@@ -91,7 +90,7 @@ const validateUser = async (req) => {
     return false;
   }
 
-  if (token == defaultToken) {
+  if (token) {
     return true;
   }
 
