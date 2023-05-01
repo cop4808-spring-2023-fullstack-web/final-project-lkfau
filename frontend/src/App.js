@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LoginSignup from "./Components/Pages/LogInSignUp/LogInSignUp";
 import { Navigate } from "react-router-dom";
 import Restaurant from "./Components/Pages/Restaurant/Restaurant";
+import { BarLoader } from "react-spinners";
 const HomeController = () => {
   const { user } = useUserAuth();
 
@@ -35,7 +36,9 @@ const Loader = () => {
   const {loading} = useUserAuth()
   if(loading)
   {
-      return <>Loading...</>
+      return <div style={{height: "100vh", backgroundColor: "var(--bg)"}} className="d-flex w-100 justify-content-center align-items-center d-flex">
+      <BarLoader color={"var(--accent)"}/>
+      </div>
   }
   return <Layout/>
 }
