@@ -40,6 +40,7 @@ const Favorites = () => {
         My favorites
       </h1>
       <Searchbar
+        autocomplete={false} 
         className="pb-5"
         style={{ maxWidth: "40rem" }}
         placeholder="Find a favorite..."

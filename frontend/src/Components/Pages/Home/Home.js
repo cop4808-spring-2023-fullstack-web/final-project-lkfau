@@ -14,6 +14,7 @@ const Home = () => {
         </Col>
         <Col sm={12} md={6} lg={8}>
           <Searchbar
+            autocomplete={true}
             placeholder="Find a restaurant..."
             onSearch={(term) => navigate(`/search?term=${term}`)}
           />
