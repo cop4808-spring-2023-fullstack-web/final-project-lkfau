@@ -81,7 +81,15 @@ const validateUser = async (req) => {
 };
 
 //Functions
-//Add Favorite
+/**
+ * @description: Adds favorite
+ * @callback
+ * @param {Object} req - A HTTP request object
+ * @param {Object} res - A HTTP response object
+ * @returns - Status code of 401 and an error message saying "invalid token" is 
+ *            returned if student document already exists; else, status code of 
+ *            200 is returned with a message
+ */
 app.post("/api/favorite", async (req, res) => {
   try {
 
