@@ -39,10 +39,12 @@ const responseHandler = async (response) => {
 export const searchRestaurants = async (
   accessToken,
   searchTerm = "",
-  locationData = "Boca Raton",
+  locationData,
   page = 0
 ) => {
-  locationData = locationData ? locationData : "Boca Raton";
+  if (locationData === null) {
+    locationData = "Boca Raton"
+  }
   try {
     let response;
     if (typeof locationData == "object") {

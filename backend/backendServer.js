@@ -327,14 +327,15 @@ app.get("/api/search", async (req, res) => {
         url += `latitude=${req.query.lat}&longitude=${req.query.long}&location=%27%27&`; //For some reason yelp api call does not work if I just put empty string,
       } else {
         //but will send an empty string if I set location = to %27%27
-        url += `location=${req.query.location}&`; //which is the URL-encoded representation of two single quotes
+        url += `location=${req.query.loc}&`; //which is the URL-encoded representation of two single quotes
       }
 
       url += req.query.term.length ? `term=${req.query.term}&` : "";
 
       // Add filters here
 
-      url += `limit=10&offset=${Math.floor(req.query.page * 10)}`;
+      url += `limit=10&offset=${req.query.page ? Math.floor(req.query.page * 10) : "0"}`;
+      url = url.replace(" ", "%20");
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${process.env.YELP_API_KEY}`,

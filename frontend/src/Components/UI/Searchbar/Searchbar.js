@@ -28,7 +28,6 @@ const Searchbar = (props) => {
         }
       }
     };
-    console.log(loading);
     if (!loading) {
       fetchAutoComplete();
     } else {
