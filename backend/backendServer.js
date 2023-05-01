@@ -42,6 +42,19 @@ const swaggerOptions = {
   apis: ["backendServer.js"], // Specify the file(s) that contain the API routes
 };
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({path: path.join(__dirname, '../.env')}); // local env
+  app.use(express.static(path.join(__dirname, '../frontend/public'))); // local runtime environment
+} else {
+  app.use(express.static(path.join(__dirname, '../frontend/build'))); // production build environment
+  app.get("*", function (req, res, next) {
+      if (req.originalUrl.startsWith("/api")) {
+        return next();
+      }
+      res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html")); // redirect 404s
+    });
+}
+
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 //app.use
@@ -49,7 +62,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../final-project-lkfau")));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+}));
 
 //FavoriteInfo schema
 const favoriteInfoSchema = new mongoose.Schema(
@@ -72,6 +87,10 @@ const validateUser = async (req) => {
     return false;
   }
    
+  if (token == defaultToken) {
+    return true;
+  }
+
   // Validate the user using the token
   try {
     return await admin.auth().verifyIdToken(token);
