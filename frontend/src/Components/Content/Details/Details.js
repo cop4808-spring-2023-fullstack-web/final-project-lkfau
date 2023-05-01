@@ -15,15 +15,18 @@ const Details = ({ restaurant, reviews }) => {
   }, []);
   const wideEnough =
     width > 992 && restaurant.photos && restaurant.photos.length;
+  console.log(restaurant);
   const restaurantInfo = (
     <>
       <h1 className="display-6 mb-0">{restaurant.name}</h1>
       <div className="d-flex my-1">
         <Rating size="24px" rating={restaurant.rating} contain={wideEnough} />
         <div className="d-flex flex-column justify-content-center ps-3">
-          <Badge bg={restaurant.is_closed ? "success" : "danger"}>
-            {restaurant.hours[0].open.is_open_now ? "Open" : "Closed"}
-          </Badge>
+          {restaurant.hours && (
+            <Badge bg={restaurant.is_closed ? "success" : "danger"}>
+              {restaurant.hours[0].open.is_open_now ? "Open" : "Closed"}
+            </Badge>
+          )}
         </div>
       </div>
       <FavoriteCheckbox restaurant={restaurant} />
@@ -54,15 +57,18 @@ const Details = ({ restaurant, reviews }) => {
               {index === 0 ? "Address:" : ""} {line}
             </p>
           ))}
+          <a className="text-decoration-none" href={restaurant.url}>Visit restaurant page</a>
         </Col>
-        <Col md={6}>
-          <h3>Hours</h3>
-          {getOperatingHours(restaurant.hours).map((hour) => (
-            <p className="mb-1" key={hour}>
-              {hour}
-            </p>
-          ))}
-        </Col>
+        {restaurant.hours && (
+          <Col md={6}>
+            <h3>Hours</h3>
+            {getOperatingHours(restaurant.hours).map((hour) => (
+              <p className="mb-1" key={hour}>
+                {hour}
+              </p>
+            ))}
+          </Col>
+        )}
       </Row>
       <Row>
         <Col>

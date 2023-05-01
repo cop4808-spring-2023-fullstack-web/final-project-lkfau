@@ -36,7 +36,7 @@ const SearchResult = (props) => {
           <img
             onClick={redirectHandler}
             className={styles.image}
-            src={restaurant.image_url}
+            src={restaurant.image_url || 'holder.js/100px180'}
             alt={restaurant.name}
           ></img>
         </Col>

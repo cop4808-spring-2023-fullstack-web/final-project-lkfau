@@ -36,16 +36,14 @@ const Search = () => {
           console.log(res.error);
           setStatus("error");
         } else {
-          console.log(res.data);
           setStatus("success");
           setData(res.data);
-          setNumPages(Math.ceil(res.total / 10));
+          setNumPages(Math.ceil(res.data.total / 10));
         }
       });
     };
     getData(term);
   }, [getLocation, term, user.accessToken, page]);
-  console.log(status);
   return (
     <Container className="px-0">
       <h1 className={"pt-5 pb-2"}>
@@ -53,7 +51,6 @@ const Search = () => {
       </h1>
       <Searchbar
         className="pb-5"
-        style={{ maxWidth: "40rem" }}
         placeholder="Find a restaurant..."
         onSearch={(term) => setTerm(term)}
       />

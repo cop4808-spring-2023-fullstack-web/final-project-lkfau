@@ -1,0 +1,18 @@
+.main > * {
+  --bs-pagination-bg: var(--primary);
+
+  --bs-pagination-color: white;
+  --bs-pagination-hover-color: var(--accent);
+  --bs-pagination-hover-bg: var(--stroke);
+  --bs-pagination-hover-border-color: var(--bg);
+  --bs-pagination-focus-color: var(--accent);
+  --bs-pagination-focus-bg: var(--stroke);
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem var(--placeholder);
+  --bs-pagination-active-color: var(--accent-highlight);
+  --bs-pagination-active-bg: var(--stroke)
+  --bs-pagination-active-border-color: var(--accent);
+  --bs-pagination-border-color: var(--bg);
+  --bs-pagination-disabled-bg: var(--dark);
+  --bs-pagination-disabled-border-color: var(--bg);
+  --bs-pagination-disabled-color: #6c757d;
+}

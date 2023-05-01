@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Container, Row, Col, Nav, Card, Button, Alert } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ const LoginSignup = ({section}) => {
         navigate("/");
       }
     } catch (err) {
-      setErrorMessage("Login error: If you have previously signed in with google, please do so.");
+      setErrorMessage("Error logging in - If you have previously signed in with google, please do so.");
     }
     try {
       if (section === "signup") {
@@ -42,21 +42,30 @@ const LoginSignup = ({section}) => {
       }
     } catch (err) {
       console.log(err)
-      setErrorMessage("Sign up error: Please make sure your password is at least 6 characters. If you previously signed in with google, please do so.");
+      setErrorMessage("Error signing up - Please make sure your password is at least 6 characters. If you previously signed in with google, please do so.");
     }
   };
 
   const handleForgotPassword = async (email) => {
     try {
       await forgotPassword(email);
-      setAlertMessage("Password reset email has been sent if the account exists."); // clear any previous error messages
-      setErrorMessage("");
+      setAlertMessage("A password reset email has been sent if the account exists."); // clear any previous error messages
     } catch (err) {
-      setAlertMessage("Password reset email has been sent if the account exists."); // set error message
-      setErrorMessage("");
+      setAlertMessage("A password reset email has been sent if the account exists."); // set error message
     }
   };
   
+  useEffect(() => {
+    if (errorMessage != null) {
+      setAlertMessage(null);
+    }
+  }, [errorMessage])
+
+  useEffect(() => {
+    if (alertMessage != null) {
+      setErrorMessage(null);
+    }
+  }, [alertMessage])
 
   return (
     <Container className="mt-5 mb-5" style={{ width: "100%" }}>

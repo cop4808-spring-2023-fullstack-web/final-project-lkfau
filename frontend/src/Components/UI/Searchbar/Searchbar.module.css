@@ -1,6 +1,7 @@
 
 .searchbar {
   font-size: 1.5em;
+  max-width: 50rem
 }
 
 .searchbar input::placeholder {

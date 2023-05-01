@@ -12,7 +12,20 @@ body {
   --dark: #121821;
   --bg: #0F1118;
   --stroke: #1A2E3D;
-  scrollbar-color: black black;
+
+
+}
+
+.alert-danger {
+  background-color: rgba(207, 87, 99, 0.3) !important;
+  border:2px solid rgb(197, 80, 91) !important;
+  color: white !important;
+}
+
+.alert-success {
+  background-color: rgba(102, 234, 144, 0.3) !important;
+  border:2px solid var(--accent) !important;
+  color: white !important;
 }
 
 .form-control:focus {
@@ -23,9 +36,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-
-
 
 @media (prefers-reduced-motion: reduce) {
   button {

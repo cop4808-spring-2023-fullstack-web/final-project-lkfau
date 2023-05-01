@@ -7,7 +7,7 @@ import Card from "../../UI/Card/Card";
 const About = () => {
   return (
  
-    <Card className="mb-5 p-5">
+    <Card style={{transform: 'translateY(-7em)'}}className="mb-5 p-5">
       <Container>
        
       <Row
