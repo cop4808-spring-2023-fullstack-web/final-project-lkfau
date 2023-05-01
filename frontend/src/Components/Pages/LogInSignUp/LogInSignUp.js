@@ -1,3 +1,4 @@
+// Importing components and modules needed from react-bootstrap, react-router-dom, and local components
 import { useEffect, useState } from "react";
 import { Form, Container, Row, Col, Nav, Card, Button, Alert } from "react-bootstrap";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
@@ -6,9 +7,9 @@ import styles from "./LogInSignUp.module.css";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-
 import TasteeButton from "../../UI/TasteeButton/TasteeButton";
 
+// Defined LoginSignup component which handles the functionality for logging in and signing up 
 const LoginSignup = ({section}) => {
   const { logIn, signUp, logInWithGoogle, forgotPassword } = useUserAuth();
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const LoginSignup = ({section}) => {
     setPassword(event.target.value);
   };
 
+  // Submit handler for login and signup forms
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -46,6 +48,7 @@ const LoginSignup = ({section}) => {
     }
   };
 
+  // Function to handle if user forgets password 
   const handleForgotPassword = async (email) => {
     try {
       await forgotPassword(email);
@@ -55,18 +58,21 @@ const LoginSignup = ({section}) => {
     }
   };
   
+  // Effect to clear alert message when an error message is present 
   useEffect(() => {
     if (errorMessage != null) {
       setAlertMessage(null);
     }
   }, [errorMessage])
 
+  // Effect to clear error message when an alert message is present
   useEffect(() => {
     if (alertMessage != null) {
       setErrorMessage(null);
     }
   }, [alertMessage])
 
+  // JSX used for loginSignup component
   return (
     <Container className="mt-5 mb-5" style={{ width: "100%" }}>
       <Row>
