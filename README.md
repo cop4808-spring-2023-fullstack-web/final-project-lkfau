@@ -34,5 +34,5 @@ The Tastee website has a user-friendly interface that allows users to search for
 
 ## Links
 - Website Link: https://tasteee.herokuapp.com/
-- Demo Link:
+- Demo Link: https://youtu.be/-lQt7i55OtA
 
