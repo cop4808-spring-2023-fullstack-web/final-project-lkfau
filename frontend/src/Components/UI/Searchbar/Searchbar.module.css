@@ -1,7 +1,8 @@
 
 .searchbar {
   font-size: 1.5em;
-  max-width: 50rem
+  max-width: 50rem;
+  z-index: 2;
 }
 
 .searchbar input::placeholder {
@@ -23,4 +24,24 @@
 .searchbar > *:not(:last-child) {
   border-right: none !important;
   border-radius: 0.75rem 0 0 0.75rem !important;
+}
+
+.autocomplete {
+  position: absolute;
+  background-color: var(--dark);
+  width: 100%;
+  border: 2px solid var(--primary);
+  transform: translateY(-1rem);
+  max-width: 50rem;
+  z-index: 1;
+  border-radius: 12px;
+}
+
+.autocomplete > * {
+  cursor: pointer;
+  padding: 0.1rem 0;
+}
+
+.autocomplete > *:hover {
+  background-color: var(--primary);
 }

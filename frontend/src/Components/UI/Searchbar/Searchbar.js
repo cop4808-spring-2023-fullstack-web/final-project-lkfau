@@ -12,49 +12,49 @@ const Searchbar = (props) => {
   const { user } = useUserAuth();
   const [results, setResults] = useState([]);
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchAutoComplete = async () => {
-      try {
-        const response = await getAutoComplete(user.accessToken, text);
-        if (response.data) {
-          setResults(response.data.terms);
+      if (text !== "") {
+        try {
+          const response = await getAutoComplete(user.accessToken, text);
+          if (response.data) {
+            setResults(response.data.terms);
+          }
+        } catch (error) {
+          setResults([]);
+          console.error(error);
         }
-       
-      } catch (error) {
-        setResults([]);
-        console.error(error);
       }
     };
-
-    const timeout = setTimeout(() => {
-      if (props.autocomplete) {
-        fetchAutoComplete();
-      }
-    }, 500)
-
-    searchBarRef.current.addEventListener('keydown', (e) => {
-      if (e.keyCode === 13) {
-        clearTimeout(timeout);
-      }
-    });
-   return () => {
-    clearTimeout(timeout);
-   }
-  }, [text, user.accessToken, props.autocomplete]);
-
-  const searchHandler = (e) => {
-    if (e.keyCode) {
-      if (e.keyCode === 13) {
-        console.log('test')
-        setResults([]);
-        props.onSearch(text);
-      }
+    console.log(loading);
+    if (!loading) {
+      fetchAutoComplete();
     } else {
-      setResults([]);
+      setTimeout(() => setLoading(false), 300);
+    }
+    // eslint-disable-next-line
+  }, [loading, user.accessToken]);
+
+  const search = (e, term) => {
+    setResults([]);
+    if (term) {
+      setText(term);
+      props.onSearch(term);
+    } else {
       props.onSearch(text);
     }
-  }
+  };
+
+  const searchHandler = (e) => {
+    if (e.keyCode === 13) {
+      search();
+    } else {
+      setText(e.target.value);
+      setLoading(true);
+    }
+  };
   const searchBarRef = useRef(null);
 
   return (
@@ -73,31 +73,18 @@ const Searchbar = (props) => {
             aria-label="Search"
             onKeyDown={searchHandler}
           />
-          <InputGroup.Text
-            className="text-light"
-            onClick={searchHandler}
-          >
+          <InputGroup.Text className="text-light" onClick={search}>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </InputGroup.Text>
         </InputGroup>
 
         {(props.autocomplete && results.length) > 0 && (
-          <div
-            className="p-3"
-            style={{
-              position: "absolute",
-              backgroundColor: "var(--primary)",
-              width: "100%",
-              border: "1px solid var(--stroke)",
-              maxWidth: "50rem",
-              zIndex: 9999,
-            }}
-          >
+          <div className={`${styles.autocomplete} p-3 pb-2 pt-4`}>
             {results &&
               results.map((result) => (
                 <div
                   key={result.text}
-                  onClick={searchHandler}
+                  onClick={(e) => search(e, e.target.innerHTML)}
                 >
                   {result.text}
                 </div>

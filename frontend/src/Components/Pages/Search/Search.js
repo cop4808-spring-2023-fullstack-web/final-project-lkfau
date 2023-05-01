@@ -44,6 +44,7 @@ const Search = () => {
     };
     getData(term);
   }, [getLocation, term, user.accessToken, page]);
+  
   return (
     <Container className="px-0">
       <h1 className={"pt-5 pb-2"}>
