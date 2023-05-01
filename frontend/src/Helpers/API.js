@@ -1,7 +1,5 @@
 const url =
-  process.env.NODE_ENV === "production"
-    ? "https://lkhw10.herokuapp.com"
-    : `http://localhost:5678`;
+  process.env.NODE_ENV === "production" ? "" : `http://localhost:5678`;
 
 const getConfig = (auth) => {
   return {
@@ -12,15 +10,17 @@ const getConfig = (auth) => {
   };
 };
 
-const timeoutFetch = async(url, config) => {
+const timeoutFetch = async (url, config) => {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
   try {
-    let response = await fetch(url, {...config, signal: controller.signal})
+    let response = await fetch(url, { ...config, signal: controller.signal });
     clearTimeout(timeout);
     return response;
-  } catch (err) { throw err; }
-}
+  } catch (err) {
+    throw err;
+  }
+};
 
 const responseHandler = async (response) => {
   if (response.status >= 200 && response.status <= 299) {
@@ -110,7 +110,11 @@ export const checkFavorite = async (accessToken, business_id) => {
   }
 };
 
-export const listFavorites = async (accessToken, restaurant_name = "", page) => {
+export const listFavorites = async (
+  accessToken,
+  restaurant_name = "",
+  page
+) => {
   try {
     let response = await timeoutFetch(
       `${url}/api/favorites?restaurant_name=${restaurant_name}&page=${page}`,
@@ -125,7 +129,10 @@ export const listFavorites = async (accessToken, restaurant_name = "", page) => 
 
 export const viewBusiness = async (accessToken, business_id) => {
   try {
-    const response = await timeoutFetch(`${url}/api/view/${business_id}`, getConfig(accessToken));
+    const response = await timeoutFetch(
+      `${url}/api/view/${business_id}`,
+      getConfig(accessToken)
+    );
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,
@@ -147,7 +154,10 @@ export const viewBusiness = async (accessToken, business_id) => {
 
 export const viewReview = async (accessToken, business_id) => {
   try {
-    const response = await timeoutFetch(`${url}/api/review/${business_id}`, getConfig(accessToken));
+    const response = await timeoutFetch(
+      `${url}/api/review/${business_id}`,
+      getConfig(accessToken)
+    );
     if (response.status >= 200 && response.status <= 299) {
       return {
         status: response.status,
