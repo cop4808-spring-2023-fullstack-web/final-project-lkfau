@@ -1,6 +1,8 @@
 # Tastee
 Logan Karstens, Dayaan Mazhar, Rohit Varghese, Zayne Melnick 
 
+![](https://github.com/cop4808-spring-2023-fullstack-web/final-project-lkfau/blob/main/tastee.gif)
+
 ## Overview
 Tastee is a restaurant discovery platform that allows users to search for local restaurants based on location, type, and other filters. The website features detailed information about these restaurants such as price. Users can create an account on Tastee, which will allow them to save their favorite restaurants. 
 
