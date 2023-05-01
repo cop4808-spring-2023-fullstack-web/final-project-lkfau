@@ -20,13 +20,13 @@ The Tastee website has a user-friendly interface that allows users to search for
 - ExpressJS
 - MongoDB
 
-##How to run backend
+## How to run backend
 1. Have npm/NodeJS installed
 2. Install all necessary dependencies by running npm install in the backend directory of the project.
 3. Set up the necessary environment variables. You can do this by creating a .env file in the root directory of the project, and filling it in with the appropriate values for your environment. An example .env file has been provided in the .env.example file. You can copy this file to create your own .env file with the appropriate values.
 4. Start the backend server by running node backendServer.js in the backend directory of the project. This will start the server at http://localhost:5678/.
 
-##How to run frontend
+## How to run frontend
 1. Create react app
 2. Install all necessary dependencies by running npm install in the frontend directory of the project.
 3. Set up the necessary environment variables. You can do this by creating a .env file in the root directory of the project, and filling it in with the appropriate values for your environment. An example .env file has been provided in the .env.example file. You can copy this file to create your own .env file with the appropriate values.
