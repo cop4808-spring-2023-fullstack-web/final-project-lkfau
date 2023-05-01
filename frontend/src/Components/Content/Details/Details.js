@@ -1,3 +1,4 @@
+// Importing modules and components needed 
 import { useEffect, useState } from "react";
 import { Col, Row, Badge } from "react-bootstrap";
 import Rating from "../../UI/Rating/Rating";
@@ -8,13 +9,17 @@ import Card from "../../UI/Card/Card";
 
 import getOperatingHours from "../../../Helpers/Hours";
 
+// Details component is defined to display restaurant details 
 const Details = ({ restaurant, reviews }) => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(window.innerWidth); // Setting the width state to be the window's inner width
   useEffect(() => {
     window.addEventListener("resize", () => setWidth(window.innerWidth));
   }, []);
+  // Checks if the photos exist and the window is wide enough to display them
   const wideEnough =
     width > 992 && restaurant.photos && restaurant.photos.length;
+
+  // Restaurant information to be displayed
   const restaurantInfo = (
     <>
       <h1 className="display-6 mb-0">{restaurant.name}</h1>
@@ -32,6 +37,7 @@ const Details = ({ restaurant, reviews }) => {
     </>
   );
 
+  // JSX for displaying restaurant details
   return (
     <Card className="p-5">
       <Row className="pb-4">

@@ -1,3 +1,4 @@
+// Importing modules and components 
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 
@@ -7,13 +8,18 @@ import Navbar from "react-bootstrap/Navbar";
 import { NavLink, Link } from "react-router-dom";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import styles from "./Navbar.module.css"
-const NavBar = () => {
-  const location = useLocation();
-  const { user, logOut } = useUserAuth();
-  const landingPage = location.pathname === "/" && !user;
-  const show = !["/login", "/signup"].includes(location.pathname);
-  const [banner, setBanner] = useState(landingPage);
 
+// NavBar component is defined
+const NavBar = () => { 
+  // States are initialized 
+  const location = useLocation(); // Getting the current location
+  const { user, logOut } = useUserAuth(); // Retrieving user info and the logOut function using the useUserAuth custom 
+  const landingPage = location.pathname === "/" && !user; // Determining if the current page is the landing page
+  const show = !["/login", "/signup"].includes(location.pathname); // Determining if the current page is one of the pages where the navbar should be shown
+  const [banner, setBanner] = useState(landingPage); // Setting the banner state based on whether the current page is the landing page
+  
+  // Adding an event listener to the window to check for changes in the scrolling position 
+  // and handle the banner display accordingly
   useEffect(() => {
     const scrollHandler = () => {
       if (banner) {
@@ -33,6 +39,7 @@ const NavBar = () => {
     }
   }, [banner, landingPage, location])
 
+  // Rendering the NavBar component
   return (
     <Navbar className={`${banner ? styles.bannerNav : styles.normalNav} ${show ? "" : "d-none"}`} sticky="top" variant="dark" expand="md">
       <Container className={styles.navContainer}>

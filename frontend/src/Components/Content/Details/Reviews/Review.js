@@ -1,15 +1,18 @@
+// Importing necessary libraries and components
 import { useState, useRef } from "react";
 
 import { Container, Row, Col, Overlay, Tooltip } from "react-bootstrap";
 import Rating from "../../../UI/Rating/Rating";
 
+// Review component is defined 
 const Review = ({ review }) => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);  // State is initialized
   const linkRef = useRef(null);
   const showLinkHandler = () => {
     setShow((show) => !show);
   };
   
+  // JSX returned by the component
   return (
     <Container className={"pt-3"}>
       <Row>

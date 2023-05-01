@@ -1,3 +1,4 @@
+// Transactions component is defined
 const Transactions = (props) => {
   if (props.data.length) {
     return `Available for

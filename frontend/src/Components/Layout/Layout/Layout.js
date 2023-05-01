@@ -1,8 +1,10 @@
+// Importing modules 
 import { Outlet } from "react-router-dom";
 import styles from "./Layout.module.css";
 import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
-// render navbar body and footer
+
+// Layout component is defined to render navbar body and footer
 const Layout = () => {
   return (
     <div className={styles.wrapper}>
