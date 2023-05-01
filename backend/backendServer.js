@@ -1,4 +1,4 @@
-//Imports
+// Importing necessary modules
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -6,24 +6,9 @@ const path = require("path");
 const http = require("http");
 const MongoClient = require("mongodb").MongoClient;
 const mongoose = require("mongoose");
-const swaggerUI = require("swagger-ui-express");
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerDocument = require("./swagger.json");
 const cors = require("cors");
 const axios = require("axios");
 const admin = require("firebase-admin");
-
-//Swagger configuration
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Database and YELP API endpoint",
-      version: "1.0.0",
-    },
-  },
-  apis: ["backendServer.js"], // Specify the file(s) that contain the API routes
-};
 
 if (process.env.NODE_ENV !== "production") {
   app.use(express.static(path.join(__dirname, "../frontend/public"))); // local runtime environment
@@ -56,20 +41,17 @@ admin.initializeApp({
   credential: admin.credential.cert(adminConfig),
 });
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-
-//app.use
+// app.use
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../final-project-lkfau")));
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
 );
 
-//FavoriteInfo schema
+// FavoriteInfo schema
 const favoriteInfoSchema = new mongoose.Schema(
   {
     user_id: String,
@@ -82,6 +64,16 @@ const favoriteInfoSchema = new mongoose.Schema(
 //Set favorite model
 const Favorite = mongoose.model("favorite", favoriteInfoSchema);
 
+/**
+ * @description: Validates the user with the given authorization token
+ * Access token is required in order to validate user
+ * @async
+ * @param {Object} req - A Express request object
+ * @returns {Promise<boolean | firebase.auth.DecodedIdToken>} 
+ *                     - Returns a promise that resolves to either 
+ *                       - `false` if user validation fails
+ *                       - decoded ID token if user validation succeeds
+ */
 const validateUser = async (req) => {
   // Get the authorization header from the request
   const token = req.headers.authorization;
@@ -104,13 +96,16 @@ const validateUser = async (req) => {
 
 //Functions
 /**
- * @description: Adds favorite
+ * @description: Adds a new favorite restaurant to the user's list of favorites
+ * Access token is required to proceed with the request
  * @callback
- * @param {Object} req - A HTTP request object
- * @param {Object} res - A HTTP response object
- * @returns - Status code of 401 and an error message saying "invalid token" is
- *            returned if student document already exists; else, status code of
- *            200 is returned with a message
+ * @async
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns - Status code of 401 and an error message saying "invalid token" is 
+ *            returned if user doesn't exist
+ * @returns - Status code of 409 and an error message saying "alreadying in your
+ *            favorites" if the restaurant is already in your favorites
  */
 app.post("/api/favorite", async (req, res) => {
   try {
@@ -148,7 +143,19 @@ app.post("/api/favorite", async (req, res) => {
   }
 });
 
-//Delete Favorite
+/**
+ * @name: deleteFavorite
+ * @description: Deletes a restaurant from the user's list of favorites
+ * Access token is required to proceed with the request
+ * @async
+ * @callback
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns - Status code of 401 and an error message saying "invalid token" is 
+ *            returned if user doesn't exist
+ * @returns - Status code of 409 and an error message saying "already in your
+ *            favorites" if the restaurant is already in your favorites
+ */
 app.delete("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
   try {
@@ -182,7 +189,15 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
   }
 });
 
-//View Favorite
+/**
+ * @name: getFavorite
+ * @description: Retrieves a user's favorite based on the provided business ID
+ * @async
+ * @callback
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} The response object with a message indicating success or failure.
+ */
 app.get("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
   try {
@@ -216,6 +231,15 @@ app.get("/api/favorite/:business_id", async (req, res) => {
   }
 });
 
+/**
+ * @name: listFavorites
+ * @description: Lists all the favorites of a user
+ * @async
+ * @callback
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} The response object with a message indicating success or failure.
+ */
 app.get("/api/favorites", async (req, res) => {
   try {
     const user = await validateUser(req);
@@ -277,7 +301,15 @@ app.get("/api/favorites", async (req, res) => {
   }
 });
 
-//Search businesses by location
+/**
+ * @name: searchRestaurants
+ * @description: Searches restaurants by their location
+ * @async
+ * @callback
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} The response object with a message indicating success or failure.
+ */
 app.get("/api/search", async (req, res) => {
   try {
     const user = await validateUser(req);
@@ -324,7 +356,18 @@ app.get("/api/search", async (req, res) => {
   }
 });
 
-// Get info on business by business id
+/**
+ * @name: viewRestaurantInfo
+ * @description: Views restaurants information
+ * Requires a valid token in order to proceeed with the request
+ * @async
+ * @callback
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @throws {Error} Throws an error if there is a problem with the request
+ * @returns {Promise} Returns a Promise that resolves to an HTTP response
+ * @returns{object} A 401 Unauthorized response is returned if user token is invalid
+ */
 app.get("/api/view/:business_id", async (req, res) => {
   try {
     const user = await validateUser(req);
@@ -362,7 +405,18 @@ app.get("/api/view/:business_id", async (req, res) => {
   }
 });
 
-//Get reviews for a business by business id
+/**
+ * @name: getReviews
+ * @description: Gets reviews for a restaurant by its id
+ * Requires a valid token in order to proceeed with the request
+ * @async
+ * @callback
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @throws {Object} 401 error if user token is invalid or missing
+ * @throws {Object} 500 error for any other server-side error
+ * @returns {Object} response object with Yelp API data
+ */
 app.get("/api/review/:business_id", async (req, res) => {
   try {
     const user = await validateUser(req);
@@ -400,7 +454,17 @@ app.get("/api/review/:business_id", async (req, res) => {
   }
 });
 
-//Autocomplete
+/**
+ * @name: autocomplete
+ * @description: Provides an autocomplete functionality 
+ * Requires a valid token in order to proceeed with the request
+ * @async
+ * @callback
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @throws {Error} If there's an error with Yelp API call or user validation
+ * @returns {Object} Returns the Yelp API autocomplete response data
+ */
 app.get("/api/autocomplete/:text", async (req, res) => {
   try {
     const user = await validateUser(req);
