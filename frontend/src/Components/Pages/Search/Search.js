@@ -9,37 +9,42 @@ import useLocationInfo from "../../Auth/Hooks/useLocationInfo";
 import SearchResults from "../../Content/SearchResults/SearchResults";
 import Searchbar from "../../UI/Searchbar/Searchbar";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
-
+import Pagination from "../../UI/Pagination/Pagination";
 const Search = () => {
   const [status, setStatus] = useState("loading");
   const [data, setData] = useState();
   const location = useLocation();
-  const [term, setTerm] = useState(new URLSearchParams(location.search).get("term"));
+  const [term, setTerm] = useState(
+    new URLSearchParams(location.search).get("term")
+  );
   const { getLocation } = useLocationInfo();
   const { user } = useUserAuth();
-
+  const [page, setPage] = useState(1);
+  const [numPages, setNumPages] = useState(null);
 
   useEffect(() => {
-    setStatus('loading');
+    setStatus("loading");
     const getData = async (searchTerm) => {
       getLocation(async (location) => {
         const res = await searchRestaurants(
           user.accessToken,
           searchTerm ? searchTerm : "",
-          location
+          location,
+          page - 1
         );
         if (res.error) {
           console.log(res.error);
-          setStatus('error');
+          setStatus("error");
         } else {
           console.log(res.data);
           setStatus("success");
           setData(res.data);
+          setNumPages(Math.ceil(res.total / 10));
         }
       });
     };
     getData(term);
-  }, [getLocation, term, user.accessToken]);
+  }, [getLocation, term, user.accessToken, page]);
   console.log(status);
   return (
     <Container className="px-0">
@@ -52,6 +57,9 @@ const Search = () => {
         placeholder="Find a restaurant..."
         onSearch={(term) => setTerm(term)}
       />
+      {numPages !== null && (
+        <Pagination page={page} numPages={numPages} setPage={setPage} />
+      )}
       {status === "success" &&
         (data.businesses.length ? (
           <Fade in={true} appear={true}>
@@ -67,7 +75,9 @@ const Search = () => {
           <PropagateLoader color="var(--accent)" />
         </div>
       )}
-      {status === "error" && <Alert variant="danger">An error has occurred. Try again.</Alert>}
+      {status === "error" && (
+        <Alert variant="danger">An error has occurred. Try again.</Alert>
+      )}
     </Container>
   );
 };

@@ -110,10 +110,10 @@ export const checkFavorite = async (accessToken, business_id) => {
   }
 };
 
-export const listFavorites = async (accessToken, restaurant_name = "") => {
+export const listFavorites = async (accessToken, restaurant_name = "", page) => {
   try {
     let response = await timeoutFetch(
-      `${url}/api/favorites?restaurant_name=${restaurant_name}`,
+      `${url}/api/favorites?restaurant_name=${restaurant_name}&page=${page}`,
       getConfig(accessToken)
     );
     return await responseHandler(response);

@@ -3,7 +3,7 @@ import { Form, Container, Row, Col, Nav, Card, Button, Alert } from "react-boots
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import { useNavigate } from "react-router-dom";
 import styles from "./LogInSignUp.module.css";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
