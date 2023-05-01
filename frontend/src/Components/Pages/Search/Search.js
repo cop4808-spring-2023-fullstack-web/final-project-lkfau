@@ -57,10 +57,11 @@ const Search = () => {
         {term ? `Search results for ${term}` : "Restaurants near me"}
       </h1>
       <Searchbar
-        className="pb-5"
+        autocomplete={true}
         placeholder="Find a restaurant..."
         onSearch={(term) => setTerm(term)}
       />
+      <div className="mb-5"></div>
       {numPages !== null && (
         <Pagination page={page} numPages={numPages} setPage={setPage} />
       )}
@@ -68,7 +69,7 @@ const Search = () => {
         (data.businesses.length ? (
           <Fade in={true} appear={true}>
             <div>
-              <SearchResults term={term} data={data.businesses} />
+              <SearchResults autocomplete={true} term={term} data={data.businesses} />
             </div>
           </Fade>
         ) : (

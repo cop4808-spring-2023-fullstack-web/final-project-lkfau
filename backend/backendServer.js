@@ -465,7 +465,7 @@ app.get("/api/review/:business_id", async (req, res) => {
  * @throws {Error} If there's an error with Yelp API call or user validation
  * @returns {Object} Returns the Yelp API autocomplete response data
  */
-app.get("/api/autocomplete", async (req, res) => {
+app.get("/api/autocomplete/:text", async (req, res) => {
   try {
     const user = await validateUser(req);
 
@@ -475,10 +475,10 @@ app.get("/api/autocomplete", async (req, res) => {
     }
 
     // If user validation succeeds, proceed with the request
-    var text = req.body.text;
+    var text = req.params.text;
     try {
       const response = await axios.get(
-        `https://api.yelp.com/v3/autocomplete?text=${text}`,
+        `https://api.yelp.com/v3/autocomplete?text=${text}&categories=restaurants`,
         {
           headers: {
             Authorization: `Bearer ${process.env.YELP_API_KEY}`,
@@ -501,6 +501,7 @@ app.get("/api/autocomplete", async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
+
 
 //Server
 app.listen(process.env.PORT || 5678); //start the server
