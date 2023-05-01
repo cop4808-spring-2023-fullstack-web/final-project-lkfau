@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 const mongoose = require('mongoose');
-const { MONGO_USERNAME, MONGO_PASSWORD } = require('./.env');
+
 require('dotenv').config();
 
 const username = process.env.MONGO_USERNAME;
