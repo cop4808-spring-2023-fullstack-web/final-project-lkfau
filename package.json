@@ -4,7 +4,8 @@
   "description": "Logan Karstens, Dayaan Mazhar, Rohit Varghese, Zayne Melnick",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "start": "cd backend && npm start",
+    "dev": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
     "heroku-postbuild": "cd frontend && npm install && npm run build && cd ../backend && npm install"
   },
   "repository": {

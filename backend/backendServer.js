@@ -43,7 +43,7 @@ const swaggerOptions = {
 };
 
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({path: path.join(__dirname, '../.env')}); // local env
+  require('dotenv').config({path: path.join(__dirname, './.env')}); // local env
   app.use(express.static(path.join(__dirname, '../frontend/public'))); // local runtime environment
 } else {
   app.use(express.static(path.join(__dirname, '../frontend/build'))); // production build environment
@@ -435,5 +435,5 @@ app.get("/api/autocomplete", async (req, res) => {
 });
 
 //Server
-app.listen(5678); //start the server
+app.listen(5678 || process.env.PORT); //start the server
 console.log("Server is running...");
