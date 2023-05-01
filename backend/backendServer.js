@@ -441,5 +441,5 @@ app.get("/api/autocomplete", async (req, res) => {
 });
 
 //Server
-app.listen(5678 || process.env.PORT); //start the server
+app.listen(process.env.PORT || 5678); //start the server
 console.log("Server is running...");
