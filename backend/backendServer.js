@@ -6,24 +6,9 @@ const path = require("path");
 const http = require("http");
 const MongoClient = require("mongodb").MongoClient;
 const mongoose = require("mongoose");
-const swaggerUI = require("swagger-ui-express");
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerDocument = require("./swagger.json");
 const cors = require("cors");
 const axios = require("axios");
 const admin = require("firebase-admin");
-
-// Swagger configuration
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Database and YELP API endpoint",
-      version: "1.0.0",
-    },
-  },
-  apis: ["backendServer.js"], // Specify the file(s) that contain the API routes
-};
 
 if (process.env.NODE_ENV !== "production") {
   app.use(express.static(path.join(__dirname, "../frontend/public"))); // local runtime environment
@@ -56,13 +41,10 @@ admin.initializeApp({
   credential: admin.credential.cert(adminConfig),
 });
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-
 // app.use
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../final-project-lkfau")));
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -171,7 +153,7 @@ app.post("/api/favorite", async (req, res) => {
  * @param {Object} res - Express response object
  * @returns - Status code of 401 and an error message saying "invalid token" is 
  *            returned if user doesn't exist
- * @returns - Status code of 409 and an error message saying "alreadying in your
+ * @returns - Status code of 409 and an error message saying "already in your
  *            favorites" if the restaurant is already in your favorites
  */
 app.delete("/api/favorite/:business_id", async (req, res) => {
@@ -375,8 +357,8 @@ app.get("/api/search", async (req, res) => {
 });
 
 /**
- * @name: searchRestaurants
- * @description: Searches restaurants by their location
+ * @name: viewRestaurantInfo
+ * @description: Views restaurants information
  * Requires a valid token in order to proceeed with the request
  * @async
  * @callback
