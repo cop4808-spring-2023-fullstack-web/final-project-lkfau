@@ -81,14 +81,11 @@ const validateUser = async (req) => {
   if (!token) {
     return false;
   }
-
-  if (token) {
-    return true;
-  }
-
   // Validate the user using the token
   try {
-    return await admin.auth().verifyIdToken(token);
+    const user = await admin.auth().verifyIdToken(token);
+    console.log(user);
+    return user;
   } catch (err) {
     return false;
   }

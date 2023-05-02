@@ -35,6 +35,7 @@ export function UserAuthContextProvider({ children }) {
   function logOut() {
     setLoading(true)
     signOut(auth)
+    setUser(null);
   }
 
   useEffect(() => {
