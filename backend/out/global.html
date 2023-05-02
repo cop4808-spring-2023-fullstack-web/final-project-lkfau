@@ -94,6 +94,72 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="validateUser"><span class="type-signature">(async) </span>validateUser<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Validates the user with the given authorization token.Access token is required in order to validate user.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -104,7 +170,7 @@
     
 
     
-    <h4 class="name" id="DELETE/Favorite"><span class="type-signature">(async) </span>DELETE/Favorite<span class="signature">(req, res, accessToken, business_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="DELETE/Favorite"><span class="type-signature">(async) </span>DELETE/Favorite<span class="signature">(accessToken, business_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -144,52 +210,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Response object</td>
-        </tr>
-
     
 
         <tr>
@@ -274,7 +294,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line144">line 144</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -361,7 +381,7 @@
     
 
     
-    <h4 class="name" id="GET/Search"><span class="type-signature">(async) </span>GET/Search<span class="signature">(req, res, lat, long, term, loc, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="GET/Search"><span class="type-signature">(async) </span>GET/Search<span class="signature">(lat, long, term, loc, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -401,52 +421,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Response object</td>
-        </tr>
-
     
 
         <tr>
@@ -600,7 +574,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line308">line 308</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line301">line 301</a>
     </li></ul></dd>
     
 
@@ -687,7 +661,7 @@
     
 
     
-    <h4 class="name" id="GET/autocomplete"><span class="type-signature">(async) </span>GET/autocomplete<span class="signature">(req, res, accessToken, text)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="GET/autocomplete"><span class="type-signature">(async) </span>GET/autocomplete<span class="signature">(accessToken, text)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -727,52 +701,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Response object</td>
-        </tr>
-
     
 
         <tr>
@@ -857,7 +785,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line470">line 470</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
@@ -944,7 +872,7 @@
     
 
     
-    <h4 class="name" id="GET/favorite"><span class="type-signature">(async) </span>GET/favorite<span class="signature">(req, res, accessToken, business_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="GET/favorite"><span class="type-signature">(async) </span>GET/favorite<span class="signature">(accessToken, business_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -984,52 +912,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Response object</td>
-        </tr>
-
     
 
         <tr>
@@ -1114,7 +996,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line189">line 189</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -1201,7 +1083,7 @@
     
 
     
-    <h4 class="name" id="GET/favorites"><span class="type-signature">(async) </span>GET/favorites<span class="signature">(req, res, queryRestaurantName, page, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="GET/favorites"><span class="type-signature">(async) </span>GET/favorites<span class="signature">(queryRestaurantName, page, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -1241,52 +1123,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Response object</td>
-        </tr>
-
     
 
         <tr>
@@ -1394,7 +1230,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line234">line 234</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line229">line 229</a>
     </li></ul></dd>
     
 
@@ -1481,7 +1317,7 @@
     
 
     
-    <h4 class="name" id="GET/review"><span class="type-signature">(async) </span>GET/review<span class="signature">(req, res, business_id, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="GET/review"><span class="type-signature">(async) </span>GET/review<span class="signature">(business_id, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -1521,52 +1357,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Response object</td>
-        </tr>
-
     
 
         <tr>
@@ -1651,7 +1441,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line419">line 419</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line408">line 408</a>
     </li></ul></dd>
     
 
@@ -1792,7 +1582,7 @@
     
 
     
-    <h4 class="name" id="GET/view"><span class="type-signature">(async) </span>GET/view<span class="signature">(req, res, business_id, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="GET/view"><span class="type-signature">(async) </span>GET/view<span class="signature">(business_id, accessToken)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -1832,52 +1622,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Response object</td>
-        </tr>
-
     
 
         <tr>
@@ -1962,7 +1706,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line370">line 370</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line361">line 361</a>
     </li></ul></dd>
     
 
@@ -2049,7 +1793,7 @@
     
 
     
-    <h4 class="name" id="POST/Favorites"><span class="type-signature">(async) </span>POST/Favorites<span class="signature">(req, res, accessToken, business_id, restaurant_name)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="POST/Favorites"><span class="type-signature">(async) </span>POST/Favorites<span class="signature">(accessToken, business_id, restaurant_name)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -2089,52 +1833,6 @@
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
     
 
         <tr>
@@ -2242,7 +1940,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line94">line 94</a>
+        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -2324,168 +2022,6 @@
 
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="validateUser"><span class="type-signature">(async) </span>validateUser<span class="signature">(req)</span><span class="type-signature"> &rarr; {boolean|firebase.auth.DecodedIdToken}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Validates the user with the given authorization token.Access token is required in order to validate user.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A Express request object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backendServer.js.html">backendServer.js</a>, <a href="backendServer.js.html#line76">line 76</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Either 'false' if user validation fails or thedecoded ID token if user validation succeeds
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-|
-
-<span class="param-type">firebase.auth.DecodedIdToken</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
     
 
     
@@ -2507,7 +2043,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon May 01 2023 23:13:09 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon May 01 2023 23:21:06 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

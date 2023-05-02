@@ -98,8 +98,6 @@ const validateUser = async (req) => {
  *              Access token is required to proceed with the request.
  * @async
  * @method
- * @param {Object} req - The request object
- * @param {Object} res - The response object
  * @param {string} accessToken Access token used to authenticate the user
  * @param {string} business_id ID that is being favorited
  * @param {string} restaurant_name Name of the restaurant
@@ -147,8 +145,6 @@ app.post("/api/favorite", async (req, res) => {
  * @description Deletes a restaurant from the user's list of favorites.
  * @async
  * @method 
- * @param {Object} req Request object
- * @param {Object} res Response object
  * @param {string} accessToken Access token used to authenticate the user
  * @param {string} business_id ID that is being favorited
  * @throws {Error} Throws an error if there is a problem with the request
@@ -192,8 +188,6 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
  * @description Retrieves a user's favorite based on the provided business ID.
  * @async
  * @method
- * @param {Object} req Request object
- * @param {Object} res Response object
  * @param {string} accessToken Access token used to authenticate the user
  * @param {string} business_id ID that is being favorited
  * @throws {Error} Throws an error if there is a problem with the request
@@ -237,8 +231,6 @@ app.get("/api/favorite/:business_id", async (req, res) => {
  * @description Lists all the favorites of a user.
  * @async
  * @method
- * @param {Object} req Request object
- * @param {Object} res Response object
  * @param {string} queryRestaurantName Name of the restaurant to filter by
  * @param {number} page Page number for pagination
  * @param {string} accessToken Access token used to authenticate the user
@@ -311,8 +303,6 @@ app.get("/api/favorites", async (req, res) => {
  * @description Searches restaurants with their location by using longitude and latitude.
  * @async
  * @method
- * @param {Object} req Request object
- * @param {Object} res Response object
  * @param {number} lat Latitude coordinate of user's location
  * @param {number} long Longitude coordinate of user's location
  * @param {string} term Search term that is entered by user
@@ -373,8 +363,6 @@ app.get("/api/search", async (req, res) => {
  * @description Views restaurants information by the business_id.
  * @async
  * @method
- * @param {Object} req Request object
- * @param {Object} res Response object
  * @param {string} business_id ID that is being favorited
  * @param {string} accessToken Access token used to authenticate the user
  * @throws {Error} Throws an error if there is a problem with the request
@@ -422,8 +410,6 @@ app.get("/api/view/:business_id", async (req, res) => {
  * @description Gets reviews for a restaurant by the business_id.
  * @async
  * @method
- * @param {Object} req Request object
- * @param {Object} res Response object
  * @param {string} business_id ID that is being favorited
  * @param {string} accessToken Access token used to authenticate the user
  * @throws {401} If the user is not authorized to access the resource
@@ -473,8 +459,6 @@ app.get("/api/review/:business_id", async (req, res) => {
  * @description Gets autocomplete suggestions for restaurants
  * @async
  * @method
- * @param {Object} req Request object
- * @param {Object} res Response object
  * @param {string} accessToken Access token used to authenticate the user
  * @param {string} text User input to search for restaurants
  * @throws {Error} If there's an error with Yelp API call or user validation
