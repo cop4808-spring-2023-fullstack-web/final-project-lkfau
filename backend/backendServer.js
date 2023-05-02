@@ -70,6 +70,7 @@ const Favorite = mongoose.model("favorite", favoriteInfoSchema);
  * Access token is required in order to validate user.
  * @async
  * @param {Object} req - A Express request object
+ * @throws {Error} Throws an error if authorization header isn't included in the request
  * @returns {boolean | firebase.auth.DecodedIdToken} 
  * Either 'false' if user validation fails or the
  * decoded ID token if user validation succeeds
@@ -95,13 +96,14 @@ const validateUser = async (req) => {
 /**
  * @name POST/Favorites
  * @description Adds a new favorite restaurant to the user's list of favorites.
- *              Access token is required to proceed with the request.
  * @async
  * @method
- * @param {string} accessToken Access token used to authenticate the user
  * @param {string} business_id ID that is being favorited
  * @param {string} restaurant_name Name of the restaurant
- * @throws {Error} Throws an error if there is a problem with the request
+ * @param {string} accessToken Access token used to authenticate the user
+ * @throws {401} Invalid token if the user is not authorized to access the resource
+ * @throws {409} If the favorite already exists 
+ * @throws {500} Internal server error
  * @returns {Object} Message indicating result of adding favorite to user's favorites
  */
 app.post("/api/favorite", async (req, res) => {
@@ -145,9 +147,11 @@ app.post("/api/favorite", async (req, res) => {
  * @description Deletes a restaurant from the user's list of favorites.
  * @async
  * @method 
- * @param {string} accessToken Access token used to authenticate the user
  * @param {string} business_id ID that is being favorited
- * @throws {Error} Throws an error if there is a problem with the request
+ * @param {string} accessToken Access token used to authenticate the user
+ * @throws {401} Invalid token if the user is not authorized to access the resource
+ * @throws {404} If the favorite is not found
+ * @throws {500} Error deleting favorite
  * @returns {Object} Message indicating result of deleting favorite from user's favorites
  */
 app.delete("/api/favorite/:business_id", async (req, res) => {
@@ -188,9 +192,12 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
  * @description Retrieves a user's favorite based on the provided business ID.
  * @async
  * @method
- * @param {string} accessToken Access token used to authenticate the user
  * @param {string} business_id ID that is being favorited
- * @throws {Error} Throws an error if there is a problem with the request
+ * @param {string} accessToken Access token used to authenticate the user
+ * @throws {401} Invalid token if the user is not authorized to access the resource
+ * @throws {404} If the favorite is not found
+ * @throws {500} If an error occurs while retrieving the favorite
+ * @throws {500} If an error occurs while user validation
  * @returns {Object} Message indicating result of deleting favorite from user's favorites
  */
 app.get("/api/favorite/:business_id", async (req, res) => {
@@ -234,7 +241,8 @@ app.get("/api/favorite/:business_id", async (req, res) => {
  * @param {string} queryRestaurantName Name of the restaurant to filter by
  * @param {number} page Page number for pagination
  * @param {string} accessToken Access token used to authenticate the user
- * @throws {Error} Throws an error if there is a problem with the request
+ * @throws {401} Invalid token if the user is not authorized to access the resource
+ * @throws {500} If there is an error while querying the database or making API requests
  * @returns {Object} List of all the favorites a user has
  */
 app.get("/api/favorites", async (req, res) => {
@@ -308,7 +316,9 @@ app.get("/api/favorites", async (req, res) => {
  * @param {string} term Search term that is entered by user
  * @param {string} loc Location of user
  * @param {string} accessToken Access token used to authenticate the user
- * @throws {Error} Throws an error if there is a problem with the request
+ * @throws {401} Invalid token if the user is not authorized to access the resource
+ * @throws {404} If the resource being accessed is not found
+ * @throws {500} If there is an internal server error
  * @returns {Object} Restaurants that are close to the users location
  */
 app.get("/api/search", async (req, res) => {
@@ -365,7 +375,9 @@ app.get("/api/search", async (req, res) => {
  * @method
  * @param {string} business_id ID that is being favorited
  * @param {string} accessToken Access token used to authenticate the user
- * @throws {Error} Throws an error if there is a problem with the request
+ * @throws {401} Invalid token if the user is not authorized to access the resource
+ * @throws {404} If the resource being accessed is not found
+ * @throws {500} If there is an internal server error
  * @returns {Object} Restaurant info about the specific restaurant the user wants
  */
 app.get("/api/view/:business_id", async (req, res) => {
@@ -412,7 +424,7 @@ app.get("/api/view/:business_id", async (req, res) => {
  * @method
  * @param {string} business_id ID that is being favorited
  * @param {string} accessToken Access token used to authenticate the user
- * @throws {401} If the user is not authorized to access the resource
+ * @throws {401} Invalid token if the user is not authorized to access the resource
  * @throws {404} If the resource being accessed is not found
  * @throws {500} If there is an internal server error
  * @returns {Object} All the reviews of the restaurant being viewed
@@ -461,7 +473,9 @@ app.get("/api/review/:business_id", async (req, res) => {
  * @method
  * @param {string} accessToken Access token used to authenticate the user
  * @param {string} text User input to search for restaurants
- * @throws {Error} If there's an error with Yelp API call or user validation
+ * @throws {401} Invalid token if the user is not authorized to access the resource
+ * @throws {404} If the resource being accessed is not found
+ * @throws {500} If there is an internal server error
  * @returns {Object} A list of restaurants
  */
 app.get("/api/autocomplete/:text", async (req, res) => {
