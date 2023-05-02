@@ -65,6 +65,7 @@ const favoriteInfoSchema = new mongoose.Schema(
 const Favorite = mongoose.model("favorite", favoriteInfoSchema);
 
 /**
+ * @name validateUser
  * @description Validates the user with the given authorization token.
  * Access token is required in order to validate user.
  * @async
@@ -97,11 +98,14 @@ const validateUser = async (req) => {
  *              Access token is required to proceed with the request.
  * @async
  * @method
+ * @param {Object} req - The request object
+ * @param {Object} res - The response object
  * @param {string} accessToken Access token used to authenticate the user
- * @param {string} business_id Express response object
+ * @param {string} business_id ID that is being favorited
+ * @param {string} restaurant_name Name of the restaurant
+ * @throws {Error} Throws an error if there is a problem with the request
  * @returns {Object} Message indicating result of adding favorite to user's favorites
  */
-
 app.post("/api/favorite", async (req, res) => {
   try {
     const user = await validateUser(req);
@@ -139,17 +143,16 @@ app.post("/api/favorite", async (req, res) => {
 });
 
 /**
- * @name DELETE/Favorites
- * @description: Deletes a restaurant from the user's list of favorites
- * Access token is required to proceed with the request
+ * @name DELETE/Favorite
+ * @description Deletes a restaurant from the user's list of favorites.
  * @async
- * @
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns - Status code of 401 and an error message saying "invalid token" is 
- *            returned if user doesn't exist
- * @returns - Status code of 409 and an error message saying "already in your
- *            favorites" if the restaurant is already in your favorites
+ * @method 
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {string} accessToken Access token used to authenticate the user
+ * @param {string} business_id ID that is being favorited
+ * @throws {Error} Throws an error if there is a problem with the request
+ * @returns {Object} Message indicating result of deleting favorite from user's favorites
  */
 app.delete("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
@@ -185,13 +188,16 @@ app.delete("/api/favorite/:business_id", async (req, res) => {
 });
 
 /**
- * @name: getFavorite
- * @description: Retrieves a user's favorite based on the provided business ID
+ * @name GET/favorite
+ * @description Retrieves a user's favorite based on the provided business ID.
  * @async
- * @callback
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {Object} The response object with a message indicating success or failure.
+ * @method
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {string} accessToken Access token used to authenticate the user
+ * @param {string} business_id ID that is being favorited
+ * @throws {Error} Throws an error if there is a problem with the request
+ * @returns {Object} Message indicating result of deleting favorite from user's favorites
  */
 app.get("/api/favorite/:business_id", async (req, res) => {
   // user = await validateUser(req.headers.authorization);
@@ -227,13 +233,17 @@ app.get("/api/favorite/:business_id", async (req, res) => {
 });
 
 /**
- * @name: listFavorites
- * @description: Lists all the favorites of a user
+ * @name GET/favorites
+ * @description Lists all the favorites of a user.
  * @async
- * @callback
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {Object} The response object with a message indicating success or failure.
+ * @method
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {string} queryRestaurantName Name of the restaurant to filter by
+ * @param {number} page Page number for pagination
+ * @param {string} accessToken Access token used to authenticate the user
+ * @throws {Error} Throws an error if there is a problem with the request
+ * @returns {Object} List of all the favorites a user has
  */
 app.get("/api/favorites", async (req, res) => {
   try {
@@ -297,13 +307,19 @@ app.get("/api/favorites", async (req, res) => {
 });
 
 /**
- * @name: searchRestaurants
- * @description: Searches restaurants by their location
+ * @name GET/Search
+ * @description Searches restaurants with their location by using longitude and latitude.
  * @async
- * @callback
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {Object} The response object with a message indicating success or failure.
+ * @method
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {number} lat Latitude coordinate of user's location
+ * @param {number} long Longitude coordinate of user's location
+ * @param {string} term Search term that is entered by user
+ * @param {string} loc Location of user
+ * @param {string} accessToken Access token used to authenticate the user
+ * @throws {Error} Throws an error if there is a problem with the request
+ * @returns {Object} Restaurants that are close to the users location
  */
 app.get("/api/search", async (req, res) => {
   try {
@@ -353,16 +369,16 @@ app.get("/api/search", async (req, res) => {
 });
 
 /**
- * @name: viewRestaurantInfo
- * @description: Views restaurants information
- * Requires a valid token in order to proceeed with the request
+ * @name GET/view
+ * @description Views restaurants information by the business_id.
  * @async
- * @callback
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
+ * @method
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {string} business_id ID that is being favorited
+ * @param {string} accessToken Access token used to authenticate the user
  * @throws {Error} Throws an error if there is a problem with the request
- * @returns {Promise} Returns a Promise that resolves to an HTTP response
- * @returns{object} A 401 Unauthorized response is returned if user token is invalid
+ * @returns {Object} Restaurant info about the specific restaurant the user wants
  */
 app.get("/api/view/:business_id", async (req, res) => {
   try {
@@ -402,16 +418,18 @@ app.get("/api/view/:business_id", async (req, res) => {
 });
 
 /**
- * @name: getReviews
- * @description: Gets reviews for a restaurant by its id
- * Requires a valid token in order to proceeed with the request
+ * @name GET/review
+ * @description Gets reviews for a restaurant by the business_id.
  * @async
- * @callback
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @throws {Object} 401 error if user token is invalid or missing
- * @throws {Object} 500 error for any other server-side error
- * @returns {Object} response object with Yelp API data
+ * @method
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {string} business_id ID that is being favorited
+ * @param {string} accessToken Access token used to authenticate the user
+ * @throws {401} If the user is not authorized to access the resource
+ * @throws {404} If the resource being accessed is not found
+ * @throws {500} If there is an internal server error
+ * @returns {Object} All the reviews of the restaurant being viewed
  */
 app.get("/api/review/:business_id", async (req, res) => {
   try {
@@ -451,15 +469,16 @@ app.get("/api/review/:business_id", async (req, res) => {
 });
 
 /**
- * @name: autocomplete
- * @description: Provides an autocomplete functionality 
- * Requires a valid token in order to proceeed with the request
+ * @name GET/autocomplete
+ * @description Gets autocomplete suggestions for restaurants
  * @async
- * @callback
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
+ * @method
+ * @param {Object} req Request object
+ * @param {Object} res Response object
+ * @param {string} accessToken Access token used to authenticate the user
+ * @param {string} text User input to search for restaurants
  * @throws {Error} If there's an error with Yelp API call or user validation
- * @returns {Object} Returns the Yelp API autocomplete response data
+ * @returns {Object} A list of restaurants
  */
 app.get("/api/autocomplete/:text", async (req, res) => {
   try {
