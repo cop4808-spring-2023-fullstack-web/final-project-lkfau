@@ -1,12 +1,16 @@
+// Importing necessary modules
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import restaurant from "../../../Assets/About/restaurant.jpg";
 import favorite from "../../../Assets/About/favorite.jpg";
 import Card from "../../UI/Card/Card";
+
+// Defining About component that creates the home page
 const About = () => {
+  // Returns JSX elements
   return (
  
-    <Card style={{transform: 'translateY(-7em)'}}className="mb-5 p-5">
+    <Card className="mb-5 p-5">
       <Container>
        
       <Row

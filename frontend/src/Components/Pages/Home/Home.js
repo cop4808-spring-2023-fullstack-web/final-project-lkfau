@@ -1,8 +1,10 @@
+// Importing components and modules
 import { useNavigate } from "react-router-dom";
 import Menu from "../../Content/Menu/Menu";
 import Searchbar from "../../UI/Searchbar/Searchbar";
 import { Container, Row, Col } from "react-bootstrap";
 
+// Defining Home component 
 const Home = () => {
   const navigate = useNavigate();
 

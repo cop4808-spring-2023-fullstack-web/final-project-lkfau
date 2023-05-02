@@ -1,3 +1,4 @@
+// Importing the necessary modules and components needed
 import { useNavigate } from "react-router-dom";
 
 import Categories from "./Categories";
@@ -11,14 +12,21 @@ import TasteeButton from "../../UI/TasteeButton/TasteeButton";
 import ResultInfo from "./ResultInfo";
 import { removeFromFavorites } from "../../../Helpers/API";
 
+// SearchResult component is defined 
 const SearchResult = (props) => {
-  const { user } = useUserAuth();
-  const location = useLocation();
+  const { user } = useUserAuth();  // Retrieving user authentication data
+  const location = useLocation();  // Retrieving location data
   const show = location.pathname === "/favorites";
   const restaurant = props.data;
   const navigate = useNavigate();
-  const convertDistance = (distance) => (distance * 0.000621371).toFixed(1);
+
+  // Function to convert the distance into miles
+  const convertDistance = (distance) => (distance * 0.000621371).toFixed(1); 
+
+  // Function to handle redirection to restaurant detail page
   const redirectHandler = () => navigate(`/restaurant/${restaurant.id}`);
+
+  // Function to handle removing the restaurant from favorites
   const removeFavorite = async () => {
     try {
       await removeFromFavorites(user.accessToken, restaurant.id);
@@ -29,6 +37,7 @@ const SearchResult = (props) => {
       console.error(error);
     }
   };
+  // Rendering the SearchResult component
   return (
     <Container className={`${styles.container} p-3`}>
       <Row className="d-flex align-items-center gy-3">

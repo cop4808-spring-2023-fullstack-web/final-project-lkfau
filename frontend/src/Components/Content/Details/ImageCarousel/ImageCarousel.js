@@ -1,9 +1,13 @@
+// Importing necessary modules
 import React from "react";
 import { Carousel } from "react-bootstrap";
 import styles from "./ImageCarousel.module.css";
 const ImageCarousel = (props) => {
   const getBackgroundImage = (url) =>
     `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url('${url}')`;
+
+  // Checks to see if there are photos available 
+  // Displays carousel container and creates items with images and index key
   return (
     props.photos && props.photos.length ? (
       <div className={styles.container}>

@@ -1,6 +1,7 @@
+// Importing modules needs from react and other libraries
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-
+// Importing components 
 import { PropagateLoader } from "react-spinners";
 import Container from "react-bootstrap/Container";
 import { searchRestaurants } from "../../../Helpers/API";
@@ -10,18 +11,22 @@ import SearchResults from "../../Content/SearchResults/SearchResults";
 import Searchbar from "../../UI/Searchbar/Searchbar";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import Pagination from "../../UI/Pagination/Pagination";
+
+// Search component is defined in order to use the search functionality
 const Search = () => {
+  // Setting up states
   const [status, setStatus] = useState("loading");
   const [data, setData] = useState();
   const location = useLocation();
   const [term, setTerm] = useState(
-    new URLSearchParams(location.search).get("term")
+    new URLSearchParams(location.search).get("term") // getting the search term from url location and setting it up as state
   );
   const { getLocation } = useLocationInfo();
   const { user } = useUserAuth();
   const [page, setPage] = useState(1);
   const [numPages, setNumPages] = useState(null);
 
+  // Fetching data from the API and setting up the data and status states
   useEffect(() => {
     setStatus("loading");
     const getData = async (searchTerm) => {
@@ -43,8 +48,9 @@ const Search = () => {
       });
     };
     getData(term);
-  }, [getLocation, term, user.accessToken, page]);
+  }, [getLocation, term, user.accessToken, page]); // running the effect whenever any of these states change
   
+  // Returning JSX elements to render a search bar that allows users to input a search term
   return (
     <Container className="px-0">
       <h1 className={"pt-5 pb-2"}>

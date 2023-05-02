@@ -7,6 +7,8 @@ import SearchResults from "../../Content/SearchResults/SearchResults";
 import Searchbar from "../../UI/Searchbar/Searchbar";
 import useUserAuth from "../../Auth/Hooks/useUserAuth";
 import Pagination from '../../UI/Pagination/Pagination';
+
+// Defining Favorites component
 const Favorites = () => {
   const { user } = useUserAuth();
   const [favorites, setFavorites] = useState([]);
@@ -17,6 +19,7 @@ const Favorites = () => {
 
   useEffect(() => {
     setStatus("loading");
+    // Fetches user's favorite businesses
     async function fetchData() {
       try {
         const response = await listFavorites(user.accessToken, term, page);
@@ -31,8 +34,6 @@ const Favorites = () => {
 
     fetchData();
   }, [term, user.accessToken, page]);
-
-  
 
   return (
     <Container className="px-0">

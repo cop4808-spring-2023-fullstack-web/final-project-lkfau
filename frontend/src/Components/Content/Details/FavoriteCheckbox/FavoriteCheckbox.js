@@ -1,3 +1,4 @@
+// Importing functions and modules needed 
 import {
   addToFavorites,
   removeFromFavorites,
@@ -6,12 +7,16 @@ import {
 import { useState, useEffect } from "react";
 import useUserAuth from "../../../Auth/Hooks/useUserAuth";
 import { Form } from 'react-bootstrap'
-const Favorite = (props) => {
-  
-  const [isFavorite, setIsFavorite] = useState(false);
-  const { user } = useUserAuth();
 
+// Defining Favorite component that receives props
+const Favorite = (props) => {
+  const [isFavorite, setIsFavorite] = useState(false);  // Initializing state
+  const { user } = useUserAuth();  // Getting user object from useUserAuth hook 
+
+  // Extracting restaurant object
   const restaurant = props.restaurant;
+
+  // Using the useEffect hook to check if the restaurant is favorited by the user
   useEffect(() => {
     const checkIsFavorited = async () => {
       try {
@@ -24,6 +29,7 @@ const Favorite = (props) => {
     checkIsFavorited();
   }, [restaurant.id, user.accessToken]);
 
+  // Defining a function to handle when the favorite button is clicked
   const handleFavoriteClick = async () => {
     if (isFavorite) {
       try {
@@ -42,6 +48,7 @@ const Favorite = (props) => {
     }
   };
 
+  // Rendering a form with a checkbox for the favorite button
   return (
     <div style={{ zIndex: 1 }} onClick={handleFavoriteClick}>
       <Form>
