@@ -1,11 +1,14 @@
+// Importing libraries and components from files
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
 import { useNavigate } from "react-router-dom";
 import styles from "./Banner.module.css";
 import TasteeButton from '../TasteeButton/TasteeButton';
+
+// Banner component is defined 
 const Banner = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initializing useNavigate hook for navigating to a different route
   return (
     <div className={`${styles.banner} mb-5`}>
       <Container>

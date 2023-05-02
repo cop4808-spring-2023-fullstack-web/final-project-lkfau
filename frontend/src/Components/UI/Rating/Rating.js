@@ -1,6 +1,9 @@
+// Importing modules and components needed
 import React from "react";
 import Ratings from "react-ratings-declarative";
 import Card from "../Card/Card";
+
+// Rating component is needed
 const Rating = (props) => {
   
   const size = props.size || "30px"
